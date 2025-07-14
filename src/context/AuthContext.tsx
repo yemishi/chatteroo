@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { getUser } from "../lib/api";
+import { createContext, useContext, type ReactNode } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getUser as queryFn } from "@/lib/api";
 
 type User = {
   id: string;
@@ -8,22 +9,24 @@ type User = {
   username: string;
   guestId?: string;
 };
-const AuthContext = createContext<{ isLoading: boolean; user: User | null }>({
+const AuthContext = createContext<{ isLoading: boolean; user: User | null; refetch: () => void; error: Error | null }>({
   user: null,
   isLoading: true,
+  refetch: () => {},
+  error: null,
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    getUser()
-      .then((user) => setUser(user))
-      .catch(() => setUser(null))
-      .finally(() => setIsLoading(false));
-  }, []);
+  const { data, isLoading, isRefetching, isFetching, refetch, error } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn,
+  });
 
-  return <AuthContext value={{ user, isLoading }}>{children}</AuthContext>;
+  return (
+    <AuthContext value={{ user: data, isLoading: isLoading || isRefetching || isFetching, refetch, error }}>
+      {children}
+    </AuthContext>
+  );
 };
 
 export const useAuth = () => useContext(AuthContext);
