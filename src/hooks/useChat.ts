@@ -21,13 +21,6 @@ const useChat = (userChats: string[]) => {
     socket.on("message", (data: Message) => {
       setMessages((prevMessages) => [...prevMessages, data]);
     });
-
-    socket.on("connect", () => {
-      console.log("Reconnected! Resubscribing to rooms...");
-      userChats.forEach((room) => socket.emit("subscribe", room));
-      socket.emit("getOnlineUsers");
-    });
-
     socket.emit("getOnlineUsers");
 
     return () => {
