@@ -1,17 +1,8 @@
 import { axiosInstance } from "../axiosInstance";
 
-export const getFriendRequests = async (take?: number, page?: number) => {
-  try {
-    const response = await axiosInstance.get(`/requests?take=${take}&page=${page}`);
-    return response.data;
-  } catch (error: any) {
-    throw new Error(error.response.data.message);
-  }
-};
-
 export const sendFriendRequest = async (userId: string) => {
   try {
-    const response = await axiosInstance.post(`/requests/${userId}`);
+    const response = await axiosInstance.post(`/request/${userId}`);
     return response.data;
   } catch (error: any) {
     throw new Error(error.response.data.message);
@@ -20,7 +11,7 @@ export const sendFriendRequest = async (userId: string) => {
 
 export const acceptFriendRequest = async (requestId: string) => {
   try {
-    const response = await axiosInstance.patch(`/requests/${requestId}/accept`);
+    const response = await axiosInstance.patch(`/request/${requestId}/accept`);
     return response.data;
   } catch (error: any) {
     throw new Error(error.response.data.message);
@@ -29,7 +20,7 @@ export const acceptFriendRequest = async (requestId: string) => {
 
 export const deleteFriendRequest = async (requestId: string) => {
   try {
-    const response = await axiosInstance.delete(`/requests/${requestId}`);
+    const response = await axiosInstance.delete(`/request/${requestId}`);
     return response.data;
   } catch (error: any) {
     throw new Error(error.response.data.message);
