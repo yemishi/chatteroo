@@ -2,19 +2,19 @@ import "./index.css";
 import { useState } from "react";
 import { useAuth } from "./context/AuthContext";
 import { useAuthActions } from "./hooks/useAuthActions";
-import { useAcceptFriendRequest, useGetReceivesReq, useSearchUser, useSendFriendRequest } from "./hooks/useApiActions";
+import { acceptFriendReq, receivesReq, searchUser, sendFriendReq } from "./lib/actions";
 
 export default function App() {
   const { user, isLoading, error } = useAuth();
   const { guestRegister, guestLogin, signout } = useAuthActions();
-  const { mutate: acceptRequest } = useAcceptFriendRequest();
-  const { mutate: sendRequest } = useSendFriendRequest();
+  const { mutate: acceptRequest } = acceptFriendReq();
+  const { mutate: sendRequest } = sendFriendReq();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [guestId, setGuestId] = useState("");
 
-  const { values: searchResults } = useSearchUser(searchQuery);
-  const { values: friendRequests } = useGetReceivesReq();
+  const { values: searchResults } = searchUser(searchQuery);
+  const { values: friendRequests } = receivesReq();
 
   const handleSendRequest = (userId: string) => {
     sendRequest(userId, {
