@@ -1,12 +1,12 @@
 import "./index.css";
+
 import { useState } from "react";
 import { useAuth } from "./context/AuthContext";
-import { useAuthActions } from "./hooks/useAuthActions";
-import { acceptFriendReq, receivesReq, searchUser, sendFriendReq } from "./lib/actions";
+import { authActions, acceptFriendReq, receivesReq, searchUser, sendFriendReq } from "@/lib/actions";
 
 export default function App() {
   const { user, isLoading, error } = useAuth();
-  const { guestRegister, guestLogin, signout } = useAuthActions();
+  const { guestRegister, guestLogin, signout } = authActions();
   const { mutate: acceptRequest } = acceptFriendReq();
   const { mutate: sendRequest } = sendFriendReq();
 

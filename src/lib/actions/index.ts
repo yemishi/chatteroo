@@ -1,5 +1,7 @@
-export * from "./chat/chat";
-export * from "./friends/friends";
-export * from "./messages/messages";
-export * from "./requests/requests";
-export * from "./search/searchUser";
+export * from "./handleChat/chat";
+export * from "./handleFriends/handleFriends";
+export * from "./handleMessages/handleMessages";
+export * from "./handleRequests/requests";
+export * from "./handleSearch/handleSearchUser";
+
+export * from "./handleAuthActions/handleAuthActions";

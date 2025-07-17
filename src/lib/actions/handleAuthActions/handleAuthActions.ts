@@ -8,7 +8,7 @@ import {
 } from "@/lib/api";
 import { useAuth as useAuthContext } from "@/context/AuthContext";
 
-export const useAuthActions = () => {
+export const authActions = () => {
   const { refetch: onSuccess } = useAuthContext();
 
   const login = useMutation({
