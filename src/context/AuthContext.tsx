@@ -1,6 +1,7 @@
-import { createContext, useContext, type ReactNode } from "react";
+import { createContext, useContext, useEffect, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getUser as queryFn } from "@/lib/api";
+import { connectSocket, getSocket } from "@/lib/socket";
 
 type User = {
   id: string;
@@ -21,7 +22,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     queryKey: ["currentUser"],
     queryFn,
   });
-
+  useEffect(() => {
+    if (data && !getSocket()) {
+      connectSocket(data.id);
+    }
+  }, [data]);
   return (
     <AuthContext value={{ user: data, isLoading: isLoading || isRefetching || isFetching, refetch, error }}>
       {children}
