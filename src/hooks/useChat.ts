@@ -1,44 +1,41 @@
 import { useEffect, useState } from "react";
 import { getSocket } from "../lib/socket";
 
-export interface Message {
+interface Message {
   room: string;
-  sender: string;
+  senderId: string;
   content: string;
-  timestamp: Date;
 }
 
-const useChat = (userChats: string[]) => {
-  const [messages, setMessages] = useState<Message[]>([]);
+const useChat = (userId: string, messages: Message[]) => {
+  const [msgs, setMsgs] = useState(messages);
 
   useEffect(() => {
     const socket = getSocket();
-    if (!socket || !userChats.length) return;
+    if (!socket || !userId) return;
 
-    console.log("Subscribing to rooms:", userChats);
-    userChats.forEach((room) => socket.emit("subscribe", room));
+    socket.emit("subscribe", userId);
 
     socket.on("message", (data: Message) => {
-      setMessages((prevMessages) => [...prevMessages, data]);
+      setMsgs((prevMsgs) => [...prevMsgs, data]);
     });
-    socket.emit("getOnlineUsers");
 
     return () => {
-      userChats.forEach((room) => socket.emit("unsubscribe", room));
+      socket.emit("unsubscribe", userId);
       socket.off("message");
       socket.off("connect");
       socket.off("online-users");
     };
-  }, [userChats, setMessages]);
+  }, [userId]);
 
-  const sendMessage = (message: Message) => {
+  const sendMessage = (message: Message, membersId: string[]) => {
     const socket = getSocket();
     if (socket) {
-      socket.emit("send", { message });
+      socket.emit("send-message", { message, membersId });
     }
   };
 
-  return { sendMessage, messages };
+  return { sendMessage, messages: msgs };
 };
 
 export default useChat;
