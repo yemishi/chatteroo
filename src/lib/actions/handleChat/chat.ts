@@ -1,14 +1,13 @@
-import { useMutation } from "@tanstack/react-query";
-import { getChatInfo as getChatInfoFn } from "../../api";
-import useScrollQuery from "@/hooks/useScrollQuery";
+import { useQuery } from "@tanstack/react-query";
+import { getChatInfo as getChatInfoFn, getChats as getChatsFn } from "../../api";
 
-export const getChatInfo = () => {
-  return useMutation({
-    mutationFn: ({ chatId }: { chatId: string }) => getChatInfoFn(chatId),
-    mutationKey: ["chatInfo"],
+export const getChatInfo = (chatId: string) => {
+  return useQuery({
+    queryFn: () => getChatInfoFn(chatId),
+    queryKey: ["chat-info", chatId],
   });
 };
 
 export const getChats = () => {
-  return useScrollQuery({ url: "/chat", queryKey: ["chats"] });
+  return useQuery({ queryFn: getChatsFn, queryKey: ["user-chats"] });
 };
