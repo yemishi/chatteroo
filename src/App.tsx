@@ -3,6 +3,7 @@ import "./index.css";
 import { useState } from "react";
 import { useAuth } from "./context/AuthContext";
 import { authActions, acceptFriendReq, receivesReq, searchUser, sendFriendReq } from "@/lib/actions";
+import ChatList from "./components/ChatLits";
 
 export default function App() {
   const { user, isLoading, error } = useAuth();
@@ -15,7 +16,6 @@ export default function App() {
 
   const { values: searchResults } = searchUser(searchQuery);
   const { values: friendRequests } = receivesReq();
-
   const handleSendRequest = (userId: string) => {
     sendRequest(userId, {
       onSuccess: () => console.log(`Friend request sent to user ${userId}`),
@@ -50,7 +50,7 @@ export default function App() {
   return (
     <div className="p-4">
       <p className="text-lg font-bold mb-4">Welcome, {user.username}!</p>
-
+      <ChatList />
       <div className="flex gap-2 mb-6">
         <input
           type="text"
