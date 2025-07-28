@@ -1,28 +1,17 @@
-import "./index.css";
-
 import { useState } from "react";
 import { useAuth } from "./context/AuthContext";
-import { authActions, acceptFriendReq, receivesReq, searchUser, sendFriendReq } from "@/lib/actions";
+import { authActions } from "@/lib/actions";
 import ChatList from "./components/ChatLits";
+import type { Chat as ChatType } from "./types";
+import Chat from "./components/chatRoom/ChatRoom";
 
 export default function App() {
   const { user, isLoading, error } = useAuth();
   const { guestRegister, guestLogin, signout } = authActions();
-  const { mutate: acceptRequest } = acceptFriendReq();
-  const { mutate: sendRequest } = sendFriendReq();
 
-  const [searchQuery, setSearchQuery] = useState("");
   const [guestId, setGuestId] = useState("");
 
-  const { values: searchResults } = searchUser(searchQuery);
-  const { values: friendRequests } = receivesReq();
-  const handleSendRequest = (userId: string) => {
-    sendRequest(userId, {
-      onSuccess: () => console.log(`Friend request sent to user ${userId}`),
-      onError: (error: any) => console.error(`Failed to send request:`, error),
-    });
-  };
-
+  const [chatInfo, setChatInfo] = useState<ChatType | null>(null);
   const handleGuestLogin = () => {
     guestLogin.mutate({ guestId });
   };
@@ -48,55 +37,16 @@ export default function App() {
   }
 
   return (
-    <div className="p-4">
+    <main className="p-4">
       <p className="text-lg font-bold mb-4">Welcome, {user.username}!</p>
-      <ChatList />
-      <div className="flex gap-2 mb-6">
-        <input
-          type="text"
-          value={searchQuery}
-          placeholder="Search users..."
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="border p-1"
-        />
-        <button onClick={handleSignOut}>Sign Out</button>
+
+      <div className="chat-list">
+        <ChatList setChat={setChatInfo} />
       </div>
 
-      <div className="flex flex-col w-80 gap-3 mt-10">
-        {searchResults.map((userData: any) => {
-          const isFriend = userData.friends.includes(user.id);
-          const alreadySent = userData.receivedRequests.some((req: any) => req.fromId === user.id);
-          const alreadyReceive = userData.sentRequests.some((req: any) => req.toId === user.id);
-          return (
-            <div key={userData.id} className="flex justify-between items-center border p-2 rounded">
-              <span>{userData.username}</span>
-              {isFriend ? (
-                <span>Friend!</span>
-              ) : alreadySent || alreadyReceive ? (
-                <span>Pending...</span>
-              ) : (
-                <button
-                  onClick={() => handleSendRequest(userData.id)}
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
-                >
-                  Add Friend
-                </button>
-              )}
-            </div>
-          );
-        })}
+      <div className={`chat ${chatInfo ? "open" : ""}`}>
+        {chatInfo && <Chat chatInfo={chatInfo!} onClose={() => setChatInfo(null)} />}
       </div>
-
-      <div className="mt-10">
-        <h2 className="font-semibold">Your Friend Requests:</h2>
-        <ul className="list-disc pl-6">
-          {friendRequests.map((req: any) => (
-            <li key={req.id}>
-              {req.from.username} <button onClick={() => acceptRequest(req.id)}>Accept</button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    </main>
   );
 }
