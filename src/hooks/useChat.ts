@@ -5,10 +5,11 @@ interface Message {
   room: string;
   senderId: string;
   content: string;
+  timestamp: Date;
 }
 
-const useChat = (userId: string, messages: Message[]) => {
-  const [msgs, setMsgs] = useState(messages);
+const useChat = (userId: string) => {
+  const [msgs, setMsgs] = useState<Message[]>([]);
 
   useEffect(() => {
     const socket = getSocket();
@@ -17,6 +18,7 @@ const useChat = (userId: string, messages: Message[]) => {
     socket.emit("subscribe", userId);
 
     socket.on("message", (data: Message) => {
+      console.log("AAA")
       setMsgs((prevMsgs) => [...prevMsgs, data]);
     });
 
@@ -28,7 +30,7 @@ const useChat = (userId: string, messages: Message[]) => {
     };
   }, [userId]);
 
-  const sendMessage = (message: Message, membersId: string[]) => {
+  const sendMessage = (message: Omit<Message, "timestamp">, membersId: string[]) => {
     const socket = getSocket();
     if (socket) {
       socket.emit("send-message", { message, membersId });
