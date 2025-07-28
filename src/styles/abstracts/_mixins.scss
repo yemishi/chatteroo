@@ -1,0 +1,29 @@
+@mixin flex($direction: column, $align: start, $justify: unset) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin spacing($type, $top: 0, $right: $top, $bottom: $top, $left: $right) {
+  #{$type}: $top $right $bottom $left;
+}
+
+@mixin size($width, $height: $width) {
+  height: $height;
+  width: $width;
+}
+
+@mixin rounded($radius) {
+  @if $radius == full {
+    border-radius: 50%;
+  } @else if $radius == md {
+    border-radius: 0.375rem;
+  } @else if $radius == xl {
+    border-radius: 0.75rem;
+  } @else if $radius == 2xl {
+    border-radius: 1.2rem;
+  } @else {
+    border-radius: $radius;
+  }
+}

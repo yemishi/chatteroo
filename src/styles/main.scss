@@ -1,0 +1,42 @@
+@use "./themes/themes";
+@use "./abstracts/mixins" as *;
+@forward "./abstracts/mixins";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: system-ui, sans-serif;
+  background-color: var(--app-bg);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  @include flex();
+  height: 100vh;
+
+  position: relative;
+  overflow-x: hidden;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+input {
+  border: none;
+  outline: none;
+}
