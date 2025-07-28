@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getUser as queryFn } from "@/lib/api";
 import { connectSocket, getSocket } from "@/lib/socket";
 
+
 type User = {
   id: string;
   email: string;
