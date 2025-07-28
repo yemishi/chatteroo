@@ -1,0 +1,101 @@
+@use "@/styles/main.scss" as *;
+
+.chat-container {
+  @include flex(column);
+  @include spacing(padding, 1.5rem);
+  padding-top: 0;
+  padding-bottom: 0;
+  background-color: var(--chat-bg);
+  & button,
+  input {
+    @include size(2.5rem);
+    @include spacing(padding, 0.5rem);
+    @include rounded(full);
+    background: var(--input-button-bg);
+    color: var(--text-primary);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    &:focus,
+    &:hover {
+      box-shadow: 0 0 10px rgba(161, 110, 255, 0.5);
+      transform: translateY(-1px);
+    }
+  }
+}
+
+.chat-header {
+  @include flex(row, center, space-between);
+  padding-top: 1.5rem;
+  padding-bottom: 1rem;
+  width: 100%;
+  height: 4rem;
+  position: sticky;
+  top: 0;
+  background: linear-gradient(var(--chat-bg) 60%, transparent);
+}
+
+.user-info {
+  @include flex(row, center);
+  @include rounded(2rem);
+  @include spacing(padding, 0.2rem);
+
+  width: 10rem;
+  gap: 0.5rem;
+  background: var(--input-button-bg);
+
+  & img {
+    @include size(2.5rem);
+    @include rounded(full);
+  }
+}
+.messages-container {
+  @include flex(column);
+  width: 100%;
+  gap: 0.8rem;
+}
+
+.message {
+  @include flex();
+
+  &.sent {
+    align-self: flex-end;
+    .message-time {
+      align-self: flex-end;
+    }
+    .message-content {
+      background-color: var(--bubble-user);
+    }
+  }
+  &.received {
+    align-self: flex-start;
+    .message-content {
+      background-color: var(--bubble-other);
+    }
+  }
+}
+.message-content {
+  @include spacing(padding, 0.5em, 0.7rem);
+  @include rounded(2xl);
+}
+.message-time {
+  font-size: 0.5rem;
+}
+
+.input-container {
+  @include flex(row, center, center);
+  background: linear-gradient(transparent, var(--chat-bg) 60%);
+  padding-bottom: 1.5rem;
+  padding-top: 1rem;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  gap: 10px;
+  & input {
+    @include spacing(padding, 0.8rem, 0.7rem);
+    @include rounded(2rem);
+    width: 90%;
+  }
+}
+
+input::placeholder {
+  color: var(--text-primary);
+}
