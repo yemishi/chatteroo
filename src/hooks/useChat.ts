@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getSocket } from "../lib/socket";
 
-interface Message {
+export interface Message {
   room: string;
   senderId: string;
   content: string;
