@@ -4,11 +4,11 @@ export type Chat = {
   id: string;
   isGroup: boolean;
   lastMessageAt?: Date;
-  members: User[];
+  members: ChatMember[];
   messages: Message[];
 };
 
-type User = {
+export type ChatMember = {
   id: string;
   picture: string;
   username: string;
