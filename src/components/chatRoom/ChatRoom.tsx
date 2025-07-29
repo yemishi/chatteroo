@@ -1,36 +1,37 @@
-import "./style.scss";
+import "./styles.scss";
+import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
+import arrowLeft from "@/assets/icons/arrow-left.svg";
+import sendIcon from "@/assets/icons/send.svg";
+import type { Chat } from "@/types";
+
 import { useAuth } from "@/context/AuthContext";
 import useChat from "@/hooks/useChat";
 import { getMessages } from "@/lib/actions";
-import type { Chat } from "@/types";
-import { useEffect, useRef, useState } from "react";
 import Modal from "../modal/Modal";
-import { formatTime } from "@/helpers";
+import Messages from "./messages/Messages";
+import ChatHeader from "./chatHeader/ChatHeader";
 
-export default function ChatRoom({ chatInfo, onClose }: { chatInfo: Chat; onClose: () => void }) {
+type Props = {
+  chatInfo: Chat;
+  onClose: () => void;
+  scrollPositions: Record<string, number>;
+  setScrollPositions: Dispatch<SetStateAction<Record<string, number>>>;
+};
+
+export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScrollPositions }: Props) {
   const { user: currUser } = useAuth();
-  const { values = [], hasNextPage, isFetchingNextPage, fetchNextPage } = getMessages(chatInfo.id);
+  const { values = [], hasNextPage, fetchNextPage, isFetchingNextPage } = getMessages(chatInfo.id);
   const { messages, sendMessage } = useChat(chatInfo.id);
 
   const [message, setMessage] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [showScrollButton, setShowScrollButton] = useState(false);
 
   const [scrollCorrection, setScrollCorrection] = useState<null | {
     prevHeight: number;
     prevScrollTop: number;
   }>(null);
-
-  const loadOlderMessages = () => {
-    if (containerRef.current) {
-      const prevHeight = containerRef.current.scrollHeight;
-      const prevScrollTop = containerRef.current.scrollTop;
-
-      setScrollCorrection({ prevHeight, prevScrollTop });
-
-      fetchNextPage();
-    }
-  };
 
   useEffect(() => {
     if (scrollCorrection && containerRef.current) {
@@ -44,16 +45,59 @@ export default function ChatRoom({ chatInfo, onClose }: { chatInfo: Chat; onClos
 
   useEffect(() => {
     setIsOpen(true);
-    setTimeout(() => {
-      containerRef.current?.scrollTo({
-        top: containerRef.current.scrollHeight,
+
+    const container = containerRef.current;
+    const savedScrollTop = scrollPositions[chatInfo.id];
+    if (!container) return;
+
+    if (savedScrollTop && typeof savedScrollTop === "number" && values) {
+      container.scrollTo({
+        top: savedScrollTop,
+        behavior: "auto",
+      });
+      return;
+    }
+    const timeout = setTimeout(() => {
+      container.scrollTo({
+        top: container.scrollHeight,
         behavior: "auto",
       });
     }, 200);
+    return () => clearTimeout(timeout);
   }, []);
-  const allMessages = [...values, ...messages].sort(
-    (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-  );
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = container;
+
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
+      const isNearTop = scrollTop < 100;
+      setShowScrollButton(!isAtBottom);
+      setScrollPositions({ ...scrollPositions, [chatInfo.id]: containerRef.current?.scrollTop! });
+
+      if (hasNextPage && isNearTop) loadOlderMessages();
+    };
+
+    container.addEventListener("scroll", handleScroll);
+
+    return () => {
+      container.removeEventListener("scroll", handleScroll);
+    };
+  }, [hasNextPage]);
+
+  const loadOlderMessages = () => {
+    if (containerRef.current) {
+      const prevHeight = containerRef.current.scrollHeight;
+      const prevScrollTop = containerRef.current.scrollTop;
+
+      setScrollCorrection({ prevHeight, prevScrollTop });
+
+      fetchNextPage();
+    }
+  };
 
   const handleSend = () => {
     if (!message.trim()) return;
@@ -77,11 +121,15 @@ export default function ChatRoom({ chatInfo, onClose }: { chatInfo: Chat; onClos
 
   const handleClose = () => {
     setIsOpen(false);
+    if (containerRef.current)
+      setScrollPositions({ ...scrollPositions, [chatInfo.id]: containerRef.current?.scrollTop! });
     setTimeout(() => {
       onClose();
     }, 300);
   };
-  const user = chatInfo.members[0];
+  const sortedMessages = [...values, ...messages].sort(
+    (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+  );
 
   return (
     <Modal
@@ -89,43 +137,26 @@ export default function ChatRoom({ chatInfo, onClose }: { chatInfo: Chat; onClos
       onClose={handleClose}
       className={`chat-container ${isOpen ? "open" : ""}`}
     >
-      <header className="chat-header">
-        <button onClick={handleClose}>&lt;</button>
-        <div className="user-info">
-          <img src={user.picture} alt={`${user.username}'s profile picture`} />
-          <p>{user.username}</p>
-        </div>
-        <button>...</button>
-      </header>
+      <ChatHeader onClose={handleClose} userHighlight={chatInfo.members[0]} />
 
-      {hasNextPage && (
-        <div onClick={loadOlderMessages}>{isFetchingNextPage ? "Loading..." : "Load older messages"}</div>
-      )}
-
-      <div className="messages-container">
-        {allMessages.map((msg, i) => {
-          const isMe = msg.senderId === currUser?.id;
-          return (
-            <div
-              className={`message ${isMe ? "sent" : "received"}`}
-              key={`${msg.timestamp}_${i}`}
-              onClick={() => console.log(msg)}
-            >
-              <div className="message-content">{msg.content}</div>
-              <span className="message-time">{formatTime(msg.timestamp.toString())}</span>
-            </div>
-          );
-        })}
-      </div>
+      {isFetchingNextPage && <div>Loading older messages</div>}
+      <Messages currUser={currUser!} messages={sortedMessages} members={chatInfo.members} />
       <div className="input-container">
+        <button onClick={scrollToBottom} className={`toBottom ${showScrollButton ? "show" : "hide"}`}>
+          <img className="icon" src={arrowLeft} alt="arrow down" />
+        </button>
+
         <input
           type="text"
+          name="message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type a message..."
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
         />
-        <button onClick={handleSend}>S</button>
+        <button onClick={handleSend}>
+          <img className="icon" src={sendIcon} alt="Send icon" />
+        </button>
       </div>
     </Modal>
   );
