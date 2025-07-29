@@ -4,7 +4,7 @@ import useScrollQuery from "@/hooks/useScrollQuery";
 import type { Message } from "@/types";
 
 export const getMessages = (chatId: string) => {
-  return useScrollQuery<Message>({ url: `/message/${chatId}`, queryKey: ["messages", chatId] });
+  return useScrollQuery<Message>({ url: `/message/${chatId}`, queryKey: [chatId] });
 };
 
 export const editMessage = () => {
