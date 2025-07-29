@@ -12,7 +12,6 @@ export default function useScrollQuery<T>({ queryKey, url, stop }: PropsType<T>)
     try {
       const mark = url.includes("?") ? "&" : "?";
       const data = (await axiosInstance.get(`${url}${mark}page=${page - 1}`)).data;
-
       return data as T;
     } catch (error: any) {
       const message = error?.response?.data?.message || error?.message || "Something went wrong";
