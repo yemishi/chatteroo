@@ -2,15 +2,8 @@ import { createContext, useContext, useEffect, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getUser as queryFn } from "@/lib/api";
 import { connectSocket, getSocket } from "@/lib/socket";
+import type { User } from "@/types";
 
-
-type User = {
-  id: string;
-  email: string;
-  picture: string;
-  username: string;
-  guestId?: string;
-};
 const AuthContext = createContext<{ isLoading: boolean; user: User | null; refetch: () => void; error: Error | null }>({
   user: null,
   isLoading: true,
