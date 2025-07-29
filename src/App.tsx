@@ -9,6 +9,7 @@ export default function App() {
   const { user, isLoading, error } = useAuth();
   const { guestRegister, guestLogin, signout } = authActions();
 
+  const [scrollPositions, setScrollPositions] = useState<Record<string, number>>({});
   const [guestId, setGuestId] = useState("");
 
   const [chatInfo, setChatInfo] = useState<ChatType | null>(null);
@@ -35,7 +36,6 @@ export default function App() {
       </div>
     );
   }
-
   return (
     <main className="p-4">
       <p className="text-lg font-bold mb-4">Welcome, {user.username}!</p>
@@ -45,7 +45,14 @@ export default function App() {
       </div>
 
       <div className={`chat ${chatInfo ? "open" : ""}`}>
-        {chatInfo && <Chat chatInfo={chatInfo!} onClose={() => setChatInfo(null)} />}
+        {chatInfo && (
+          <Chat
+            scrollPositions={scrollPositions}
+            setScrollPositions={setScrollPositions}
+            chatInfo={chatInfo!}
+            onClose={() => setChatInfo(null)}
+          />
+        )}
       </div>
     </main>
   );
