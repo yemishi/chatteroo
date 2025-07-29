@@ -1,6 +1,7 @@
 @use "./themes/themes";
 @use "./abstracts/mixins" as *;
 @forward "./abstracts/mixins";
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 
 * {
   padding: 0;
@@ -11,7 +12,8 @@
 html,
 body {
   height: 100%;
-  font-family: system-ui, sans-serif;
+  font-family: "Rubik", sans-serif;
+  font-size: 1rem;
   background-color: var(--app-bg);
   color: var(--text-primary);
   line-height: 1.5;
@@ -37,6 +39,7 @@ button {
 }
 
 input {
+  font-family: "Rubik", sans-serif;
   border: none;
   outline: none;
 }
