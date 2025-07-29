@@ -1,0 +1,27 @@
+@use "@/styles/main.scss" as *;
+.chat-header {
+  @include flex(row, center, space-between);
+  padding-top: 1.5rem;
+  padding-bottom: 1rem;
+  width: 100%;
+  height: 4rem;
+  position: sticky;
+  top: 0;
+  background: linear-gradient(var(--chat-bg) 60%, transparent);
+}
+
+.chat-user-info {
+  @include flex(row, center);
+  @include rounded(2rem);
+  @include spacing(padding, 0.2rem);
+
+  width: 11rem;
+  gap: 0.5rem;
+  font-weight: 500;
+  background: var(--chat-surface);
+
+  & img {
+    @include size(2.5rem);
+    @include rounded(full);
+  }
+}
