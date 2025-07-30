@@ -1,0 +1,76 @@
+@use "@/styles/main.scss" as *;
+
+.chat-list {
+  @include flex(column);
+  width: 100%;
+}
+.chat-preview {
+  @include flex(row);
+  @include spacing(padding, 0.5rem, 1rem);
+  padding-right: 0;
+  width: 100%;
+  gap: 1rem;
+}
+
+.chat-preview__icon {
+  @include rounded(full);
+  @include flex();
+  position: relative;
+
+  & img {
+    @include size(3.5rem);
+    object-fit: cover;
+    @include rounded(full);
+  }
+}
+
+.chat-preview__presence {
+  @include size(0.8rem);
+  @include rounded(full);
+  position: absolute;
+  border: 1px solid var(--app-bg);
+  right: 2px;
+  bottom: 2px;
+  &.online {
+    background-color: var(--status-online);
+  }
+  &.offline {
+    background-color: var(--status-offline);
+  }
+}
+.chat-preview__header {
+  @include flex(row, center, space-between);
+  padding-right: 1rem;
+}
+
+.chat-preview__username {
+  @include line-clamp();
+  font-size: larger;
+  font-weight: 600;
+}
+
+.chat-preview__info {
+  width: 100%;
+}
+.chat-preview__timestamp {
+  white-space: nowrap;
+  color: var(--text-primary-muted);
+}
+.chat-preview__message {
+  @include line-clamp(2);
+  color: var(--text-primary-muted);
+}
+
+.chat-preview__content {
+  @include flex(row, center);
+  padding: 0 1rem 0.4rem 0;
+  border-bottom: solid color-mix(in hsl, var(--text-primary-muted) 40%, transparent) 1px;
+
+  gap: 0.5rem;
+}
+.chat-preview__unread {
+  @include size(1.5rem);
+  @include rounded(full);
+  margin-left: auto;
+  flex-shrink: 0;
+}
