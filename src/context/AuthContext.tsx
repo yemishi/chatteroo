@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       connectSocket(data.id);
     }
   }, [data]);
+
   return (
     <AuthContext value={{ user: data, isLoading: isLoading || isRefetching || isFetching, refetch, error }}>
       {children}
