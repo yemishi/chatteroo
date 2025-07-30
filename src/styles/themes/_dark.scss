@@ -2,8 +2,11 @@
   --app-bg: #1e1e1e;
   --chat-bg: #121212;
   --chat-surface: linear-gradient(135deg, #a16eff, #5f49f7); // #2e2e2e;
+  --text-primary-muted: #f1f1f180;
   --text-primary: #f1f1f1;
   --bubble-user: rgba(161, 110, 255, 0.85); // alt linear-gradient(135deg, #6ab1ff, #4d7fff);
   --bubble-other: #262626;
   --icon-filter: invert(100);
+  --status-online: #4ade80;
+  --status-offline: #6b7280;
 }
