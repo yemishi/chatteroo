@@ -41,7 +41,7 @@
 }
 .message-time {
   font-size: 0.7rem;
-  color: color-mix(in srgb, var(--text-primary) 50%, transparent);
+  color: var(--text-primary-muted);
   margin-top: 2px;
   &.hide {
     display: none;
@@ -63,7 +63,7 @@
   border-radius: 12px;
   font-size: 0.9rem;
   font-weight: 500;
-  color: color-mix(in srgb, var(--text-primary) 50%, transparent);
+  color: var(--text-primary-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
