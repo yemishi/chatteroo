@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useAuth } from "./context/AuthContext";
 import { authActions } from "@/lib/actions";
-import ChatList from "./components/ChatLits";
+import ChatList from "./components/chatList/ChatList";
 import type { Chat as ChatType } from "./types";
 import Chat from "./components/chatRoom/ChatRoom";
+import getOnlineUsers from "./lib/getOnlineUsers";
+import { getSocket } from "./lib/socket";
 
 export default function App() {
   const { user, isLoading, error } = useAuth();
@@ -21,10 +23,7 @@ export default function App() {
     guestRegister.mutate();
   };
 
-  const handleSignOut = () => {
-    signout.mutate();
-  };
-
+  const onlineUsers = getOnlineUsers();
   if (isLoading) return <div>Loading...</div>;
 
   if (!user || error) {
@@ -37,23 +36,25 @@ export default function App() {
     );
   }
   return (
-    <main className="p-4">
-      <p className="text-lg font-bold mb-4">Welcome, {user.username}!</p>
-
-      <div className="chat-list">
-        <ChatList setChat={setChatInfo} />
-      </div>
-
-      <div className={`chat ${chatInfo ? "open" : ""}`}>
-        {chatInfo && (
-          <Chat
-            scrollPositions={scrollPositions}
-            setScrollPositions={setScrollPositions}
-            chatInfo={chatInfo!}
-            onClose={() => setChatInfo(null)}
-          />
-        )}
-      </div>
+    <main>
+      <button
+        onClick={() => {
+          signout.mutate();
+          const s = getSocket()!;
+          s.disconnect()
+        }}
+      >
+        get off
+      </button>
+      <ChatList setChat={setChatInfo} onlineUsers={onlineUsers} />
+      {chatInfo && (
+        <Chat
+          scrollPositions={scrollPositions}
+          setScrollPositions={setScrollPositions}
+          chatInfo={chatInfo!}
+          onClose={() => setChatInfo(null)}
+        />
+      )}
     </main>
   );
 }
