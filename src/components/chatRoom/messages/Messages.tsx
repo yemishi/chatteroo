@@ -1,5 +1,5 @@
 import "./styles.scss";
-import { formatTime } from "@/helpers";
+import { formatTime, isDiffDay, isSameDay, isYesterday } from "@/helpers";
 import type { Message } from "@/hooks/useChat";
 import type { Message as MessageData, User, ChatMember } from "@/types";
 import { Fragment } from "react/jsx-runtime";
@@ -11,18 +11,6 @@ type Props = {
 };
 
 export default function Messages({ messages, currUser, members }: Props) {
-  const isDiffDay = (d1: Date, d2: Date) =>
-    d1.getFullYear() !== d2.getFullYear() || d1.getMonth() !== d2.getMonth() || d1.getDate() !== d2.getDate();
-
-  const isSameDay = (d1: Date, d2: Date) =>
-    d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
-
-  const isYesterday = (d1: Date, d2: Date) => {
-    const yesterday = new Date(d2);
-    yesterday.setDate(d2.getDate() - 1);
-    return isSameDay(d1, yesterday);
-  };
-
   return (
     <div className="messages">
       {messages.map((msg, i) => {
@@ -33,7 +21,6 @@ export default function Messages({ messages, currUser, members }: Props) {
         const nextTime = nextMessage ? new Date(nextMessage?.timestamp) : null;
         const prevTime = messages[i - 1] ? new Date(messages[i - 1].timestamp) : null;
         const thisTime = new Date(msg.timestamp);
-        const today = new Date().getDate();
 
         const isNewDay = !prevTime || isDiffDay(prevTime, thisTime);
 
