@@ -135,15 +135,15 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
     <Modal
       ref={containerRef as React.RefObject<HTMLDivElement>}
       onClose={handleClose}
-      className={`chat-container ${isOpen ? "open" : ""}`}
+      className={`chat-modal ${isOpen ? "open" : ""}`}
     >
       <ChatHeader onClose={handleClose} userHighlight={chatInfo.members[0]} />
 
       {isFetchingNextPage && <div>Loading older messages</div>}
       <Messages currUser={currUser!} messages={sortedMessages} members={chatInfo.members} />
-      <div className="input-container">
-        <button onClick={scrollToBottom} className={`toBottom ${showScrollButton ? "show" : "hide"}`}>
-          <img className="icon" src={arrowLeft} alt="arrow down" />
+      <div className="chat-modal_input-area">
+        <button onClick={scrollToBottom} className={`chat-modal__scroll-button ${showScrollButton ? "show" : "hide"}`}>
+          <img className="chat-icon" src={arrowLeft} alt="arrow down" />
         </button>
 
         <input
@@ -155,7 +155,7 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
         />
         <button onClick={handleSend}>
-          <img className="icon" src={sendIcon} alt="Send icon" />
+          <img className="chat-icon" src={sendIcon} alt="Send icon" />
         </button>
       </div>
     </Modal>
