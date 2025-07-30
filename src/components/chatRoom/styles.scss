@@ -1,6 +1,6 @@
 @use "@/styles/main.scss" as *;
 
-.chat-container {
+.chat-modal {
   @include flex(column);
   @include spacing(padding, 1.5rem);
   padding-top: 0;
@@ -22,7 +22,7 @@
   }
 }
 
-.input-container {
+.chat-modal_input-area {
   @include flex(row, center, center);
   margin-top: auto;
   background: linear-gradient(transparent, var(--chat-bg) 60%);
@@ -42,10 +42,10 @@
 input::placeholder {
   color: var(--text-primary);
 }
-.icon {
+.chat-icon {
   filter: var(--icon-filter);
 }
-.toBottom {
+.chat-modal__scroll-button {
   rotate: 270deg;
   &.show {
     animation: fade-in 0.3s forwards;
