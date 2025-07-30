@@ -13,14 +13,14 @@ export default function ChatHeader({ onClose, userHighlight: { picture, username
   return (
     <header className="chat-header">
       <button onClick={onClose}>
-        <img className="icon" src={arrowLeft} alt="arrow left" />
+        <img className="chat-icon" src={arrowLeft} alt="arrow left" />
       </button>
       <div className="chat-user-info">
         <img src={picture} alt={`${username}'s profile picture`} />
         <p>{username}</p>
       </div>
       <button>
-        <img className="icon" src={menuIcon} alt="menu icon" />
+        <img className="chat-icon" src={menuIcon} alt="menu icon" />
       </button>
     </header>
   );
