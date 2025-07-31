@@ -22,6 +22,13 @@
 
   & img {
     @include size(2.5rem);
+    border: 0.15rem inset;
+    &.online {
+      border-color: var(--status-online);
+    }
+    &.offline {
+      border-color: var(--status-offline);
+    }
     @include rounded(full);
   }
 }
