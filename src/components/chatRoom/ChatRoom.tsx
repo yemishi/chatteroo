@@ -149,6 +149,7 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
         <input
           type="text"
           name="message"
+          className="primary-input"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type a message..."
