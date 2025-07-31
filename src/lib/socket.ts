@@ -11,6 +11,12 @@ export const connectSocket = (userId: string) => {
   return socket;
 };
 
+export const disconnectSocket = () => {
+  socket?.disconnect();
+  socket?.removeAllListeners();
+  socket = null;
+};
+
 export const waitForSocketConnection = async (timeout = 3000): Promise<Socket> => {
   const start = Date.now();
   return new Promise((resolve, reject) => {
