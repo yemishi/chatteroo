@@ -43,3 +43,15 @@ input {
   border: none;
   outline: none;
 }
+
+.primary-input {
+  @include spacing(padding, 0.8rem, 0.7rem);
+  color: var(--text-primary);
+  background: var(--chat-surface);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  &:focus,
+  &:hover {
+    box-shadow: var(--primary-shadow-lg);
+    transform: translateY(-1px);
+  }
+}
