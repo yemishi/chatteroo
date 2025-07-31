@@ -6,8 +6,7 @@
   padding-top: 0;
   padding-bottom: 0;
   background-color: var(--chat-bg);
-  & button,
-  input {
+  & button {
     @include size(2.5rem);
     @include spacing(padding, 0.5rem);
     @include rounded(full);
@@ -16,7 +15,7 @@
     transition: box-shadow 0.2s ease, transform 0.2s ease;
     &:focus,
     &:hover {
-      box-shadow: 0 0 10px rgba(161, 110, 255, 0.5);
+      box-shadow: var(--primary-shadow-lg);
       transform: translateY(-1px);
     }
   }
@@ -32,8 +31,7 @@
   bottom: 0;
   width: 100%;
   gap: 10px;
-  & input {
-    @include spacing(padding, 0.8rem, 0.7rem);
+  & .primary-input {
     @include rounded(2rem);
     width: 90%;
   }
