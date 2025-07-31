@@ -7,10 +7,15 @@ import {
   signout as signoutFn,
 } from "@/lib/api";
 import { useAuth as useAuthContext } from "@/context/AuthContext";
+import { connectSocket, disconnectSocket } from "@/lib/socket";
+import type { User } from "@/types";
 
 export const authActions = () => {
-  const { refetch: onSuccess } = useAuthContext();
-
+  const { refetch, updateUser } = useAuthContext();
+  const onSuccess = (data: { message: string; user: User }) => {
+    updateUser(data.user);
+    connectSocket(data.user.id);
+  };
   const login = useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) => loginFn(email, password),
     onSuccess,
@@ -40,7 +45,11 @@ export const authActions = () => {
   });
   const signout = useMutation({
     mutationFn: signoutFn,
-    onSuccess,
+    onSuccess: () => {
+      disconnectSocket();
+      updateUser(null);
+      refetch();
+    },
   });
 
   return {
