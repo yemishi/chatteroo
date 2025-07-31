@@ -4,12 +4,13 @@ import { getSocket } from "@/lib/socket";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import type { Chat as ChatType } from "@/types";
 import { isSameDay, isYesterday } from "@/helpers";
+import getOnlineUsers from "@/lib/getOnlineUsers";
 
 type Props = {
-  onlineUsers: string[];
   setChat: Dispatch<SetStateAction<ChatType | null>>;
+  searchChat: string;
 };
-export default function ChatList({ setChat, onlineUsers }: Props) {
+export default function ChatList({ setChat, searchChat }: Props) {
   type Message = { chatId: string; content: string; senderId: string; timestamp: Date };
   const { data } = getChats();
   const [newMsgs, setNewMsgs] = useState<Message[]>([]);
@@ -37,12 +38,18 @@ export default function ChatList({ setChat, onlineUsers }: Props) {
       socket.off("chat-updated", handleUpdate);
     };
   }, [data]);
-
-  const sortedChats = (data ?? []).sort((a, b) => {
-    const aTime = a.messages[0]?.timestamp ?? 0;
-    const bTime = b.messages[0]?.timestamp ?? 0;
-    return new Date(bTime).getTime() - new Date(aTime).getTime();
-  });
+  const onlineUsers = getOnlineUsers();
+  const sortedChats = (data ?? [])
+    .filter(
+      (c) =>
+        c.messages[0].content.toLowerCase().includes(searchChat.toLowerCase()) ||
+        c.members[0].username.toLowerCase().includes(searchChat.toLowerCase())
+    )
+    .sort((a, b) => {
+      const aTime = a.messages[0]?.timestamp ?? 0;
+      const bTime = b.messages[0]?.timestamp ?? 0;
+      return new Date(bTime).getTime() - new Date(aTime).getTime();
+    });
 
   return (
     <div className="chat-list">
@@ -76,7 +83,7 @@ export default function ChatList({ setChat, onlineUsers }: Props) {
                 {(c.messages.length > 0 || newMsg) && (
                   <p className="chat-preview__message">{newMsg?.content || c.messages[0].content}</p>
                 )}
-                <div className="chat-preview__unread">{/* implement unread message flow */}</div>
+                <div className="chat-preview__unread">{/* todo implement unread message flow */}</div>
               </div>
             </div>
           </div>
