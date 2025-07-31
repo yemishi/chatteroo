@@ -8,7 +8,6 @@ const getOnlineUsers = () => {
     const setup = async () => {
       try {
         const socket = await waitForSocketConnection();
-
         const handleUpdate = (onlineUserIds: string[]) => {
           setOnlineUsers(onlineUserIds);
         };
