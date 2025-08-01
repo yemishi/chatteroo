@@ -1,0 +1,37 @@
+@use "@/styles/main.scss" as *;
+
+.header-input__container {
+  width: 100%;
+  & input {
+    @include spacing(margin, auto);
+    @include rounded(2xl);
+    width: 100%;
+  }
+}
+.home-header {
+  @include flex();
+  @include spacing(padding, 0.8rem, 1.3rem);
+  @include spacing(margin, .6rem, 0);
+  gap: 20px;
+  width: 100%;
+  & h1 {
+    font-size: 1.7rem;
+    font-weight: 550;
+    text-shadow: var(--primary-shadow);
+  }
+
+  &.morning {
+    color: #ffb347;
+  }
+
+  &.afternoon {
+    & h1 {
+      color: #4caf50;
+    }
+  }
+  &.evening {
+    & h1 {
+      color: #b439c9;
+    }
+  }
+}
