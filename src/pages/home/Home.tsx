@@ -1,3 +1,4 @@
+import "./style.scss";
 import ChatList from "@/components/chatList/ChatList";
 import ChatRoom from "@/components/chatRoom/ChatRoom";
 import { useAuth } from "@/context/AuthContext";
@@ -37,7 +38,7 @@ export default function Home() {
     );
   }
   return (
-    <div>
+    <div className="home-page">
       <HomeHeader onChangeSearch={handleSearchChat} search={searchChat} user={user!} />
       <ChatList setChat={setChatInfo} searchChat={searchChat} />
 
