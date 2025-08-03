@@ -1,0 +1,33 @@
+@use "@/styles/main.scss" as *;
+
+.user-list {
+  @include flex(column);
+  width: 100%;
+  gap: 1rem;
+}
+.user-list__item {
+  @include flex(row, center);
+  width: 100%;
+  gap: 0.7rem;
+}
+
+.user-list__avatar {
+  @include rounded(full);
+  @include size(3rem);
+  object-fit: cover;
+}
+
+.user-list__username {
+  @include line-clamp();
+  font-size: large;
+  font-weight: 600;
+}
+
+.user-list__chat-button {
+  @include size(2.5rem);
+  margin-left: auto;
+}
+
+.user-list__status {
+  margin-left: auto;
+}
