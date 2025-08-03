@@ -33,6 +33,7 @@ button {
   cursor: pointer;
   border: none;
   text-decoration: none;
+  background:none;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -54,4 +55,7 @@ input {
     box-shadow: var(--primary-shadow-lg);
     transform: translateY(-1px);
   }
+}
+.icon {
+  filter: var(--icon-filter);
 }
