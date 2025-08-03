@@ -1,0 +1,19 @@
+@use "@/styles/main.scss" as *;
+
+.search-page {
+  @include spacing(padding, 0.8rem, 1.3rem);
+  @include flex(column);
+  height: 100%;
+  width: 100%;
+  gap: 1.5rem;
+}
+
+.search-header {
+  @include flex();
+  width: 100%;
+
+  & .primary-input {
+    @include rounded(2xl);
+    width: 100%;
+  }
+}
