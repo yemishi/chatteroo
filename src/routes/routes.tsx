@@ -8,11 +8,16 @@ const HomeRoute = createRoute({
   component: () => <Home />,
 });
 
-const TestRoutePage = createRoute({
+const SearchRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/search",
   component: () => <Search />,
+  validateSearch: (search: { q: string }) => {
+    return {
+      q: search.q ?? "",
+    };
+  },
 });
 
-const routes = [HomeRoute, TestRoutePage];
+const routes = [HomeRoute, SearchRoute];
 export default routes;
