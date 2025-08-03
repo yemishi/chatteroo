@@ -143,7 +143,7 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
       <Messages currUser={currUser!} messages={sortedMessages} members={chatInfo.members} />
       <div className="chat-modal_input-area">
         <button onClick={scrollToBottom} className={`chat-modal__scroll-button ${showScrollButton ? "show" : "hide"}`}>
-          <img className="chat-icon" src={arrowLeft} alt="arrow down" />
+          <img className="icon" src={arrowLeft} alt="arrow down" />
         </button>
 
         <input
@@ -156,7 +156,7 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
         />
         <button onClick={handleSend}>
-          <img className="chat-icon" src={sendIcon} alt="Send icon" />
+          <img className="icon" src={sendIcon} alt="Send icon" />
         </button>
       </div>
     </Modal>
