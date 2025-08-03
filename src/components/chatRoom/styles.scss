@@ -40,9 +40,7 @@
 input::placeholder {
   color: var(--text-primary);
 }
-.chat-icon {
-  filter: var(--icon-filter);
-}
+
 .chat-modal__scroll-button {
   rotate: 270deg;
   &.show {
