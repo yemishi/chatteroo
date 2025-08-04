@@ -6,15 +6,20 @@ import {
   guestRegister as guestRegisterFn,
   signout as signoutFn,
 } from "@/lib/api";
-import { useAuth as useAuthContext } from "@/context/AuthContext";
-import { connectSocket, disconnectSocket } from "@/lib/socket";
+import { useAuth } from "@/context/AuthContext";
+import { disconnectSocket } from "@/lib/socket";
 import type { User } from "@/types";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 
 export const authActions = () => {
-  const { refetch, updateUser } = useAuthContext();
+  const { refetch, updateUser } = useAuth();
+  const navigate = useNavigate();
+  const search = useSearch({ strict: false });
   const onSuccess = (data: { message: string; user: User }) => {
+    refetch();
+
     updateUser(data.user);
-    connectSocket(data.user.id);
+    navigate({ to: search?.redirect || "/" });
   };
   const login = useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) => loginFn(email, password),
