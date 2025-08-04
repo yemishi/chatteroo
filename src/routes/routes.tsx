@@ -1,6 +1,7 @@
 import { createRoute } from "@tanstack/react-router";
 import { rootRoute } from "./__root";
 import { Home, Search } from "@/pages";
+import Signin from "@/pages/login/signin/Signin";
 
 const HomeRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -19,5 +20,11 @@ const SearchRoute = createRoute({
   },
 });
 
-const routes = [HomeRoute, SearchRoute];
+const LoginRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/login",
+  component: () => <Signin />,
+});
+
+const routes = [HomeRoute, SearchRoute, LoginRoute];
 export default routes;
