@@ -5,8 +5,7 @@ import { createRoot } from "react-dom/client";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import { router } from "./router/index.ts";
-import { RouterProvider } from "@tanstack/react-router";
+import App from "./App.tsx";
 
 const queryClient = new QueryClient();
 
@@ -17,13 +16,12 @@ if (darkTheme) {
 } else {
   root.setAttribute("data-theme", "light");
 }
-
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <main>
-          <RouterProvider router={router} />
+          <App />
         </main>
       </AuthProvider>
     </QueryClientProvider>
