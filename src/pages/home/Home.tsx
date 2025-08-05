@@ -1,13 +1,13 @@
 import "./style.scss";
 import ChatList from "@/components/chatList/ChatList";
 import ChatRoom from "@/components/chatRoom/ChatRoom";
-import { requireAuthUser } from "@/helpers";
+import { getSession } from "@/helpers";
 import HomeHeader from "@/pages/home/homeHeader/Header";
 import type { Chat } from "@/types";
 import { useState } from "react";
 
 export default function Home() {
-  const user = requireAuthUser();
+  const user = getSession();
   const [searchChat, setSearchChat] = useState("");
   const [scrollPositions, setScrollPositions] = useState<Record<string, number>>({});
 
