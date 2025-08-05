@@ -1,40 +1,72 @@
 import "./styles.scss";
-import type { SearchUser } from "@/types/searchType";
 import sendIcon from "@/assets/icons/send.svg";
-import { useAuth } from "@/context/AuthContext";
-import { sendFriendReq } from "@/lib/actions";
-import type { Dispatch, SetStateAction } from "react";
+import type { SearchUser } from "@/types/searchType";
+import { acceptFriendReq, sendFriendReq } from "@/lib/actions";
+import { useRef, type Dispatch, type SetStateAction } from "react";
 import type { Chat } from "@/types";
+import { getSession } from "@/helpers";
 
 type Props = {
   users: SearchUser[];
   setChat: Dispatch<SetStateAction<Chat | null>>;
 };
-export default function UserList({ users, setChat }: Props) {
-  const { user, error } = useAuth();
-  const { mutate, data } = sendFriendReq();
 
+export default function UserList({ users, setChat }: Props) {
+  const currentUser = getSession();
+  const { mutate: sendRequest, isError: isSendRequestError } = sendFriendReq();
+  const { mutate: acceptRequest, isError: isAcceptRequestError } = acceptFriendReq();
+  const sendReqStore = useRef(new Set());
+  const acceptReqStore = useRef(new Set());
   return (
     <div className="user-list">
-      {users.map((u) => {
-        const isPending = u.receivedRequests.some((r) => r.fromId === user?.id);
-        const acceptPending = u.sentRequests.some((r) => r.toId === user?.id);
+      {users.map((user) => {
+        const hasSentRequest = user.receivedRequests.some((req) => req.fromId === currentUser?.id);
+        const hasReceivedRequest = user.sentRequests.find((req) => req.toId === currentUser?.id);
+
+        const isReqPending = hasSentRequest || (sendReqStore.current.has(user.id) && !isSendRequestError);
+
+        const isAcceptRequest = hasReceivedRequest && !acceptReqStore.current.has(user.id) && !isAcceptRequestError;
+
+        const showSendButton =
+          !user.chat && !sendReqStore.current.has(user.id) && !hasSentRequest && !hasReceivedRequest;
+
         return (
-          <div key={u.id} className="user-list__item">
-            <img className="user-list__avatar" src={u.picture} alt={`${u.username} picture`} />
-            <p className="user-list__username">{u.username}</p>
+          <div key={user.id} className="user-list__item">
+            <img className="user-list__avatar" src={user.picture} alt={`${user.username}'s avatar`} />
+            <p className="user-list__username">{user.username}</p>
 
-            {(isPending || (data && !error)) && (
-              <span className="user-list__status user-list__status--pending">Pending</span>
+            {isReqPending && (
+              <button className="user-list__button user-list__button--disabled" disabled>
+                Request Sent
+              </button>
             )}
 
-            {(acceptPending || (data && !error)) && (
-              <span className="user-list__status user-list__status--pending">Accept??</span>
+            {isAcceptRequest && (
+              <button
+                className="user-list__button user-list__button--accept"
+                onClick={() => {
+                  acceptRequest(hasReceivedRequest?.id!);
+                  acceptReqStore.current.add(user.id);
+                }}
+              >
+                Accept
+              </button>
             )}
-            {!u.chat && !data && isPending && acceptPending && <span onClick={() => mutate(u.id)}>Send</span>}
-            {u?.chat && (
-              <button className="user-list__chat-button" onClick={() => setChat(u.chat!)}>
-                <img className="user-list__chat-icon icon" src={sendIcon} alt="send message icon" />
+
+            {showSendButton && (
+              <button
+                className="user-list__button user-list__button--send"
+                onClick={() => {
+                  sendRequest(user.id);
+                  sendReqStore.current.add(user.id);
+                }}
+              >
+                Add Friend
+              </button>
+            )}
+            {user.chat && (
+              <button className="user-list__chat-button" onClick={() => setChat(user.chat!)}>
+                <img src={sendIcon} alt="Open chat" className="user-list__chat-icon icon" />
               </button>
             )}
           </div>
