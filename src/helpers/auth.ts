@@ -5,7 +5,7 @@ export function getRedirectPath(defaultPath = "/") {
   return url === "/login" ? defaultPath : url;
 }
 
-export function requireAuthUser() {
+export function getSession() {
   const { user } = useRouter().options.context;
   const navigate = useNavigate();
   if (!user) {
