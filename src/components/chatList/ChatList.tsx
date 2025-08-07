@@ -14,7 +14,6 @@ export default function ChatList({ setChat, searchChat }: Props) {
   type Message = { chatId: string; content: string; senderId: string; timestamp: Date };
   const { data } = getChats();
   const [newMsgs, setNewMsgs] = useState<Message[]>([]);
-
   useEffect(() => {
     if (!data) return;
 
@@ -39,10 +38,11 @@ export default function ChatList({ setChat, searchChat }: Props) {
     };
   }, [data]);
   const onlineUsers = getOnlineUsers();
+  const getDataLastMsg = (i: number) => data && data[i] && (data[i].messages.length ? data[i].messages[0] : null);
   const sortedChats = (data ?? [])
     .filter(
-      (c) =>
-        c.messages[0].content.toLowerCase().includes(searchChat.toLowerCase()) ||
+      (c, i) =>
+        (getDataLastMsg(i) && getDataLastMsg(i)?.content!.toLowerCase().includes(searchChat.toLowerCase())) ||
         c.members[0].username.toLowerCase().includes(searchChat.toLowerCase())
     )
     .sort((a, b) => {
@@ -53,11 +53,11 @@ export default function ChatList({ setChat, searchChat }: Props) {
 
   return (
     <div className="chat-list">
-      {sortedChats.map((c) => {
+      {sortedChats.map((c, i) => {
         const user = c.members[0];
         const newMsg = newMsgs.find((msg) => msg.chatId === c.id);
         const isOnline = onlineUsers.some((i) => i === user.id);
-        const messageTime = new Date(newMsg?.timestamp || c.messages[0].timestamp);
+        const messageTime = new Date(newMsg?.timestamp || getDataLastMsg(i)?.timestamp!);
         return (
           <div key={c.id} className="chat-preview" onClick={() => setChat(c)}>
             <div className="chat-preview__icon">
