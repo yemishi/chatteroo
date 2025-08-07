@@ -1,0 +1,54 @@
+@use "@/styles/main.scss" as *;
+
+.nav-bar {
+  @include flex(row, center, space-around);
+
+  @include spacing(padding, 1rem, 0);
+  width: 100%;
+  height: auto;
+  position: fixed;
+  bottom: 0;
+  z-index: 10;
+}
+
+.nav-bar__button {
+  @include flex(column, center, center);
+  color: var(--text-primary);
+  &:hover,
+  &:focus-visible {
+    color: var(--bubble-user);
+  }
+  &:hover .nav-bar__icon,
+  &:focus-visible .nav-bar__icon {
+    color: var(--bubble-user);
+  }
+
+  font-size: medium;
+  font-weight: 400;
+  gap: 0.4rem;
+  &--active {
+    color: var(--bubble-user);
+    font-weight: 600;
+  }
+}
+.nav-bar__icon {
+  transition: color 0.2s ease, stroke 0.2s ease;
+  @include size(1.7rem);
+  stroke: var(--text-primary);
+  stroke-width: 0px;
+
+  &:not(.nav-bar__icon--active) {
+    stroke-width: 1px;
+    color: transparent;
+  }
+
+  &--profile {
+    @include rounded(full);
+    @include spacing(padding, 2px);
+    outline: 1.2px solid var(--text-primary);
+
+    &:not(.nav-bar__icon--active) {
+      stroke-width: 1.2px;
+    }
+  }
+}
