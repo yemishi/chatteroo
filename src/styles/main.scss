@@ -28,12 +28,20 @@ main {
   position: relative;
   overflow-x: hidden;
 }
-
+a {
+  all: unset;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 button {
   cursor: pointer;
   border: none;
   text-decoration: none;
-  background:none;
+  background: none;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
