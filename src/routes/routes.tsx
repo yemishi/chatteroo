@@ -13,10 +13,13 @@ const SearchRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/search",
   component: () => <Search />,
-  validateSearch: (search: { q: string }) => {
-    return {
-      q: search.q ?? "",
-    };
+  validateSearch: (search?: { q: string }) => {
+    if (search?.q) {
+      return {
+        q: search.q ?? "",
+      };
+    }
+    return search;
   },
 });
 
