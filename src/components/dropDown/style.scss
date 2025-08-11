@@ -1,0 +1,24 @@
+@use "@/styles/main.scss" as *;
+
+.dropdown {
+  @include flex(column, flex-start, flex-start);
+  @include rounded(xl);
+  visibility: hidden;
+  top: 3rem;
+  right: 0;
+  position: absolute;
+  width: 12rem;
+  height: auto;
+  overflow: hidden;
+  background-color: var(--chat-bg, #000);
+  box-shadow: var(--primary-shadow);
+  transition: all ease-in-out 0.2s;
+  opacity: 0;
+  transform: translateY(-5rem);
+
+  &.open {
+    visibility: visible;
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
