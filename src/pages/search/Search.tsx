@@ -2,12 +2,12 @@ import { searchUser } from "@/lib/actions";
 import "./styles.scss";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import ChatRoom from "@/components/chatRoom/ChatRoom";
-import { useState } from "react";
+import { useState, type UIEvent } from "react";
 import type { Chat } from "@/types";
 import UserList from "./userList/UserList";
 
 export default function Search() {
-  const { q = "" } = useSearch({ from: "/search" });
+  const { q = "" } = useSearch({ from: "/search" }) as { q: string };
   const navigate = useNavigate();
   const [scrollPositions, setScrollPositions] = useState<Record<string, number>>({});
   const [chat, setChat] = useState<Chat | null>(null);
@@ -20,7 +20,8 @@ export default function Search() {
       replace: true,
     });
   };
-  const { values } = searchUser(q);
+  const { values, hasNextPage, ref, isFetchingNextPage } = searchUser(q);
+
   return (
     <div className="search-page">
       <header className="search-header">
@@ -34,6 +35,7 @@ export default function Search() {
         />
       </header>
       <UserList setChat={setChat} users={values} />
+      {hasNextPage && !isFetchingNextPage && <div ref={ref}></div>}
       {chat && (
         <ChatRoom
           scrollPositions={scrollPositions}
