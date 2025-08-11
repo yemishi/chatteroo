@@ -1,0 +1,28 @@
+@use "@/styles/main.scss" as *;
+
+.user-options {
+  position: relative;
+}
+.user-options__avatar {
+  @include size(3rem);
+  @include rounded(full);
+}
+
+.dropdown-option {
+  @include spacing(padding, 0.5rem);
+  @include flex(row, center);
+  @include rounded(xl);
+  cursor: pointer;
+  gap: 0.3rem;
+  width: 100%;
+  font-size: larger;
+  transition: background-color 0.2s ease;
+  &:hover {
+    backdrop-filter: brightness(50%);
+  }
+}
+
+.dropdown-icon {
+  @include size(2.5rem);
+  color: var(--text-primary);
+}
