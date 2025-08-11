@@ -2,11 +2,12 @@
 
 .nav-bar {
   @include flex(row, center, space-around);
-
   @include spacing(padding, 1rem, 0);
   width: 100%;
   height: auto;
-  position: fixed;
+  position: sticky;
+  background: linear-gradient(transparent, var(--app-bg) 40%);
+  margin-top: auto;
   bottom: 0;
   z-index: 10;
 }
@@ -16,18 +17,18 @@
   color: var(--text-primary);
   &:hover,
   &:focus-visible {
-    color: var(--bubble-user);
+    color: var(--accent-primary);
   }
   &:hover .nav-bar__icon,
   &:focus-visible .nav-bar__icon {
-    color: var(--bubble-user);
+    color: var(--accent-primary);
   }
 
   font-size: medium;
   font-weight: 400;
   gap: 0.4rem;
   &--active {
-    color: var(--bubble-user);
+    color: var(--accent-primary);
     font-weight: 600;
   }
 }
@@ -36,19 +37,25 @@
   @include size(1.7rem);
   stroke: var(--text-primary);
   stroke-width: 0px;
-
   &:not(.nav-bar__icon--active) {
     stroke-width: 1px;
     color: transparent;
   }
 
-  &--profile {
+  &--user {
     @include rounded(full);
     @include spacing(padding, 2px);
-    outline: 1.2px solid var(--text-primary);
-
     &:not(.nav-bar__icon--active) {
+      outline: 1.2px solid var(--text-primary);
       stroke-width: 1.2px;
+    }
+  }
+
+  &--request {
+    @include rounded(full);
+    &:not(.nav-bar__icon--active) {
+      outline: 1.2px solid var(--text-primary);
+      stroke-width: 20px;
     }
   }
 }
