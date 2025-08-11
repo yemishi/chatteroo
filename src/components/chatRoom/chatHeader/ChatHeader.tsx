@@ -1,6 +1,6 @@
 import "./styles.scss";
-import arrowLeft from "@/assets/icons/arrow-left.svg";
-import menuIcon from "@/assets/icons/menu.svg";
+import ArrowLeft from "@/assets/icons/arrow-left.svg?react";
+import MenuIcon from "@/assets/icons/menu.svg?react";
 import getOnlineUsers from "@/lib/getOnlineUsers";
 import type { ChatMember } from "@/types";
 
@@ -14,7 +14,7 @@ export default function ChatHeader({ onClose, userHighlight: { picture, username
   return (
     <header className="chat-header">
       <button onClick={onClose}>
-        <img className="icon" src={arrowLeft} alt="arrow left" />
+        <ArrowLeft />
       </button>
       <div className="chat-user-info">
         <img
@@ -25,7 +25,7 @@ export default function ChatHeader({ onClose, userHighlight: { picture, username
         <p>{username}</p>
       </div>
       <button>
-        <img className="icon" src={menuIcon} alt="menu icon" />
+        <MenuIcon />
       </button>
     </header>
   );
