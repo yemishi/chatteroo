@@ -7,7 +7,7 @@ import {
   signout as signoutFn,
 } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
-import { disconnectSocket } from "@/lib/socket";
+import { connectSocket, disconnectSocket } from "@/lib/socket";
 import type { User } from "@/types";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 
@@ -17,7 +17,7 @@ export const authActions = () => {
   const search = useSearch({ strict: false });
   const onSuccess = (data: { message: string; user: User }) => {
     refetch();
-
+    connectSocket(data.user.id);
     updateUser(data.user);
     navigate({ to: search?.redirect || "/" });
   };
