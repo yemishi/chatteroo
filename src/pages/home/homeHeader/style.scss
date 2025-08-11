@@ -2,21 +2,32 @@
 
 .header-input__container {
   width: 100%;
+  @include flex(row);
+  @include spacing(margin, auto);
+  @include rounded(2xl);
+  gap: 3px;
   & input {
-    @include spacing(margin, auto);
-    @include rounded(2xl);
     width: 100%;
+    height: 100%;
   }
+}
+.home-header__top {
+  @include flex(row, center, space-between);
+  width: 100%;
+}
+.header-input__icon {
+  @include size(1.3rem);
+  color: transparent;
+  stroke: var(--text-primary);
+  stroke-width: 2px;
 }
 .home-header {
   @include flex();
   @include spacing(padding, 0.8rem, 1.3rem);
-  @include spacing(margin, .6rem, 0);
+  @include spacing(margin, 0.6rem, 0);
   gap: 20px;
   width: 100%;
   & h1 {
-    font-size: 1.7rem;
-    font-weight: 550;
     text-shadow: var(--primary-shadow);
   }
 
