@@ -64,7 +64,7 @@
 .chat-preview__content {
   @include flex(row, center);
   padding: 0 1rem 0.4rem 0;
-  border-bottom: solid color-mix(in hsl, var(--text-primary-muted) 40%, transparent) 1px;
+  border-bottom: solid color-mix(in hsl, var(--text-primary-muted) 20%, transparent) 1px;
 
   gap: 0.5rem;
 }
