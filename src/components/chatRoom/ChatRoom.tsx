@@ -1,7 +1,7 @@
 import "./styles.scss";
 import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
-import arrowLeft from "@/assets/icons/arrow-left.svg";
-import sendIcon from "@/assets/icons/send.svg";
+import ArrowLeft from "@/assets/icons/arrow-left.svg?react";
+import SendIcon from "@/assets/icons/send.svg?react";
 import type { Chat } from "@/types";
 
 import { useAuth } from "@/context/AuthContext";
@@ -143,7 +143,7 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
       <Messages currUser={currUser!} messages={sortedMessages} members={chatInfo.members} />
       <div className="chat-modal_input-area">
         <button onClick={scrollToBottom} className={`chat-modal__scroll-button ${showScrollButton ? "show" : "hide"}`}>
-          <img className="icon" src={arrowLeft} alt="arrow down" />
+          <ArrowLeft />
         </button>
 
         <input
@@ -156,7 +156,7 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
         />
         <button onClick={handleSend}>
-          <img className="icon" src={sendIcon} alt="Send icon" />
+          <SendIcon />
         </button>
       </div>
     </Modal>
