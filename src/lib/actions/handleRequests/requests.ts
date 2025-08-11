@@ -1,13 +1,17 @@
 import useScrollQuery from "@/hooks/useScrollQuery";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { acceptFriendRequest, deleteFriendRequest, sendFriendRequest } from "../../api";
+import type { FriendRequest } from "@/types";
 
-export const receivesReq = (userId?: string) => {
-  return useScrollQuery({ url: `/request/receives?userId=${userId || ""}`, queryKey: ["receive-friend-requests"] });
+export const getReceivedFriendRequests = (userId?: string) => {
+  return useScrollQuery<FriendRequest>({
+    url: `/request/receives?userId=${userId || ""}`,
+    queryKey: ["receive-friend-requests"],
+  });
 };
 
-export const useGetSendsReq = (userId?: string) => {
-  return useScrollQuery({ url: `/request/sends?userId=${userId || ""}`, queryKey: ["send-friend-requests"] });
+export const getSentFriendRequests = (userId?: string) => {
+  return useScrollQuery<FriendRequest>({ url: `/request/sent?userId=${userId || ""}`, queryKey: ["send-friend-requests"] });
 };
 
 export const sendFriendReq = () => {
@@ -37,7 +41,7 @@ export const acceptFriendReq = () => {
   });
 };
 
-export const deleteFriendReq = () => {
+export const rejectFriendReq = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (requestId: string) => deleteFriendRequest(requestId),
