@@ -1,5 +1,5 @@
 import "./styles.scss";
-import sendIcon from "@/assets/icons/send.svg";
+import SendIcon from "@/assets/icons/send.svg?react";
 import type { SearchUser } from "@/types/searchType";
 import { acceptFriendReq, sendFriendReq } from "@/lib/actions";
 import { useRef, type Dispatch, type SetStateAction } from "react";
@@ -66,7 +66,7 @@ export default function UserList({ users, setChat }: Props) {
             )}
             {user.chat && (
               <button className="user-list__chat-button" onClick={() => setChat(user.chat!)}>
-                <img src={sendIcon} alt="Open chat" className="user-list__chat-icon icon" />
+                <SendIcon />
               </button>
             )}
           </div>
