@@ -1,12 +1,11 @@
 import "./style.scss";
-import type { User } from "@/types";
-
+import SearchIcon from "@/assets/icons/search.svg?react";
+import UserOptions from "./userOptions/userOptions";
 type Props = {
-  user?: User;
   search: string;
   onChangeSearch: (search: string) => void;
 };
-export default function HomeHeader({ onChangeSearch, search, user }: Props) {
+export default function HomeHeader({ onChangeSearch, search }: Props) {
   const getTimeOfDay = () => {
     const hour = new Date().getHours();
     if (hour >= 5 && hour < 12) return "morning";
@@ -23,10 +22,16 @@ export default function HomeHeader({ onChangeSearch, search, user }: Props) {
 
   return (
     <header className={`home-header ${timeOfDay}`}>
-      <h1>{greeting}</h1>
-      <div className="header-input__container">
+      <div className="home-header__top">
+        <h1>{greeting}</h1>
+        <div>
+          <UserOptions />
+        </div>
+      </div>
+
+      <div className="header-input__container primary-input">
+        <SearchIcon className="header-input__icon" />
         <input
-          className="primary-input"
           placeholder="Search a chat"
           type="text"
           value={search}
