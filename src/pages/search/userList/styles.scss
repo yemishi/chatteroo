@@ -25,6 +25,7 @@
 
 .user-list__chat-button {
   @include size(2.5rem);
+  color: var(--text-primary);
   margin-left: auto;
 }
 
