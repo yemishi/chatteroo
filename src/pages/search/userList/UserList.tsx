@@ -1,7 +1,7 @@
 import "./styles.scss";
 import SendIcon from "@/assets/icons/send.svg?react";
 import type { SearchUser } from "@/types/searchType";
-import { acceptFriendReq, sendFriendReq } from "@/lib/actions";
+import { acceptFriendRequest, sendFriendRequest } from "@/lib/actions";
 import { useRef, type Dispatch, type SetStateAction } from "react";
 import type { Chat } from "@/types";
 import { getSession } from "@/helpers";
@@ -13,8 +13,8 @@ type Props = {
 
 export default function UserList({ users, setChat }: Props) {
   const currentUser = getSession();
-  const { mutate: sendRequest, isError: isSendRequestError } = sendFriendReq();
-  const { mutate: acceptRequest, isError: isAcceptRequestError } = acceptFriendReq();
+  const { mutate: sendRequest, isError: isSendRequestError } = sendFriendRequest();
+  const { mutate: acceptRequest, isError: isAcceptRequestError } = acceptFriendRequest();
   const sendReqStore = useRef(new Set());
   const acceptReqStore = useRef(new Set());
   return (

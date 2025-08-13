@@ -1,11 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import {
-  login as loginFn,
-  userRegister as registerFn,
-  guestLogin as guestLoginFn,
-  guestRegister as guestRegisterFn,
-  signout as signoutFn,
-} from "@/lib/api";
+import { loginApi, registerApi, guestLoginApi, guestRegisterApi, signoutApi } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { connectSocket, disconnectSocket } from "@/lib/socket";
 import type { User } from "@/types";
@@ -22,7 +16,7 @@ export const authActions = () => {
     navigate({ to: search?.redirect || "/" });
   };
   const login = useMutation({
-    mutationFn: ({ email, password }: { email: string; password: string }) => loginFn(email, password),
+    mutationFn: ({ email, password }: { email: string; password: string }) => loginApi(email, password),
     onSuccess,
   });
 
@@ -37,19 +31,19 @@ export const authActions = () => {
       email: string;
       bio?: string;
       picture?: string;
-    }) => registerFn(username, email, bio, picture),
+    }) => registerApi(username, email, bio, picture),
     onSuccess,
   });
   const guestRegister = useMutation({
-    mutationFn: () => guestRegisterFn(),
+    mutationFn: () => guestRegisterApi(),
     onSuccess,
   });
   const guestLogin = useMutation({
-    mutationFn: ({ guestId }: { guestId: string }) => guestLoginFn(guestId),
+    mutationFn: ({ guestId }: { guestId: string }) => guestLoginApi(guestId),
     onSuccess,
   });
   const signout = useMutation({
-    mutationFn: signoutFn,
+    mutationFn: signoutApi,
     onSuccess: () => {
       disconnectSocket();
       updateUser(null);

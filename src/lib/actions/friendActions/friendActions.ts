@@ -1,6 +1,6 @@
 import useScrollQuery from "@/hooks/useScrollQuery";
 import { useMutation } from "@tanstack/react-query";
-import { removeFriend as removeFriendFn } from "@/lib/api";
+import { removeFriendApi } from "@/lib/api";
 
 export const getFriends = (userId: string) => {
   return useScrollQuery({ url: `/friends/${userId}`, queryKey: ["friends", userId] });
@@ -8,7 +8,7 @@ export const getFriends = (userId: string) => {
 
 export const removeFriend = () => {
   return useMutation({
-    mutationFn: (userId: string) => removeFriendFn(userId),
+    mutationFn: (userId: string) => removeFriendApi(userId),
     mutationKey: ["unfriend"],
   });
 };

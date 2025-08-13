@@ -2,7 +2,7 @@ import { searchUser } from "@/lib/actions";
 import "./styles.scss";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import ChatRoom from "@/components/chatRoom/ChatRoom";
-import { useState, type UIEvent } from "react";
+import { useState } from "react";
 import type { Chat } from "@/types";
 import UserList from "./userList/UserList";
 

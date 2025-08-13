@@ -1,6 +1,6 @@
 import { axiosInstance } from "../axiosInstance";
 
-export const sendFriendRequest = async (userId: string) => {
+export const sendFriendRequestApi = async (userId: string) => {
   try {
     const response = await axiosInstance.post(`/request/${userId}`);
     return response.data;
@@ -9,7 +9,7 @@ export const sendFriendRequest = async (userId: string) => {
   }
 };
 
-export const acceptFriendRequest = async (requestId: string) => {
+export const acceptFriendRequestApi = async (requestId: string) => {
   try {
     const response = await axiosInstance.patch(`/request/${requestId}/accept`);
     return response.data;
@@ -18,7 +18,7 @@ export const acceptFriendRequest = async (requestId: string) => {
   }
 };
 
-export const deleteFriendRequest = async (requestId: string) => {
+export const deleteFriendRequestApi = async (requestId: string) => {
   try {
     const response = await axiosInstance.delete(`/request/${requestId}`);
     return response.data;

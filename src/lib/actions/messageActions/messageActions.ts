@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { editMessage as editMessageFn } from "../../api";
+import { editMessageApi } from "../../api";
 import useScrollQuery from "@/hooks/useScrollQuery";
 import type { Message } from "@/types";
 
@@ -9,7 +9,7 @@ export const getMessages = (chatId: string) => {
 
 export const editMessage = () => {
   return useMutation({
-    mutationFn: ({ msgId, content }: { msgId: string; content: string }) => editMessageFn(msgId, content),
+    mutationFn: ({ msgId, content }: { msgId: string; content: string }) => editMessageApi(msgId, content),
     mutationKey: ["edit-message"],
   });
 };

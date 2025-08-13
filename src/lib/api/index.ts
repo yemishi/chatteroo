@@ -1,10 +1,10 @@
-export * from "./auth/login";
-export * from "./auth/signout";
-export * from "./auth/getUser";
-export * from "./auth/register";
+export * from "./auth/loginApi";
+export * from "./auth/signoutApi";
+export * from "./auth/getUserApi";
+export * from "./auth/registerApi";
 
-export * from "./friends/FriendRequest";
-export * from "./friends/removeFriend";
+export * from "./friend/friendRequestApi";
+export * from "./friend/removeFriendApi";
 
-export * from "./connections/chat";
-export * from "./connections/message";
+export * from "./connections/chatApi";
+export * from "./connections/messageApi";

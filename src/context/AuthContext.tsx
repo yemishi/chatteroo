@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getUser as queryFn } from "@/lib/api";
+import { getUserApi as queryFn } from "@/lib/api";
 import { connectSocket, getSocket } from "@/lib/socket";
 import type { User } from "@/types";
 

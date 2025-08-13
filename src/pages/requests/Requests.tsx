@@ -1,11 +1,11 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import "./styles.scss";
-import { acceptFriendReq, rejectFriendReq, getReceivedFriendRequests } from "@/lib/actions";
+import { acceptFriendRequest, rejectFriendRequest, getReceivedFriendRequests } from "@/lib/actions";
 export default function Requests() {
   const { values, hasNextPage, ref, isFetchingNextPage } = getReceivedFriendRequests();
 
-  const { mutate: acceptRequest, isError: isAcceptRequestError } = acceptFriendReq();
-  const { mutate: rejectRequest, isError: isRejectRequestError } = rejectFriendReq();
+  const { mutate: acceptRequest, isError: isAcceptRequestError } = acceptFriendRequest();
+  const { mutate: rejectRequest, isError: isRejectRequestError } = rejectFriendRequest();
   const [resolved, setResolved] = useState<string[]>([]);
 
   return (
