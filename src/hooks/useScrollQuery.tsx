@@ -4,7 +4,7 @@ import { axiosInstance } from "@/lib/api/axiosInstance";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-export default function useScrollQuery<T>({ queryKey, url, stop }: PropsType<T>) {
+export default function useScrollQuery<T>({ queryKey, url, stop }: PropsType) {
   const ref = useRef<HTMLDivElement>(null);
   const observer = useRef<IntersectionObserver | null>(null);
   const [error, setError] = useState<Error | null>();
@@ -70,7 +70,7 @@ export default function useScrollQuery<T>({ queryKey, url, stop }: PropsType<T>)
   };
 }
 
-type PropsType<T> = {
+type PropsType = {
   url: string;
   queryKey: string[];
   stop?: boolean;
