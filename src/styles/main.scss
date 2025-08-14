@@ -14,7 +14,7 @@ body {
   height: 100%;
   font-family: "Rubik", sans-serif;
   font-size: 1rem;
-  background-color: var(--app-bg);
+  background-color: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -60,7 +60,7 @@ input {
   transition: box-shadow 0.2s ease, transform 0.2s ease;
   &:focus,
   &:hover {
-    box-shadow: var(--primary-shadow-lg);
+    box-shadow: var(--accent-shadow-lg);
     transform: translateY(-1px);
   }
 }
