@@ -1,0 +1,107 @@
+@use "@/styles/main.scss" as *;
+
+.notification-page {
+  & h1 {
+    margin-top: 1.5rem;
+    margin-left: 1.5rem;
+  }
+}
+.notification-list {
+  @include flex();
+}
+.notification-item {
+  @include spacing(padding, 1rem);
+  @include flex(row, center);
+  position: relative;
+  width: 100%;
+  gap: 0.5rem;
+  border-bottom: solid color-mix(in hsl, var(--text-primary-muted) 20%, transparent) 1px;
+
+  &--unread {
+    background: var(--bg-secondary);
+  }
+
+  & .notification-item__icon {
+    @include size(3.5rem);
+    background-color: black;
+    @include rounded(full);
+  }
+  .notification-card {
+    @include flex();
+    width: 100%;
+    gap: 0.2rem;
+  }
+
+  .notification-card__content {
+    @include flex(row);
+    gap: 0.2rem;
+    .notification-card__details {
+      @include flex(wrap, center);
+      gap: 0.2rem;
+    }
+  }
+}
+.notification-time {
+  color: var(--text-primary-muted);
+}
+
+.request-actions {
+  @include flex(row);
+  width: 100%;
+  gap: 0.3rem;
+  & .notification-time {
+    margin-left: auto;
+    margin-top: auto;
+  }
+  & .request-actions__button {
+    @include spacing(padding, 0.35rem, 0.65rem);
+    @include rounded(0.5rem);
+    color: var(--text-primary);
+    font-weight: 600;
+    background-color: var(--accent-primary);
+    transition: filter 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      filter: brightness(1.1);
+    }
+
+    &--reject {
+      background-color: var(--text-primary);
+      color: var(--accent-primary);
+
+      &:hover,
+      &:focus-visible {
+        filter: brightness(0.9);
+      }
+    }
+  }
+}
+.request-resolved {
+  color: var(--accent-secondary);
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.notification-item__remove {
+  @include size(1.5rem);
+  @include flex(row, center);
+  @include rounded(md);
+  @include spacing(padding, 0.4rem);
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: var(--text-primary);
+  transition: filter 0.2s ease;
+  background-color: color-mix(in hsl, var(--bg-secondary) 85%, white);
+  &:hover,
+  &:focus-visible {
+    filter: brightness(1.1);
+  }
+  &--icon {
+    @include size(100%);
+  }
+}
