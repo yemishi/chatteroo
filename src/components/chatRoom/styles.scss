@@ -5,7 +5,7 @@
   @include spacing(padding, 1.5rem);
   padding-top: 0;
   padding-bottom: 0;
-  background-color: var(--chat-bg);
+  background-color: var(--bg-secondary);
   & button {
     @include size(2.5rem);
     @include spacing(padding, 0.5rem);
@@ -15,7 +15,7 @@
     transition: box-shadow 0.2s ease, transform 0.2s ease;
     &:focus,
     &:hover {
-      box-shadow: var(--primary-shadow-lg);
+      box-shadow: var(--accent-shadow-lg);
       transform: translateY(-1px);
     }
   }
@@ -24,7 +24,7 @@
 .chat-modal_input-area {
   @include flex(row, center, center);
   margin-top: auto;
-  background: linear-gradient(transparent, var(--chat-bg) 60%);
+  background: linear-gradient(transparent, var(--bg-secondary) 60%);
   padding-bottom: 1.5rem;
   padding-top: 1rem;
   position: sticky;
