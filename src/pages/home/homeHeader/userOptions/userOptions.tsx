@@ -6,12 +6,13 @@ import NotificationIcon from "@/assets/icons/notification.svg?react";
 import SignoutIcon from "@/assets/icons/sign-out.svg?react";
 import SettingsIcon from "@/assets/icons/settings.svg?react";
 import { authActions } from "@/lib/actions";
+import { Link } from "@tanstack/react-router";
 
 export default function UserOptions() {
   const user = getSession();
   const [isOpen, setIsOpen] = useState(false);
   const { signout } = authActions();
-
+  const close = () => setIsOpen(false);
   return (
     <div className="user-options">
       <img
@@ -22,18 +23,20 @@ export default function UserOptions() {
       />
 
       <DropDown isOpen={isOpen} onClose={() => setIsOpen(!isOpen)}>
-        <div className="dropdown-option">
-          <NotificationIcon className="dropdown-icon" />
+        <Link to="/notifications" className="dropdown-option">
+          <NotificationIcon className="dropdown-icon dropdown-icon--notification" />
           Notifications
-        </div>
-        <div className="dropdown-option">
+        </Link>
+
+        <Link to="/" onClick={close} className="dropdown-option">
           <SettingsIcon className="dropdown-icon" />
           Settings
-        </div>
-        <div onClick={() => signout.mutate()} className="dropdown-option logout">
+        </Link>
+
+        <button onClick={() => signout.mutate()} className="dropdown-option logout">
           <SignoutIcon className="dropdown-icon" />
           Sign Out
-        </div>
+        </button>
       </DropDown>
     </div>
   );
