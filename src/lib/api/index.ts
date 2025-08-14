@@ -8,3 +8,4 @@ export * from "./friend/removeFriendApi";
 
 export * from "./connections/chatApi";
 export * from "./connections/messageApi";
+export * from "./notification/notificationApi";
