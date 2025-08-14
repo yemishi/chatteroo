@@ -17,6 +17,7 @@
   width: 100%;
   font-size: larger;
   transition: background-color 0.2s ease;
+  color: var(--text-primary);
   &:hover {
     backdrop-filter: brightness(50%);
   }
@@ -24,5 +25,10 @@
 
 .dropdown-icon {
   @include size(2.5rem);
-  color: var(--text-primary);
+  fill: transparent;
+  stroke-width: 1.5px;
+  &--notification {
+    stroke: var(--text-primary);
+    color: transparent;
+  }
 }
