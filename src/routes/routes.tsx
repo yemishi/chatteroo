@@ -2,7 +2,7 @@ import { createRoute } from "@tanstack/react-router";
 import { rootRoute } from "./__root";
 import { Home, Search } from "@/pages";
 import Signin from "@/pages/login/signin/Signin";
-import Requests from "@/pages/requests/Requests";
+import NotificationPage from "@/pages/notification/Notification";
 
 const HomeRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -23,17 +23,17 @@ const SearchRoute = createRoute({
     return search;
   },
 });
-
-const RequestsRoute = createRoute({
+const NotificationRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: "/requests",
-  component: () => <Requests />,
+  path: "/notifications",
+  component: () => <NotificationPage />,
 });
+
 const LoginRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/login",
   component: () => <Signin />,
 });
 
-const routes = [HomeRoute, SearchRoute, LoginRoute, RequestsRoute];
+const routes = [HomeRoute, SearchRoute, LoginRoute, NotificationRoute];
 export default routes;
