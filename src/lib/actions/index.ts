@@ -5,3 +5,4 @@ export * from "./friendRequestActions/friendRequestActions";
 export * from "./searchActions/searchActions";
 
 export * from "./authActions/authActions";
+export * from "./notificationActions/notificationActions";
