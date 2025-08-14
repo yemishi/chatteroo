@@ -3,7 +3,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import HomeIcon from "./assets/icons/chat.svg?react";
 import UserIcon from "./assets/icons/profile.svg?react";
 import SearchIcon from "@/assets/icons/search.svg?react";
-import FriendRequestIcon from "@/assets/icons/user-add.svg?react";
+import NotificationIcon from "@/assets/icons/notification.svg?react";
 
 export default function NavBar() {
   const pathname = useRouterState({
@@ -30,14 +30,14 @@ export default function NavBar() {
         <p>Search</p>
       </Link>
       <Link
-        to="/requests"
-        className={`nav-bar__button ${isActive("/requests") ? "nav-bar__button--active" : ""}`}
-        aria-label="requests"
+        to="/notifications"
+        className={`nav-bar__button ${isActive("/notifications") ? "nav-bar__button--active" : ""}`}
+        aria-label="notifications"
       >
-        <FriendRequestIcon
-          className={`nav-bar__icon ${isActive("/requests") ? "nav-bar__icon--active" : ""} nav-bar__icon--request `}
+        <NotificationIcon
+          className={`nav-bar__icon ${isActive("/notifications") ? "nav-bar__icon--active" : ""} nav-bar__icon--test `}
         />
-        <p>Request</p>
+        <p>Bell</p>
       </Link>
       <Link
         to="/"
