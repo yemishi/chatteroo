@@ -6,7 +6,7 @@
   width: 100%;
   height: auto;
   position: sticky;
-  background: linear-gradient(transparent, var(--app-bg) 40%);
+  background: linear-gradient(transparent, var(--bg-primary) 40%);
   margin-top: auto;
   bottom: 0;
   z-index: 10;
@@ -33,8 +33,8 @@
   }
 }
 .nav-bar__icon {
-  transition: color 0.2s ease, stroke 0.2s ease;
   @include size(1.7rem);
+  transition: color 0.2s ease, stroke 0.2s ease;
   stroke: var(--text-primary);
   stroke-width: 0px;
   &:not(.nav-bar__icon--active) {
@@ -48,14 +48,6 @@
     &:not(.nav-bar__icon--active) {
       outline: 1.2px solid var(--text-primary);
       stroke-width: 1.2px;
-    }
-  }
-
-  &--request {
-    @include rounded(full);
-    &:not(.nav-bar__icon--active) {
-      outline: 1.2px solid var(--text-primary);
-      stroke-width: 20px;
     }
   }
 }
