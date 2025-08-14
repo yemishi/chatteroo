@@ -17,7 +17,7 @@ export default function Home() {
     <div className="home-page">
       <HomeHeader onChangeSearch={handleSearchChat} search={searchChat} />
       <ChatList setChat={setChatInfo} searchChat={searchChat} />
-      
+
       {chatInfo && (
         <ChatRoom
           scrollPositions={scrollPositions}
