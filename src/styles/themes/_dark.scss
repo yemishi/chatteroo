@@ -1,14 +1,13 @@
 [data-theme="dark"] {
-  --app-bg: #1e1e1e;
-  --chat-bg: #121212;
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #121212;
   --text-primary-muted: #f1f1f180;
   --text-primary: #f1f1f1;
-  
   --accent-primary: rgba(161, 110, 255, 0.85); // alt linear-gradient(135deg, #6ab1ff, #4d7fff);
+  --accent-secondary: rgb(131, 131, 228);
   --accent-gradient: linear-gradient(135deg, #a16eff, #5f49f7); // #2e2e2e;
-  --bubble-other: #262626;
   --status-online: #4ade80;
   --status-offline: #6b7280;
-  --primary-shadow-lg: 0 0 10px rgba(161, 110, 255, 0.5);
-  --primary-shadow: 0 2px 6px rgba(161, 110, 255, 0.3);
+  --accent-shadow-lg: 0 0 10px rgba(161, 110, 255, 0.5);
+  --accent-shadow: 0 2px 6px rgba(161, 110, 255, 0.3);
 }
