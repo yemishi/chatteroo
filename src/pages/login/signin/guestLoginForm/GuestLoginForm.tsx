@@ -1,4 +1,5 @@
 import { Input } from "@/components";
+import SubmitButton from "@/components/common/input/button/submitButton/SubmitButton";
 import { authActions } from "@/lib/actions";
 import { useState } from "react";
 
@@ -40,9 +41,9 @@ export default function GuestLoginForm({ changeToUserMethod }: GuestLoginFormPro
         </button>
       )}
       {guestLogin.error?.message && <div className="auth-form__error">{guestLogin.error.message}</div>}
-      <button className="auth-submit__button" type="submit">
-        Sign In
-      </button>
+      <SubmitButton type="submit" isLoading={guestLogin.isPending} loadingMessage="Logging in">
+        Sign in
+      </SubmitButton>
     </form>
   );
 }

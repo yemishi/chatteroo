@@ -1,4 +1,5 @@
 import { Input } from "@/components";
+import SubmitButton from "@/components/common/input/button/submitButton/SubmitButton";
 import useForm, { type FormFields } from "@/hooks/useForm";
 import { authActions } from "@/lib/actions";
 
@@ -42,10 +43,12 @@ export default function UserLoginForm({ changeToGuestMethod }: UserLoginFormProp
           Login as Guest
         </button>
       )}
+
       {login.error?.message && <div className="auth-form__error">{login.error.message}</div>}
-      <button className="auth-submit__button" type="submit">
-        Sign In
-      </button>
+
+      <SubmitButton type="submit" isLoading={login.isPending} loadingMessage="Logging in">
+        Sign in
+      </SubmitButton>
     </form>
   );
 }

@@ -4,6 +4,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 import RefreshIcon from "@/assets/icons/refresh.svg?react";
 import CopyIcon from "@/assets/icons/clipboard.svg?react";
+import SubmitButton from "@/components/common/input/button/submitButton/SubmitButton";
 
 type GuestRegisterFormProps = {
   switchMethod: () => void;
@@ -53,9 +54,10 @@ export default function GuestRegisterForm({ switchMethod }: GuestRegisterFormPro
           Register as User
         </button>
       )}
-      <button onClick={handleSubmit} className="auth-submit__button" type="submit">
+      <SubmitButton onClick={handleSubmit} isLoading={guestRegister.isPending} loadingMessage="Creating...">
         Register
-      </button>
+      </SubmitButton>
+
       <div className="auth-link__container">
         Already have an account?
         <Link className="auth-link" to="/login">
