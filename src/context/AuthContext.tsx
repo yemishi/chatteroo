@@ -27,6 +27,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   } = useQuery({
     queryKey: ["currentUser"],
     queryFn,
+    retry: 1,
+    refetchOnWindowFocus: false,
   });
 
   const effectiveLoading = queryLoading || (!user && (isFetching || isRefetching));
