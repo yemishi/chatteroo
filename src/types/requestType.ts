@@ -7,7 +7,7 @@ export type FriendRequest = {
 };
 
 type From = {
-  guestId?: string;
+  guestCode?: string;
   picture: string;
   username: string;
 };
