@@ -1,0 +1,29 @@
+import "../styles.scss";
+
+import GuestRegisterForm from "./guestRegister/GuestRegister";
+import UserRegisterForm from "./userRegisterForm/UserRegisterForm";
+import { useNavigate, useRouter } from "@tanstack/react-router";
+import { useState } from "react";
+
+export default function Register() {
+  const { user } = useRouter().options.context;
+  const navigate = useNavigate();
+  if (user) {
+    navigate({ to: "/account" });
+    return;
+  }
+
+  const [isGuestRegister, setIsGuestRegister] = useState(true);
+  return (
+    <div className="auth-page">
+      <div className="auth-page__form-container">
+        <h1>Welcome!</h1>
+        {isGuestRegister ? (
+          <GuestRegisterForm switchMethod={() => setIsGuestRegister(false)} />
+        ) : (
+          <UserRegisterForm switchMethod={() => setIsGuestRegister(true)} />
+        )}
+      </div>
+    </div>
+  );
+}
