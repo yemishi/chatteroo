@@ -13,7 +13,9 @@ type Props = {
 export default function ChatList({ setChat, searchChat }: Props) {
   type Message = { chatId: string; content: string; senderId: string; timestamp: Date };
   const { data } = getChats();
+
   const [newMsgs, setNewMsgs] = useState<Message[]>([]);
+
   useEffect(() => {
     if (!data) return;
 
