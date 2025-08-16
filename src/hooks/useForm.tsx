@@ -23,36 +23,31 @@ export default function useForm<T>(initialValues: FormFields) {
   }, [fields]);
 
   const setError = (field: string, msg: string | null) => setErrors((e) => ({ ...e, [field]: msg }));
-
   const validateField = (name: string, value: string | number | string[]): string | null => {
     const field = fields[name];
     if (!field) return null;
 
     const { compareField, max, min, validate, isEmail, minMessage, maxMessage } = field;
-    const isNumberField = !isNaN(parseFloat(value as string));
-    const len = isNumberField ? Number(value) : (value as string).length;
 
-    if (max && len > max!)
-      return maxMessage || (isNumberField ? `Must be ${max} or less` : `Must be ${max} characters or fewer`);
+    const len = Array.isArray(value) ? value.length : String(value).length;
 
-    if (min && len < min)
-      return minMessage || (isNumberField ? `Must be at least ${min}` : `Must be at least ${min} characters long`);
+    if (max && len > max) return maxMessage || `Must be ${max} characters or fewer`;
 
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (min && len < min) return minMessage || `Must be at least ${min} characters long`;
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
     if (isEmail && !emailRegex.test(String(value))) return "Invalid email format.";
 
     if (validate && !Array.isArray(value)) return validate(value);
 
     if (compareField) {
       if (!fields[compareField]) throw new Error(`Field ${compareField} doesn't exist in the form schema.`);
-
       const fieldToCompare = fields[compareField];
       if (fieldToCompare.value !== value) return `Must be equal to ${compareField}`;
     }
 
     return null;
   };
-
   const validate = (field: string) => {
     const error = validateField(field, fields[field].value);
     setErrors({ ...errors, [field]: error });
