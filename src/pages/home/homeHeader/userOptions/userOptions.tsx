@@ -1,12 +1,12 @@
 import DropDown from "@/components/dropDown/DropDown";
 import "./styles.scss";
-import { getSession } from "@/helpers";
 import { useState } from "react";
 import NotificationIcon from "@/assets/icons/notification.svg?react";
 import SignoutIcon from "@/assets/icons/sign-out.svg?react";
 import SettingsIcon from "@/assets/icons/settings.svg?react";
 import { authActions } from "@/lib/actions";
 import { Link } from "@tanstack/react-router";
+import { getSession } from "@/helpers";
 
 export default function UserOptions() {
   const user = getSession();
