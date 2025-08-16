@@ -13,7 +13,7 @@ export default function Register() {
     return;
   }
 
-  const [isGuestRegister, setIsGuestRegister] = useState(true);
+  const [isGuestRegister, setIsGuestRegister] = useState(false);
   return (
     <div className="auth-page">
       <div className="auth-page__form-container">
