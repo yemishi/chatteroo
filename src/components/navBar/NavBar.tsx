@@ -40,8 +40,8 @@ export default function NavBar() {
         <p>Bell</p>
       </Link>
       <Link
-        to="/"
-        className={`nav-bar__button ${isActive("/profile") ? "nav-bar__button--active" : ""} `}
+        to="/account"
+        className={`nav-bar__button ${isActive("/account") ? "nav-bar__button--active" : ""} `}
         aria-label="profile"
       >
         <UserIcon
