@@ -56,7 +56,7 @@ input {
 .primary-input {
   @include spacing(padding, 0.8rem, 0.7rem);
   color: var(--text-primary);
-  background: var(--accent-gradient);
+  background: var(--accent-primary-gradient);
   transition: box-shadow 0.2s ease, transform 0.2s ease;
   &:focus,
   &:hover {
