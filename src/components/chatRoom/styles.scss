@@ -10,7 +10,7 @@
     @include size(2.5rem);
     @include spacing(padding, 0.5rem);
     @include rounded(full);
-    background: var(--accent-gradient);
+    background: var(--accent-primary-gradient);
     color: var(--text-primary);
     transition: box-shadow 0.2s ease, transform 0.2s ease;
     &:focus,
