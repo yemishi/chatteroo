@@ -80,7 +80,7 @@ export default function UserRegisterForm({ switchMethod }: UserRegisterFormProps
 
       {switchMethod && (
         <button className="auth-switch-method__button" type="button" onClick={switchMethod}>
-          Login as Guest
+          Register as Guest
         </button>
       )}
       {register.error?.message && <div className="auth-form__error">{register.error.message}</div>}

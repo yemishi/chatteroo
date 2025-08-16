@@ -50,7 +50,7 @@ export default function GuestRegisterForm({ switchMethod }: GuestRegisterFormPro
       </div>
       {switchMethod && (
         <button className="auth-switch-method__button" type="button" onClick={switchMethod}>
-          Login as User
+          Register as User
         </button>
       )}
       <button onClick={handleSubmit} className="auth-submit__button" type="submit">
