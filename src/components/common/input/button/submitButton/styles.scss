@@ -1,0 +1,64 @@
+@use "@/styles/main.scss" as *;
+
+.submit-button {
+  @include flex(inherit, center, center);
+  @include rounded(md);
+  @include spacing(padding, 0.75rem, 1rem);
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  background: var(--accent-primary-gradient);
+  transition: background-color 0.2s, box-shadow 0.2s, opacity 0.2s;
+
+  &--loading {
+    background-size: 250% 100%;
+    animation: gradient-slide 2s linear infinite;
+  }
+  &:hover {
+    background-color: var(--accent-primary-hover);
+    box-shadow: var(--accent-shadow-lg);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+}
+
+.loading-text {
+  display: flex;
+  gap: 2px;
+}
+
+.loading-letter {
+  display: inline-block;
+  animation: bounce 0.7s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-7px);
+  }
+  50% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes gradient-slide {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
