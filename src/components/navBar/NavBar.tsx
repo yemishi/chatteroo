@@ -45,7 +45,7 @@ export default function NavBar() {
         aria-label="profile"
       >
         <UserIcon
-          className={`nav-bar__icon ${isActive("/profile") ? "nav-bar__icon--active" : ""}  nav-bar__icon--user`}
+          className={`nav-bar__icon ${isActive("/account") ? "nav-bar__icon--active" : ""}  nav-bar__icon--user`}
         />
         <p>Profile</p>
       </Link>
