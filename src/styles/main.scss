@@ -47,9 +47,11 @@ button {
   -moz-appearance: none;
 }
 
-input {
+input,
+textarea {
   font-family: "Rubik", sans-serif;
   border: none;
+  background-color: transparent;
   outline: none;
 }
 
@@ -66,6 +68,12 @@ input {
 }
 .icon {
   filter: var(--icon-filter);
+}
+.form__error {
+  color: var(--color-invalid);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  margin-left: auto;
 }
 
 input {
@@ -86,7 +94,9 @@ input {
   }
 }
 
-h1 {
-  font-size: 1.7rem;
+h1,
+h2,
+h3 {
+  font-size: 1.2rem;
   font-weight: 550;
 }
