@@ -1,5 +1,5 @@
 import { Input } from "@/components";
-import SubmitButton from "@/components/common/input/button/submitButton/SubmitButton";
+import SubmitButton from "@/components/common/button/submitButton/SubmitButton";
 import useForm, { type FormFields } from "@/hooks/useForm";
 import { authActions } from "@/lib/actions";
 import { Link } from "@tanstack/react-router";
@@ -84,7 +84,7 @@ export default function UserRegisterForm({ switchMethod }: UserRegisterFormProps
           Register as Guest
         </button>
       )}
-      {register.error?.message && <div className="auth-form__error">{register.error.message}</div>}
+      {register.error?.message && <div className="form__error">{register.error.message}</div>}
 
       <SubmitButton type="submit" isLoading={register.isPending} loadingMessage="Creating...">
         Register
