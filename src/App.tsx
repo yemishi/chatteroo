@@ -1,17 +1,13 @@
 import { RouterProvider } from "@tanstack/react-router";
 import { router } from "./router";
-import { useAuth } from "./context/AuthContext";
+import { useAuth } from "./hooks";
+import { useEffect } from "react";
 
 export default function App() {
-  const { user, isLoading } = useAuth();
+  const { fetchUser } = useAuth();
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
-  if (isLoading) return <div>🔄 Fetching user hodon…</div>;
-  return (
-    <RouterProvider
-      router={router}
-      context={{
-        user,
-      }}
-    />
-  );
+  return <RouterProvider router={router} />;
 }
