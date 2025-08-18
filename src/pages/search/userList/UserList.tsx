@@ -4,7 +4,7 @@ import type { SearchUser } from "@/types/searchType";
 import { acceptFriendRequest, sendFriendRequest } from "@/lib/actions";
 import { useRef, type Dispatch, type SetStateAction } from "react";
 import type { Chat } from "@/types";
-import { getSession } from "@/helpers";
+import { useAuth } from "@/hooks";
 
 type Props = {
   users: SearchUser[];
@@ -12,7 +12,7 @@ type Props = {
 };
 
 export default function UserList({ users, setChat }: Props) {
-  const currentUser = getSession();
+  const { user: currentUser } = useAuth();
   const { mutate: sendRequest, isError: isSendRequestError } = sendFriendRequest();
   const { mutate: acceptRequest, isError: isAcceptRequestError } = acceptFriendRequest();
   const sendReqStore = useRef(new Set());
