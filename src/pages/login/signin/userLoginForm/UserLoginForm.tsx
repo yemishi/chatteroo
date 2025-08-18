@@ -1,5 +1,5 @@
 import { Input } from "@/components";
-import SubmitButton from "@/components/common/input/button/submitButton/SubmitButton";
+import SubmitButton from "@/components/common/button/submitButton/SubmitButton";
 import useForm, { type FormFields } from "@/hooks/useForm";
 import { authActions } from "@/lib/actions";
 
@@ -8,7 +8,7 @@ type UserLoginFormProps = {
 };
 export default function UserLoginForm({ changeToGuestMethod }: UserLoginFormProps) {
   const initialValues: FormFields = {
-    name: { value: "", min: 3, max: 15, minMessage: "Name must be at least 3 characters long." },
+    name: { value: "" },
     password: { value: "", min: 4, max: 20, minMessage: "Password must be at least 4 characters long." },
   };
   const { login } = authActions();
@@ -44,7 +44,7 @@ export default function UserLoginForm({ changeToGuestMethod }: UserLoginFormProp
         </button>
       )}
 
-      {login.error?.message && <div className="auth-form__error">{login.error.message}</div>}
+      {login.error?.message && <div className="form__error">{login.error.message}</div>}
 
       <SubmitButton type="submit" isLoading={login.isPending} loadingMessage="Logging in">
         Sign in
