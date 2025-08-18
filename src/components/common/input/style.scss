@@ -1,54 +1,83 @@
 @use "@/styles/main.scss" as *;
+
 .input-container {
   @include flex();
   width: 100%;
   gap: 0.2rem;
-  & .input-label {
+
+  &__label {
     font-weight: 450;
     font-size: 0.85rem;
     margin-bottom: 0.1rem;
   }
+
   &--error {
     color: var(--color-invalid);
     font-size: 0.85rem;
   }
-}
 
-.input-wrapper {
-  @include spacing(padding, 0.4rem);
-  @include rounded(md);
-  @include flex(row, center);
-  @include size(100%);
-  font-weight: 500;
-  border: 1px solid var(--text-primary-muted);
-  transition: border-color 0.2s, box-shadow 0.2s;
-  font-size: 0.9rem;
-  .input-container--error & {
-    border-color: var(--color-invalid) !important;
-    box-shadow: var(--invalid-shadow-color) !important;
-  }
+  &__wrapper {
+    @include spacing(padding, 0.4rem);
+    @include flex(row, center);
+    @include size(100%);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-size: 0.9rem;
+    font-weight: 500;
+    gap: 0.2rem;
 
-  gap: 0.2rem;
-  &:has(input:focus) {
-    border-color: var(--accent-primary);
-    box-shadow: var(--accent-shadow-lg);
-  }
+    .input-container-primary & {
+      @include rounded(md);
+      border: 1px solid var(--text-primary-muted);
 
-  &:has(input:not(:placeholder-shown)):not(:has(input:focus)) {
-    border-color: var(--accent-primary);
-    box-shadow: var(--accent-shadow);
-  }
+      &--error {
+        box-shadow: var(--invalid-shadow-color) !important;
+      }
 
-  .eye-icon {
-    @include size(1.5rem);
-    transition: transform 0.2s;
-    &:hover {
-      transform: scale(1.15);
+      &:has(input:focus),
+      &:has(textarea:focus) {
+        box-shadow: var(--accent-shadow-lg);
+      }
+
+      &:has(input:not(:placeholder-shown)):not(:has(input:focus)),
+      &:has(textarea:not(:placeholder-shown)):not(:has(textarea:focus)) {
+        box-shadow: var(--accent-shadow);
+      }
     }
-  }
-  & input::placeholder {
-    color: var(--text-primary-muted);
-    font-weight: normal;
-    transition: color 0.2s;
+
+    .input-container-secondary & {
+      padding-top: 0.1rem;
+      padding-left: 0.1rem;
+      border-bottom: 1px solid var(--text-primary-muted);
+    }
+
+    &--error {
+      border-color: var(--color-invalid) !important;
+    }
+
+    &:has(input:focus),
+    &:has(textarea:focus) {
+      border-color: var(--accent-primary);
+    }
+
+    &:has(input:not(:placeholder-shown)):not(:has(input:focus)),
+    &:has(textarea:not(:placeholder-shown)):not(:has(textarea:focus)) {
+      border-color: var(--accent-primary);
+    }
+
+    .eye-icon {
+      @include size(1.5rem);
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: scale(1.15);
+      }
+    }
+
+    & input::placeholder,
+    & textarea::placeholder {
+      color: var(--text-primary-muted);
+      font-weight: normal;
+      transition: color 0.2s;
+    }
   }
 }
