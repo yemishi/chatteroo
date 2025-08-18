@@ -4,5 +4,6 @@ export type User = {
   email: string;
   picture: string;
   username: string;
+  bio?: string;
   guestCode?: string;
 };
