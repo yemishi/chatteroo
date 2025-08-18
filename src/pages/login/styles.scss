@@ -23,13 +23,6 @@
   }
 }
 
-.auth-form__error {
-  color: var(--color-invalid);
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  margin-left: auto;
-}
-
 .auth-page {
   @include flex(column, center);
   @include size(100%);
