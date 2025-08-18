@@ -8,13 +8,13 @@ import {
   type AuthGuestUser,
   generateGuestApi,
 } from "@/lib/api";
-import { useAuth } from "@/context/AuthContext";
 import { connectSocket, disconnectSocket } from "@/lib/socket";
 import type { User } from "@/types";
 import { useNavigate, useSearch } from "@tanstack/react-router";
+import { useAuth } from "@/hooks";
 
 export const authActions = () => {
-  const { refetch, updateUser } = useAuth();
+  const { updateUser } = useAuth();
   const navigate = useNavigate();
   const search = useSearch({ strict: false });
   const handleLogin = (data: { message: string; user: User }) => {
@@ -56,7 +56,6 @@ export const authActions = () => {
     onSuccess: () => {
       disconnectSocket();
       updateUser(null);
-      refetch();
     },
   });
 
