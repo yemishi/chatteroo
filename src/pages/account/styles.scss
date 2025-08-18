@@ -1,0 +1,7 @@
+@use "@/styles/main.scss" as *;
+
+.account-page {
+  @include flex();
+  height: 100%;
+  width: 100%;
+}
