@@ -6,10 +6,10 @@ import SignoutIcon from "@/assets/icons/sign-out.svg?react";
 import SettingsIcon from "@/assets/icons/settings.svg?react";
 import { authActions } from "@/lib/actions";
 import { Link } from "@tanstack/react-router";
-import { getSession } from "@/helpers";
+import { useAuth } from "@/hooks";
 
 export default function UserOptions() {
-  const user = getSession();
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const { signout } = authActions();
   const close = () => setIsOpen(false);
