@@ -1,15 +1,15 @@
 import "./styles.scss";
 import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
-import ArrowLeft from "@/assets/icons/arrow-left.svg?react";
+import ArrowLeft from "@/assets/icons/arrow.svg?react";
 import SendIcon from "@/assets/icons/send.svg?react";
 import type { Chat } from "@/types";
 
-import { useAuth } from "@/context/AuthContext";
 import useChat from "@/hooks/useChat";
 import { getMessages } from "@/lib/actions";
 import Modal from "../modal/Modal";
 import Messages from "./messages/Messages";
 import ChatHeader from "./chatHeader/ChatHeader";
+import { useAuth } from "@/hooks";
 
 type Props = {
   chatInfo: Chat;
@@ -135,7 +135,8 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
     <Modal
       ref={containerRef as React.RefObject<HTMLDivElement>}
       onClose={handleClose}
-      className={`chat-modal ${isOpen ? "open" : ""}`}
+      isOpen={isOpen}
+      className="chat-modal"
     >
       <ChatHeader onClose={handleClose} userHighlight={chatInfo.members[0]} />
 
