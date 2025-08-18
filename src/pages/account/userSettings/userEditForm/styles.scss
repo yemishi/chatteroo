@@ -1,0 +1,37 @@
+@use "@/styles/main.scss" as *;
+
+.profile-settings__container {
+  @include flex();
+  @include size(100%);
+  background-color: var(--bg-primary);
+}
+
+.profile-settings {
+  &-form {
+    @include spacing(padding, 1.5rem);
+    background-color: var(--bg-primary);
+
+    padding-top: 0.5rem;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: left;
+    gap: 0.5rem;
+  }
+  &-input {
+    width: auto;
+    margin-bottom: 0.4rem;
+  }
+  &-button {
+    margin-top: 2rem;
+  }
+
+  &-button-close {
+    @include spacing(margin, 1rem);
+    margin-bottom: 0;
+    color: var(--text-primary);
+    &__icon {
+      @include size(2rem);
+      @include size(full);
+    }
+  }
+}

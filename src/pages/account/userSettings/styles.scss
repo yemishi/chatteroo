@@ -1,0 +1,38 @@
+@use "@/styles/main.scss" as *;
+
+.profile-settings {
+  @include flex(column, center);
+  width: 100%;
+  text-align: center;
+
+  &__picture {
+    @include size(8rem);
+    @include rounded(full);
+    box-shadow: var(--accent-shadow-lg);
+    margin-bottom: 1rem;
+  }
+
+  &__username {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  &__bio {
+    font-size: 0.9rem;
+    color: var(--text-primary-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  &__guestCode {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent-secondary);
+    text-shadow: var(--accent-shadow-lg);
+  }
+  .modal {
+    background-color: black;
+  }
+  h2 {
+    @include spacing(margin, 0.5rem, 0);
+  }
+}
