@@ -2,11 +2,10 @@ import "./styles/main.scss";
 
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { AuthProvider } from "./context/AuthContext.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
 import App from "./App.tsx";
-
+import { Provider } from "react-redux";
+import { store } from "@/store";
 const queryClient = new QueryClient();
 
 const darkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -19,11 +18,11 @@ if (darkTheme) {
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
+      <Provider store={store}>
         <main>
           <App />
         </main>
-      </AuthProvider>
+      </Provider>
     </QueryClientProvider>
   </StrictMode>
 );
