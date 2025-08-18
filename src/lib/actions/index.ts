@@ -6,3 +6,5 @@ export * from "./searchActions/searchActions";
 
 export * from "./authActions/authActions";
 export * from "./notificationActions/notificationActions";
+
+export * from "./userActions/updateUser";
