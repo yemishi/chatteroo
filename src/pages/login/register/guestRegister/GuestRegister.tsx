@@ -4,7 +4,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 import RefreshIcon from "@/assets/icons/refresh.svg?react";
 import CopyIcon from "@/assets/icons/clipboard.svg?react";
-import SubmitButton from "@/components/common/input/button/submitButton/SubmitButton";
+import SubmitButton from "@/components/common/button/submitButton/SubmitButton";
 
 type GuestRegisterFormProps = {
   switchMethod: () => void;
@@ -66,7 +66,7 @@ export default function GuestRegisterForm({ switchMethod }: GuestRegisterFormPro
       </div>
 
       {(generateGuestError?.message || guestRegister.error) && (
-        <div className="auth-form__error">{generateGuestError?.message || guestRegister?.error?.message}</div>
+        <div className="form__error">{generateGuestError?.message || guestRegister?.error?.message}</div>
       )}
     </div>
   );
