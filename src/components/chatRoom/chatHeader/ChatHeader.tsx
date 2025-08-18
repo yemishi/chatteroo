@@ -1,5 +1,5 @@
 import "./styles.scss";
-import ArrowLeft from "@/assets/icons/arrow-left.svg?react";
+import ArrowLeft from "@/assets/icons/arrow.svg?react";
 import MenuIcon from "@/assets/icons/menu.svg?react";
 import getOnlineUsers from "@/lib/getOnlineUsers";
 import type { ChatMember } from "@/types";
