@@ -1,10 +1,9 @@
 import "./styles.scss";
 import NavBar from "@/components/navBar/NavBar";
-import type { User } from "@/types";
-import { createRootRouteWithContext, useRouterState } from "@tanstack/react-router";
+import { createRootRoute, useRouterState } from "@tanstack/react-router";
 import { Outlet } from "@tanstack/react-router";
 
-export const rootRoute = createRootRouteWithContext<{ user: User | null }>()({
+export const rootRoute = createRootRoute({
   component: () => {
     const location = useRouterState({
       select: (s) => s.location.pathname,
