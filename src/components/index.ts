@@ -1,1 +1,2 @@
-export { default as Input } from "./common/input/Input";
+export * from "./common/button";
+export * from "./common/input";
