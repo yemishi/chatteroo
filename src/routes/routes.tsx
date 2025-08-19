@@ -1,4 +1,4 @@
-import { createRoute, useNavigate } from "@tanstack/react-router";
+import { createRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { rootRoute } from "./__root";
 import { Home, Search } from "@/pages";
 import Signin from "@/pages/login/signin/Signin";
@@ -8,11 +8,17 @@ import type { JSX } from "react";
 import { useAuth } from "@/hooks";
 import { getRedirectPath } from "@/helpers";
 import Settings from "@/pages/settings/Settings";
+import SettingsProfile from "@/pages/settings/setingsProfile/SettingsProfile";
+import SettingsUpgradeAccount from "@/pages/settings/settingsUpgradeAccount/SettingsUpgradeAccount";
 
 const HomeRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
-  component: () => <Home />,
+  component: () => (
+    <Middleware>
+      <Home />
+    </Middleware>
+  ),
 });
 
 const SearchRoute = createRoute({
@@ -34,13 +40,25 @@ const SearchRoute = createRoute({
 });
 const SettingsRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: "/account",
+  path: "/settings",
   component: () => (
     <Middleware>
       <Settings />
     </Middleware>
   ),
 });
+
+const SettingsProfileRoute = createRoute({
+  getParentRoute: () => SettingsRoute,
+  path: "/profile",
+  component: () => <SettingsProfile />,
+});
+const SettingsUpgradeAccRoute = createRoute({
+  getParentRoute: () => SettingsRoute,
+  path: "/upgrade__account",
+  component: () => <SettingsUpgradeAccount />,
+});
+
 const NotificationRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/notifications",
@@ -69,7 +87,16 @@ const LoginRoute = createRoute({
   ),
 });
 
-const routes = [HomeRoute, SearchRoute, LoginRoute, NotificationRoute, RegisterRoute, SettingsRoute];
+const routes = [
+  HomeRoute,
+  SearchRoute,
+  LoginRoute,
+  NotificationRoute,
+  RegisterRoute,
+  SettingsRoute,
+  SettingsProfileRoute,
+  SettingsUpgradeAccRoute,
+];
 export default routes;
 
 function Middleware({ children, isAuthRoute }: { children: JSX.Element; isAuthRoute?: boolean }) {
@@ -80,6 +107,6 @@ function Middleware({ children, isAuthRoute }: { children: JSX.Element; isAuthRo
 
   if (!user) navigate({ to: "/login", search: { redirect: getRedirectPath() } });
 
-  if (user && isAuthRoute) navigate({ to: "/account", search: { redirect: getRedirectPath() } });
+  if (user && isAuthRoute) navigate({ to: "/settings", search: { redirect: getRedirectPath() } });
   return children;
 }
