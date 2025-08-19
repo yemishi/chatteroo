@@ -1,0 +1,7 @@
+@use "@/styles/main.scss" as *;
+.go-back {
+  &__icon {
+    @include size(1.3rem);
+    fill: white;
+  }
+}
