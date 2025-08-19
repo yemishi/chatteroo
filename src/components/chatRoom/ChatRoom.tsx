@@ -142,9 +142,9 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
 
       {isFetchingNextPage && <div>Loading older messages</div>}
       <Messages currUser={currUser!} messages={sortedMessages} members={chatInfo.members} />
-      <div className="chat-modal_input-area">
-        <button onClick={scrollToBottom} className={`chat-modal__scroll-button ${showScrollButton ? "show" : "hide"}`}>
-          <ArrowLeft />
+      <div className="chat-room__type-area">
+        <button onClick={scrollToBottom} className={`chat-room__scroll-action ${showScrollButton ? "show" : "hide"}`}>
+          <ArrowLeft className="chat-room__scroll-action__icon" />
         </button>
 
         <input
