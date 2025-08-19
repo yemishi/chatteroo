@@ -1,13 +1,22 @@
-import UserSettings from "./profileSettings/ProfileSettings";
+import { Outlet, useLocation } from "@tanstack/react-router";
 import "./styles.scss";
 import { useAuth } from "@/hooks";
+import SettingsCardGrid from "./settingsCardGrid/SettingsCardGrid";
+import { Header } from "@/components";
 
 export default function Settings() {
-  const { user } = useAuth()!;
+  const user = useAuth().user!;
+  const match = useLocation().pathname === "/settings";
+
   return (
     <div className="settings-page">
-      <h1>Settings</h1>
-      <UserSettings user={user!} />
+      {match && (
+        <>
+          <Header title="Settings" />
+          <SettingsCardGrid user={user} />
+        </>
+      )}
+      <Outlet />
     </div>
   );
 }
