@@ -8,27 +8,31 @@
   position: sticky;
   top: 0;
   background: linear-gradient(var(--bg-secondary) 60%, transparent);
-}
-
-.chat-user-info {
-  @include flex(row, center);
-  @include rounded(2rem);
-  @include spacing(padding, 0.2rem);
-
-  width: 11rem;
-  gap: 0.5rem;
-  font-weight: 500;
-  background: var(--chat-surface);
-
-  & img {
-    @include size(2.5rem);
-    border: 0.15rem inset;
-    &.online {
-      border-color: var(--status-online);
+  &__close {
+    &__icon {
+      @include size(1.2rem);
     }
-    &.offline {
-      border-color: var(--status-offline);
+  }
+  &__info {
+    @include flex(row, center);
+    @include rounded(2rem);
+    @include spacing(padding, 0.2rem);
+
+    width: 11rem;
+    gap: 0.5rem;
+    font-weight: 500;
+    background: var(--accent-primary-gradient);
+
+    &__icon {
+      @include size(2.5rem);
+      border: 0.15rem inset;
+      &.online {
+        border-color: var(--status-online);
+      }
+      &.offline {
+        border-color: var(--status-offline);
+      }
+      @include rounded(full);
     }
-    @include rounded(full);
   }
 }
