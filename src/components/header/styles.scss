@@ -1,0 +1,13 @@
+@use "@/styles/main.scss" as *;
+
+.generic-header {
+  @include flex(row, center);
+  @include spacing(padding, 0.5rem);
+  width: 100%;
+  border-bottom: 1px solid var(--bg-secondary);
+  gap: 0.3rem;
+  & h1 {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+  }
+}
