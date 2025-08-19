@@ -9,6 +9,7 @@ import {
   rejectFriendRequest,
 } from "@/lib/actions";
 import React, { useEffect, useRef, useState } from "react";
+import { Header } from "@/components";
 
 const NotificationPage: React.FC = () => {
   const { values: notifications, isLoading, ref, isFetchingNextPage, hasNextPage } = getNotifications();
@@ -52,7 +53,7 @@ const NotificationPage: React.FC = () => {
 
   return (
     <div className="notification-page">
-      <h1>Notifications</h1>
+      <Header title="Notifications" />
       <ul className="notification-list">
         {notifications.map((n) => {
           const isResolved =
