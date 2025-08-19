@@ -21,7 +21,7 @@
   }
 }
 
-.chat-modal_input-area {
+.chat-room__type-area {
   @include flex(row, center, center);
   margin-top: auto;
   background: linear-gradient(transparent, var(--bg-secondary) 60%);
@@ -41,8 +41,12 @@ input::placeholder {
   color: var(--text-primary);
 }
 
-.chat-modal__scroll-button {
+.chat-room__scroll-action {
   rotate: 270deg;
+  @include flex(row, center, center);
+  &__icon {
+    @include size(1.2rem);
+  }
   &.show {
     animation: fade-in 0.3s forwards;
   }
