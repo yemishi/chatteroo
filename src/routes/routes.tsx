@@ -4,10 +4,10 @@ import { Home, Search } from "@/pages";
 import Signin from "@/pages/login/signin/Signin";
 import NotificationPage from "@/pages/notification/Notification";
 import Register from "@/pages/login/register/Register";
-import Account from "@/pages/account/Account";
 import type { JSX } from "react";
 import { useAuth } from "@/hooks";
 import { getRedirectPath } from "@/helpers";
+import Settings from "@/pages/settings/Settings";
 
 const HomeRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -32,12 +32,12 @@ const SearchRoute = createRoute({
     return search;
   },
 });
-const AccountRoute = createRoute({
+const SettingsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/account",
   component: () => (
     <Middleware>
-      <Account />
+      <Settings />
     </Middleware>
   ),
 });
@@ -69,7 +69,7 @@ const LoginRoute = createRoute({
   ),
 });
 
-const routes = [HomeRoute, SearchRoute, LoginRoute, NotificationRoute, RegisterRoute, AccountRoute];
+const routes = [HomeRoute, SearchRoute, LoginRoute, NotificationRoute, RegisterRoute, SettingsRoute];
 export default routes;
 
 function Middleware({ children, isAuthRoute }: { children: JSX.Element; isAuthRoute?: boolean }) {

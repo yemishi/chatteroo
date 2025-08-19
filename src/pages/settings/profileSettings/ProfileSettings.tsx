@@ -6,10 +6,10 @@ import ProfileSettingsForm from "./userEditForm/UserEditForm";
 import { ProfileOption } from "./profileOption/ProfileOption";
 import UserUpgradeForm from "./userUpgradeForm/UserUpgradeForm";
 
-type UserSettingsProps = {
+type ProfileSettingsProps = {
   user: User;
 };
-export default function UserSettings({ user }: UserSettingsProps) {
+export default function ProfileSettings({ user }: ProfileSettingsProps) {
   const [isEdit, setIsEdit] = useState(false);
   const [isUpgrade, setIsUpgrade] = useState(false);
   return (
