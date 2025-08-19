@@ -2,7 +2,7 @@ import "./styles.scss";
 import { Button } from "@/components";
 import type { User } from "@/types";
 import { useState } from "react";
-import ProfileSettingsForm from "./userEditForm/UserEditForm";
+import ProfileSettingsForm from "./profileEditForm/UserEditForm";
 import { ProfileOption } from "./profileOption/ProfileOption";
 import UserUpgradeForm from "./userUpgradeForm/UserUpgradeForm";
 
