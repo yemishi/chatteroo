@@ -16,7 +16,7 @@ export const rootRoute = createRootRoute({
           <Outlet />
         </div>
         {!isLogin && <NavBar />}
-      </>
+      </> 
     );
   },
   pendingComponent: () => <div>Loading...</div>,
