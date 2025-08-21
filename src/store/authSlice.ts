@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
 import { getUserApi } from "@/lib/api";
-import { connectSocket, getSocket } from "@/lib/socket";
+import { connectSocket, getSocket, disconnectSocket } from "@/lib/socket";
 import type { User } from "@/types";
 
 export const fetchCurrentUser = createAsyncThunk("auth/fetchCurrentUser", async () => {
@@ -32,6 +32,7 @@ export const authSlice = createSlice({
     },
     logout(state) {
       state.user = null;
+      disconnectSocket();
     },
   },
   extraReducers: (builder) => {
