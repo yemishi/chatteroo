@@ -35,3 +35,18 @@
   -webkit-line-clamp: $lines;
   -webkit-box-orient: vertical;
 }
+
+@mixin fade-in($duration: 1s, $timing: cubic-bezier(0.22, 1, 0.36, 1), $y: 20px, $scale: 0.98) {
+  animation: slide-fade-in-anim $duration $timing forwards;
+
+  @keyframes slide-fade-in-anim {
+    from {
+      opacity: 0;
+      transform: translateY($y) scale($scale);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+}
