@@ -1,4 +1,4 @@
-import { createRoute, Outlet, useNavigate } from "@tanstack/react-router";
+import { createRoute, useNavigate } from "@tanstack/react-router";
 import { rootRoute } from "./__root";
 import { Home, Search } from "@/pages";
 import Signin from "@/pages/login/signin/Signin";
@@ -8,8 +8,13 @@ import type { JSX } from "react";
 import { useAuth } from "@/hooks";
 import { getRedirectPath } from "@/helpers";
 import Settings from "@/pages/settings/Settings";
-import SettingsProfile from "@/pages/settings/setingsProfile/SettingsProfile";
-import SettingsUpgradeAccount from "@/pages/settings/settingsUpgradeAccount/SettingsUpgradeAccount";
+import {
+  SettingsProfile,
+  SettingsUpgradeAccount,
+  SettingsUpdateEmail,
+  SettingsUpdateSecret,
+  SettingsUpdateTag,
+} from "@/pages/settings/pages";
 
 const HomeRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -53,10 +58,28 @@ const SettingsProfileRoute = createRoute({
   path: "/profile",
   component: () => <SettingsProfile />,
 });
+
+const SettingsUpdateTagRoute = createRoute({
+  getParentRoute: () => SettingsRoute,
+  path: "/update_tag",
+  component: () => <SettingsUpdateTag />,
+});
 const SettingsUpgradeAccRoute = createRoute({
   getParentRoute: () => SettingsRoute,
-  path: "/upgrade__account",
+  path: "/upgrade_account",
   component: () => <SettingsUpgradeAccount />,
+});
+
+const SettingsUpdateSecretRoute = createRoute({
+  getParentRoute: () => SettingsRoute,
+  path: "/update_secret",
+  component: () => <SettingsUpdateSecret />,
+});
+
+const SettingsUpdateEmailRoute = createRoute({
+  getParentRoute: () => SettingsRoute,
+  path: "/update_email",
+  component: () => <SettingsUpdateEmail />,
 });
 
 const NotificationRoute = createRoute({
@@ -96,6 +119,9 @@ const routes = [
   SettingsRoute,
   SettingsProfileRoute,
   SettingsUpgradeAccRoute,
+  SettingsUpdateTagRoute,
+  SettingsUpdateSecretRoute,
+  SettingsUpdateEmailRoute,
 ];
 export default routes;
 
@@ -104,9 +130,11 @@ function Middleware({ children, isAuthRoute }: { children: JSX.Element; isAuthRo
   const navigate = useNavigate();
 
   if (isLoading) return <div>🔄 Fetching user hodon…</div>;
-
+  if (isAuthRoute) return children;
+  
   if (!user) navigate({ to: "/login", search: { redirect: getRedirectPath() } });
 
   if (user && isAuthRoute) navigate({ to: "/settings", search: { redirect: getRedirectPath() } });
+
   return children;
 }
