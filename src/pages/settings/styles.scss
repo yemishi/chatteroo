@@ -2,6 +2,35 @@
 
 .settings-page {
   @include flex();
-  height: 100%;
+  gap: 0.5rem;
+  & main {
+    @include fade-in();
+  }
+  &__logout {
+    margin-left: 1rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+  }
+}
+
+.settings-update-account {
+  @include flex(column);
   width: 100%;
+  text-align: center;
+
+  &-form {
+    @include spacing(padding, 1.5rem);
+    @include flex(column, center);
+    padding-top: 0.5rem;
+    margin-top: 2.2rem;
+    text-align: left;
+    gap: 0.5rem;
+  }
+  &-input {
+    width: auto;
+    margin-bottom: 0.4rem;
+  }
+  &-button {
+    margin-top: 1.5rem;
+  }
 }
