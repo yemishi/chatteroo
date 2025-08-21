@@ -9,7 +9,7 @@ type UserLoginFormProps = {
 export default function UserLoginForm({ changeToGuestMethod }: UserLoginFormProps) {
   const initialValues: FormFields = {
     name: { value: "" },
-    password: { value: "", min: 4, max: 20, minMessage: "Password must be at least 4 characters long." },
+    password: { value: "", min: 4, minMessage: "Password must be at least 4 characters long." },
   };
   const { login } = authActions();
   const { values, onChange, validateAll, errors } = useForm<{ name: string; password: string }>(initialValues);
