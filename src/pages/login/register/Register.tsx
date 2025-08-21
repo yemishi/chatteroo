@@ -1,15 +1,16 @@
+import { useAuth } from "@/hooks";
 import "../styles.scss";
 
 import GuestRegisterForm from "./guestRegister/GuestRegister";
 import UserRegisterForm from "./userRegisterForm/UserRegisterForm";
-import { useNavigate, useRouter } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 
 export default function Register() {
-  const { user } = useRouter().options.context;
+  const { user } = useAuth();
   const navigate = useNavigate();
   if (user) {
-    navigate({ to: "/account" });
+    navigate({ to: "/settings" });
     return;
   }
 
