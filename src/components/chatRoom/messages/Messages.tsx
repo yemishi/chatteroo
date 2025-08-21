@@ -8,13 +8,14 @@ type Props = {
   messages: (Message | MessageData)[];
   currUser: User;
   members: ChatMember[];
+  highLight: ChatMember;
 };
 
-export default function Messages({ messages, currUser, members }: Props) {
+export default function Messages({ messages, currUser, members, highLight }: Props) {
   return (
     <div className="messages">
       {messages.map((msg, i) => {
-        const user = members.find((u) => u.id === msg.senderId)!;
+        const user = members.find((u) => u.id === msg.senderId) ?? highLight;
         const isMe = msg.senderId === currUser?.id;
         const nextMessage = messages[i + 1];
         const isSameUser = nextMessage?.senderId === msg.senderId;
