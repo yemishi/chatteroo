@@ -45,20 +45,19 @@ export default function ChatList({ setChat, searchChat }: Props) {
     .filter(
       (c, i) =>
         (getDataLastMsg(i) && getDataLastMsg(i)?.content!.toLowerCase().includes(searchChat.toLowerCase())) ||
-        c.members[0].username.toLowerCase().includes(searchChat.toLowerCase())
+        c.highlight.username.toLowerCase().includes(searchChat.toLowerCase())
     )
     .sort((a, b) => {
       const aTime = a.messages[0]?.timestamp ?? 0;
       const bTime = b.messages[0]?.timestamp ?? 0;
       return new Date(bTime).getTime() - new Date(aTime).getTime();
     });
-
   return (
     <div className="chat-list">
       {sortedChats.map((c, i) => {
-        const user = c.members[0];
+        const user = c.highlight;
         const newMsg = newMsgs.find((msg) => msg.chatId === c.id);
-        const isOnline = onlineUsers.some((i) => i === user.id);
+        const isOnline = onlineUsers.some((i) => i === user?.id);
         const messageTime = new Date(newMsg?.timestamp || getDataLastMsg(i)?.timestamp!);
         return (
           <div key={c.id} className="chat-preview" onClick={() => setChat(c)}>
