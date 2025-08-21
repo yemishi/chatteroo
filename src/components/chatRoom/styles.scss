@@ -8,8 +8,9 @@
   background-color: var(--bg-secondary);
   & button {
     @include size(2.5rem);
-    @include spacing(padding, 0.5rem);
     @include rounded(full);
+    @include spacing(padding, 0.5rem);
+    @include flex(inherit, center, center);
     background: var(--accent-primary-gradient);
     color: var(--text-primary);
     transition: box-shadow 0.2s ease, transform 0.2s ease;
@@ -42,10 +43,13 @@ input::placeholder {
 }
 
 .chat-room__scroll-action {
-  rotate: 270deg;
   @include flex(row, center, center);
   &__icon {
-    @include size(1.2rem);
+    rotate: 270deg;
+    @include size(1.5rem);
+    color: transparent;
+    stroke-width: 1px;
+    stroke: var(--text-primary);
   }
   &.show {
     animation: fade-in 0.3s forwards;
