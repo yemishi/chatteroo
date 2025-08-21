@@ -1,15 +1,16 @@
 import "../styles.scss";
-import { Link, useNavigate, useRouter } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 
 import UserLoginForm from "./userLoginForm/UserLoginForm";
 import { useState } from "react";
 import GuestLoginForm from "./guestLoginForm/GuestLoginForm";
+import { useAuth } from "@/hooks";
 
 export default function Signin() {
-  const { user } = useRouter().options.context;
+  const { user } = useAuth();
   const navigate = useNavigate();
   if (user) {
-    navigate({ to: "/account" });
+    navigate({ to: "/settings" });
     return;
   }
 
