@@ -5,6 +5,7 @@ export type Chat = {
   isGroup: boolean;
   lastMessageAt?: Date;
   members: ChatMember[];
+  highlight: ChatMember;
   messages: Message[];
 };
 
