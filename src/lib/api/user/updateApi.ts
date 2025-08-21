@@ -30,3 +30,14 @@ export const updateUserApi = async (data: UpdateUserProps) => {
     throw new Error(error.response.data.message);
   }
 };
+
+export const deleteUserApi = async (password: string) => {
+  try {
+    const response = await axiosInstance.delete("/user", { data: { password } });
+    return response.data as {
+      message: string;
+    };
+  } catch (error: any) {
+    throw new Error(error.response.data.message);
+  }
+};
