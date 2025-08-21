@@ -19,9 +19,7 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
-        <main>
-          <App />
-        </main>
+        <App />
       </Provider>
     </QueryClientProvider>
   </StrictMode>
