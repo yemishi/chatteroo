@@ -1,10 +1,10 @@
 import { useAuth } from "@/hooks";
-import { updateFromGuestApi, updateUserApi, type UpdateUserProps } from "@/lib/api";
+import { deleteUserApi, updateFromGuestApi, updateUserApi, type UpdateUserProps } from "@/lib/api";
 import type { User } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 
 export function useUserUpdates() {
-  const { updateUser: authUpdateUser } = useAuth();
+  const { updateUser: authUpdateUser, logout } = useAuth();
   const onSuccess = (data: { user: User; message: string }) => {
     authUpdateUser(data.user);
   };
@@ -23,9 +23,19 @@ export function useUserUpdates() {
       onSuccess,
     });
   };
+  const deleteAccount = () => {
+    return useMutation({
+      mutationFn: (password: string) => deleteUserApi(password),
+      mutationKey: ["deleted-user"],
+      onSuccess: () => {
+        logout();
+      },
+    });
+  };
 
   return {
     updateUser,
     upgradeGuestAccount,
+    deleteAccount,
   };
 }
