@@ -10,11 +10,11 @@ type UserRegisterFormProps = {
 
 export default function UserRegisterForm({ switchMethod }: UserRegisterFormProps) {
   const initialValues: FormFields = {
-    name: { value: "", min: 3, max: 15, minMessage: "Name must be at least 3 characters long." },
-    password: { value: "", min: 4, max: 20, minMessage: "Password must be at least 4 characters long." },
+    name: { value: "", min: 3, minMessage: "Name must be at least 3 characters long." },
     email: { value: "", isEmail: true },
+    password: { value: "", min: 4, max: 100, minMessage: "Password must be at least 4 characters long." },
     confirmPass: { value: "", compareField: "password" },
-    tag: { value: "", min: 3, max: 15, minMessage: "Tag must be at least 3 characters long." },
+    tag: { value: "", min: 3, max: 30, minMessage: "Tag must be at least 3 characters long." },
   };
   const { register } = authActions();
   const { values, errors, onChange, validateAll } = useForm<{
