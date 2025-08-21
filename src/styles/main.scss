@@ -9,24 +9,22 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  height: 100%;
-  font-family: "Rubik", sans-serif;
-  font-size: 1rem;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.5;
+html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  font-family: "Rubik", sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
 main {
   @include flex();
-  height: 100vh;
-
-  position: relative;
-  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
 }
 a {
   cursor: pointer;
@@ -54,6 +52,12 @@ textarea {
   outline: none;
 }
 
+.form__error {
+  color: var(--color-invalid);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  margin-left: auto;
+}
 .primary-input {
   @include spacing(padding, 0.8rem, 0.7rem);
   color: var(--text-primary);
@@ -65,16 +69,6 @@ textarea {
     transform: translateY(-1px);
   }
 }
-.icon {
-  filter: var(--icon-filter);
-}
-.form__error {
-  color: var(--color-invalid);
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  margin-left: auto;
-}
-
 input {
   all: unset;
 
