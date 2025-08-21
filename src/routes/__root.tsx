@@ -11,12 +11,12 @@ export const rootRoute = createRootRoute({
     const isLogin = location === "/login";
 
     return (
-      <>
-        <div key={location} className="page-transition">
+      <div key={location} className="layout">
+        <div className="content">
           <Outlet />
         </div>
         {!isLogin && <NavBar />}
-      </> 
+      </div>
     );
   },
   pendingComponent: () => <div>Loading...</div>,
