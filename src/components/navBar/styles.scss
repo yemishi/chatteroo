@@ -4,10 +4,9 @@
   @include flex(row, center, space-around);
   @include spacing(padding, 1rem, 0);
   width: 100%;
-  height: auto;
-  position: sticky;
+  height:5rem ;
   background: linear-gradient(transparent, var(--bg-primary) 40%);
-  margin-top: auto;
+  position: fixed;
   bottom: 0;
   z-index: 10;
 }
