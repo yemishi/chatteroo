@@ -99,9 +99,9 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
     }
   };
 
+
   const handleSend = () => {
     if (!message.trim()) return;
-
     sendMessage(
       { content: message, room: chatInfo.id, senderId: currUser?.id! },
       chatInfo.members.map((m) => m.id)
@@ -138,10 +138,15 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
       isOpen={isOpen}
       className="chat-modal"
     >
-      <ChatHeader onClose={handleClose} userHighlight={chatInfo.members[0]} />
+      <ChatHeader onClose={handleClose} userHighlight={chatInfo.highlight} />
 
       {isFetchingNextPage && <div>Loading older messages</div>}
-      <Messages currUser={currUser!} messages={sortedMessages} members={chatInfo.members} />
+      <Messages
+        currUser={currUser!}
+        messages={sortedMessages}
+        members={chatInfo.members}
+        highLight={chatInfo.highlight}
+      />
       <div className="chat-room__type-area">
         <button onClick={scrollToBottom} className={`chat-room__scroll-action ${showScrollButton ? "show" : "hide"}`}>
           <ArrowLeft className="chat-room__scroll-action__icon" />
