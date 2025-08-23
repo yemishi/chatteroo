@@ -1,0 +1,96 @@
+@use "@/styles/main.scss" as *;
+
+.toast-list {
+  @include flex();
+  position: fixed;
+  top: 1rem;
+  width: 80%;
+  left: 50%;
+  height: fit-content;
+  transform: translateX(-50%);
+  z-index: 10;
+  gap: 0.5rem;
+}
+.toast {
+  @include rounded(3xl);
+  @include flex(row, center);
+  @include spacing(padding, 0.5rem);
+
+  gap: 0.5rem;
+  height: 3.5rem;
+  width: 100%;
+  color: var(--bg-primary);
+  &--error {
+    background-color: var(--color-invalid);
+    box-shadow: var(--invalid-shadow-color);
+  }
+  &--success {
+    background-color: var(--status-online);
+    box-shadow: var(--success-shadow);
+  }
+  &--info {
+    background: var(--accent-secondary);
+    box-shadow: var(--accent-shadow-lg);
+  }
+  &--message {
+    background-color: var(--bg-secondary);
+    box-shadow: var(--accent-shadow-lg);
+    color: var(--text-primary);
+    .toast__close-icon {
+      color: var(--text-primary);
+    }
+  }
+
+  &-details {
+    &__title {
+      @include line-clamp();
+      font-weight: 500;
+    }
+    &__message {
+      @include line-clamp();
+      margin-left: 0.2rem;
+
+      font-size: 0.7rem;
+    }
+  }
+  &__close {
+    margin-left: auto;
+    margin-right: 0.3rem;
+    color: var(--bg-primary);
+    &-icon {
+      @include size(1.3rem);
+    }
+  }
+  &__icon {
+    @include size(2.5rem);
+    @include rounded(full);
+  }
+  &__open {
+    animation: fade-in 0.2s ease-in;
+  }
+  &__closing {
+    animation: fade-out 0.2s ease-out;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-0.5rem) scale(0.98);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 1;
+    transform: translateX(-0.5rem) scale(0.98);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(0) scale(1);
+  }
+}
