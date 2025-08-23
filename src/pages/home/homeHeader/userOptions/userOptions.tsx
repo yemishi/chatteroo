@@ -13,6 +13,7 @@ export default function UserOptions() {
   const [isOpen, setIsOpen] = useState(false);
   const { signout } = authActions();
   const close = () => setIsOpen(false);
+
   return (
     <div className="user-options">
       <img
