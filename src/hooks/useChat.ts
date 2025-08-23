@@ -4,13 +4,14 @@ import { getSocket } from "../lib/socket";
 export interface Message {
   room: string;
   senderId: string;
+  senderName?: string;
+  senderPicture?: string;
   content: string;
   timestamp: Date;
 }
 
 const useChat = (userId: string) => {
   const [msgs, setMsgs] = useState<Message[]>([]);
-
   useEffect(() => {
     const socket = getSocket();
     if (!socket || !userId) return;
@@ -18,15 +19,12 @@ const useChat = (userId: string) => {
     socket.emit("subscribe", userId);
 
     socket.on("message", (data: Message) => {
-      console.log("AAA")
       setMsgs((prevMsgs) => [...prevMsgs, data]);
     });
 
     return () => {
       socket.emit("unsubscribe", userId);
       socket.off("message");
-      socket.off("connect");
-      socket.off("online-users");
     };
   }, [userId]);
 
