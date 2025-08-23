@@ -22,7 +22,6 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
   const { user: currUser } = useAuth();
   const { values = [], hasNextPage, fetchNextPage, isFetchingNextPage } = getMessages(chatInfo.id);
   const { messages, sendMessage } = useChat(chatInfo.id);
-
   const [message, setMessage] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -99,11 +98,15 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
     }
   };
 
-
   const handleSend = () => {
     if (!message.trim()) return;
+    const sender = {
+      senderId: currUser?.id!,
+      senderPicture: currUser?.picture!,
+      senderName: currUser?.username!,
+    };
     sendMessage(
-      { content: message, room: chatInfo.id, senderId: currUser?.id! },
+      { content: message, room: chatInfo.id, ...sender },
       chatInfo.members.map((m) => m.id)
     );
     setMessage("");
