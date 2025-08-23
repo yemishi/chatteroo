@@ -23,6 +23,8 @@
     border-radius: 0.75rem;
   } @else if $radius == 2xl {
     border-radius: 1.2rem;
+  } @else if $radius == 3xl {
+    border-radius: 2rem;
   } @else {
     border-radius: $radius;
   }
@@ -31,12 +33,13 @@
 @mixin line-clamp($lines: 1) {
   overflow: hidden;
   display: -webkit-box;
+  word-break: break-all;
   text-overflow: ellipsis;
   -webkit-line-clamp: $lines;
   -webkit-box-orient: vertical;
 }
 
-@mixin fade-in($duration: 1s, $timing: cubic-bezier(0.22, 1, 0.36, 1), $y: 20px, $scale: 0.98) {
+@mixin fade-in($duration: 1s, $y: 20px, $scale: 0.98, $timing: cubic-bezier(0.22, 1, 0.36, 1)) {
   animation: slide-fade-in-anim $duration $timing forwards;
 
   @keyframes slide-fade-in-anim {
@@ -46,7 +49,37 @@
     }
     to {
       opacity: 1;
-      transform: translateY(0) scale(1);
+      transform: translateY(0) scale($scale);
+    }
+  }
+}
+
+@mixin fade-in-x($duration: 1s, $x: 20px, $scale: 0.98, $timing: cubic-bezier(0.22, 1, 0.36, 1)) {
+  animation: slide-fade-in-x-anim $duration $timing forwards;
+
+  @keyframes slide-fade-in-x-anim {
+    from {
+      opacity: 0;
+      transform: translateX($x) scale($scale);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+  }
+}
+
+@mixin fade-out-x($duration: 1s, $x: 20px, $scale: 0.98, $timing: cubic-bezier(0.22, 1, 0.36, 1)) {
+  animation: slide-fade-in-x-anim $duration $timing forwards;
+
+  @keyframes slide-fade-in-x-anim {
+    from {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateX($x) scale($scale);
     }
   }
 }
