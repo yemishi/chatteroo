@@ -4,8 +4,6 @@ import { useAuth } from "@/hooks";
 import SettingsCardGrid from "./settingsCardGrid/SettingsCardGrid";
 import { Button } from "@/components";
 import ProfilePreview from "./profilePreview/ProfilePreview";
-import { useState } from "react";
-import DeleteAccount from "./deleteAccount/DeleteAccount";
 
 export default function Settings() {
   const { logout, user } = useAuth();
