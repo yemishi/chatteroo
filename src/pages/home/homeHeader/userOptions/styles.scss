@@ -6,6 +6,7 @@
 .user-options__avatar {
   @include size(3rem);
   @include rounded(full);
+  cursor: pointer;
 }
 
 .dropdown-option {
