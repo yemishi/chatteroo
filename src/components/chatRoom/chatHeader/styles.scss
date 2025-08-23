@@ -17,7 +17,9 @@
     @include flex(row, center);
     @include rounded(2rem);
     @include spacing(padding, 0.2rem);
-
+    & p {
+      @include line-clamp();
+    }
     width: 11rem;
     gap: 0.5rem;
     font-weight: 500;
