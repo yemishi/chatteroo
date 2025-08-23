@@ -4,7 +4,7 @@ import { axiosInstance } from "../axiosInstance";
 export const getChatInfoApi = async (chatId: string) => {
   try {
     const response = await axiosInstance.get(`/chat/${chatId}`);
-    return response.data;
+    return response.data as Chat;
   } catch (error: any) {
     throw new Error(error.response.data.message);
   }
