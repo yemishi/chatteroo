@@ -1,3 +1,4 @@
+import { Toast } from "@/components";
 import "./styles.scss";
 import NavBar from "@/components/navBar/NavBar";
 import { createRootRoute, useRouterState } from "@tanstack/react-router";
@@ -12,6 +13,7 @@ export const rootRoute = createRootRoute({
 
     return (
       <div key={location} className="layout">
+        <Toast />
         <div className="content">
           <Outlet />
         </div>
