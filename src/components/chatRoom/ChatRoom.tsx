@@ -1,15 +1,13 @@
 import "./styles.scss";
-import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import ArrowLeft from "@/assets/icons/arrow.svg?react";
 import SendIcon from "@/assets/icons/send.svg?react";
 import type { Chat } from "@/types";
 
-import useChat from "@/hooks/useChat";
-import { getMessages } from "@/lib/actions";
 import Modal from "../modal/Modal";
 import Messages from "./messages/Messages";
 import ChatHeader from "./chatHeader/ChatHeader";
-import { useAuth } from "@/hooks";
+import { useAuth, useChatRoom } from "@/hooks";
 
 type Props = {
   chatInfo: Chat;
@@ -19,108 +17,30 @@ type Props = {
 };
 
 export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScrollPositions }: Props) {
-  const { user: currUser } = useAuth();
-  const { values = [], hasNextPage, fetchNextPage, isFetchingNextPage } = getMessages(chatInfo.id);
-  const { messages, sendMessage } = useChat(chatInfo.id);
-  const [message, setMessage] = useState("");
+  const { user } = useAuth();
+  if (!user) return;
+
+  const {
+    containerRef,
+    handleSend,
+    scrollToBottom,
+    showScrollButton,
+    values,
+    isFetchingNextPage,
+    currMember,
+    hasUnreadMessage,
+  } = useChatRoom({
+    chatInfo,
+    scrollPositions,
+    setScrollPositions,
+    user,
+  });
   const [isOpen, setIsOpen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [showScrollButton, setShowScrollButton] = useState(false);
-
-  const [scrollCorrection, setScrollCorrection] = useState<null | {
-    prevHeight: number;
-    prevScrollTop: number;
-  }>(null);
-
-  useEffect(() => {
-    if (scrollCorrection && containerRef.current) {
-      const newHeight = containerRef.current.scrollHeight;
-      const scrollDiff = newHeight - scrollCorrection.prevHeight;
-
-      containerRef.current.scrollTop = scrollCorrection.prevScrollTop + scrollDiff;
-      setScrollCorrection(null);
-    }
-  }, [values]);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     setIsOpen(true);
-
-    const container = containerRef.current;
-    const savedScrollTop = scrollPositions[chatInfo.id];
-    if (!container) return;
-
-    if (savedScrollTop && typeof savedScrollTop === "number" && values) {
-      container.scrollTo({
-        top: savedScrollTop,
-        behavior: "auto",
-      });
-      return;
-    }
-    const timeout = setTimeout(() => {
-      container.scrollTo({
-        top: container.scrollHeight,
-        behavior: "auto",
-      });
-    }, 200);
-    return () => clearTimeout(timeout);
   }, []);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = container;
-
-      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
-      const isNearTop = scrollTop < 100;
-      setShowScrollButton(!isAtBottom);
-      setScrollPositions({ ...scrollPositions, [chatInfo.id]: containerRef.current?.scrollTop! });
-
-      if (hasNextPage && isNearTop) loadOlderMessages();
-    };
-
-    container.addEventListener("scroll", handleScroll);
-
-    return () => {
-      container.removeEventListener("scroll", handleScroll);
-    };
-  }, [hasNextPage]);
-
-  const loadOlderMessages = () => {
-    if (containerRef.current) {
-      const prevHeight = containerRef.current.scrollHeight;
-      const prevScrollTop = containerRef.current.scrollTop;
-
-      setScrollCorrection({ prevHeight, prevScrollTop });
-
-      fetchNextPage();
-    }
-  };
-
-  const handleSend = () => {
-    if (!message.trim()) return;
-    const sender = {
-      senderId: currUser?.id!,
-      senderPicture: currUser?.picture!,
-      senderName: currUser?.username!,
-    };
-    sendMessage(
-      { content: message, room: chatInfo.id, ...sender },
-      chatInfo.members.map((m) => m.id)
-    );
-    setMessage("");
-    setTimeout(() => {
-      scrollToBottom();
-    }, 100);
-  };
-
-  const scrollToBottom = () => {
-    containerRef.current?.scrollTo({
-      top: containerRef.current.scrollHeight,
-      behavior: "smooth",
-    });
-  };
 
   const handleClose = () => {
     setIsOpen(false);
@@ -130,9 +50,11 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
       onClose();
     }, 300);
   };
-  const sortedMessages = [...values, ...messages].sort(
-    (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-  );
+  const sendMessage = () => {
+    if (!message.trim()) return;
+    handleSend(message.trim());
+    setMessage("");
+  };
 
   return (
     <Modal
@@ -144,14 +66,14 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
       <ChatHeader onClose={handleClose} userHighlight={chatInfo.highlight} />
 
       {isFetchingNextPage && <div>Loading older messages</div>}
-      <Messages
-        currUser={currUser!}
-        messages={sortedMessages}
-        members={chatInfo.members}
-        highLight={chatInfo.highlight}
-      />
+      <Messages messages={values} members={chatInfo.members} currMember={currMember!} highLight={chatInfo.highlight} />
       <div className="chat-room__type-area">
-        <button onClick={scrollToBottom} className={`chat-room__scroll-action ${showScrollButton ? "show" : "hide"}`}>
+        <button
+          onClick={scrollToBottom}
+          className={`chat-room__scroll-action ${hasUnreadMessage ? "badged" : ""} ${
+            showScrollButton ? "show" : "hide"
+          }`}
+        >
           <ArrowLeft className="chat-room__scroll-action__icon" />
         </button>
 
@@ -162,9 +84,11 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type a message..."
-          onKeyDown={(e) => e.key === "Enter" && handleSend()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") sendMessage();
+          }}
         />
-        <button onClick={handleSend}>
+        <button onClick={sendMessage}>
           <SendIcon />
         </button>
       </div>
