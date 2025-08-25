@@ -13,4 +13,5 @@ export type ChatMember = {
   id: string;
   picture: string;
   username: string;
+  lastMessageReadAt?: Date;
 };
