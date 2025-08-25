@@ -38,6 +38,10 @@
     @include spacing(padding, 0.5em, 0.7rem);
     @include rounded(2xl);
   }
+  &--unread p {
+    background-color: var(--unread-color) !important;
+    font-weight: 600;
+  }
 }
 .message-time {
   font-size: 0.7rem;
