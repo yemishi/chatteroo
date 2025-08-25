@@ -11,7 +11,7 @@ import ChatRoom from "./components/chatRoom/ChatRoom";
 export default function App() {
   const { fetchUser } = useAuth();
   const { sendToast } = useToast();
-  const { mutateAsync, isPending, data: chatInfo } = getChatInfoMutate();
+  const { mutateAsync, data: chatInfo } = getChatInfoMutate();
   const [chatRoom, setChatRoom] = useState<Chat | null>(null);
 
   const [scrollPositions, setScrollPositions] = useState<Record<string, number>>({});
