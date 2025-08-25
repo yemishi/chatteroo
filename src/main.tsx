@@ -1,11 +1,12 @@
-import "./styles/main.scss";
+import "@/styles/base/_base.scss";
+import "@/styles/main.scss";
 
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import App from "./App.tsx";
 import { Provider } from "react-redux";
 import { store } from "@/store";
+import App from "./App.tsx";
 const queryClient = new QueryClient();
 
 const darkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
