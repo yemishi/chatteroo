@@ -6,10 +6,16 @@
 }
 .chat-preview {
   @include flex(row);
-  @include spacing(padding, 0.5rem, 1rem);
+  @include spacing(padding, 0.7rem, 1rem);
   padding-right: 0;
   width: 100%;
+
   gap: 1rem;
+  &--unread {
+    border-left: 4px solid var(--accent-primary);
+    background-color: var(--bg-secondary);
+    filter: brightness(1.1) contrast(1.15);
+  }
 }
 
 .chat-preview__icon {
@@ -55,6 +61,8 @@
 .chat-preview__timestamp {
   white-space: nowrap;
   color: var(--text-primary-muted);
+  font-size: 0.8rem;
+  margin-bottom: auto;
 }
 .chat-preview__message {
   @include line-clamp(2);
