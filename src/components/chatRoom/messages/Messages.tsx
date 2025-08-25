@@ -1,22 +1,24 @@
 import "./styles.scss";
 import { formatTime, isDiffDay, isSameDay, isYesterday } from "@/helpers";
 import type { Message } from "@/hooks/useChat";
-import type { Message as MessageData, User, ChatMember } from "@/types";
+import type { Message as MessageData, ChatMember } from "@/types";
 import { Fragment } from "react/jsx-runtime";
 
 type Props = {
   messages: (Message | MessageData)[];
-  currUser: User;
+  currMember: ChatMember;
   members: ChatMember[];
   highLight: ChatMember;
 };
 
-export default function Messages({ messages, currUser, members, highLight }: Props) {
+export default function Messages({ messages, currMember, members, highLight }: Props) {
+  const isRead = (date: Date) => new Date(currMember?.lastMessageReadAt ?? 0) > new Date(date);
+
   return (
     <div className="messages">
       {messages.map((msg, i) => {
         const user = members.find((u) => u.id === msg.senderId) ?? highLight;
-        const isMe = msg.senderId === currUser?.id;
+        const isMe = msg.senderId === currMember?.id;
         const nextMessage = messages[i + 1];
         const isSameUser = nextMessage?.senderId === msg.senderId;
         const nextTime = nextMessage ? new Date(nextMessage?.timestamp) : null;
@@ -50,7 +52,11 @@ export default function Messages({ messages, currUser, members, highLight }: Pro
                   className={`${!nextMessage || !isSameUser ? "show" : ""} message-user-pic`}
                 />
               )}
-              <div className="message-content">
+              <div
+                className={`message-content ${
+                  !isRead(msg.timestamp) && msg.senderId !== user.id ? "message-content--unread" : ""
+                }`}
+              >
                 <p>{msg.content}</p>
                 <span className={`message-time ${isCloseInTime && isSameUser ? "hide" : ""}`}>
                   {formatTime(msg.timestamp.toString())}
