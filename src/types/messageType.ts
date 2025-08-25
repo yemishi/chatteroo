@@ -4,4 +4,5 @@ export type Message = {
   timestamp: Date;
   senderId: string;
   chatId: string;
+  editAt?: Date;
 };
