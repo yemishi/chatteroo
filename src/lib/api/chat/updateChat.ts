@@ -8,3 +8,12 @@ export const markChatAsReadApi = async (chatId: string) => {
     throw new Error(error.response.data.message);
   }
 };
+
+export const quitChatApi = async (chatId: string) => {
+  try {
+    const response = await axiosInstance.patch("/chat/quit", { chatId });
+    return response.data as { message: string };
+  } catch (error: any) {
+    throw new Error(error.response.data.message);
+  }
+};
