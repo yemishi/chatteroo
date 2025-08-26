@@ -2,6 +2,8 @@
 
 .messages {
   @include flex(column);
+  padding-inline: 1.5rem;
+  padding-top: 5rem;
   width: 100%;
   gap: 0.8rem;
 }
