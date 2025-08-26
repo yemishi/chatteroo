@@ -1,7 +1,7 @@
 import "./styles.scss";
 import { Link, useRouterState } from "@tanstack/react-router";
 import HomeIcon from "./assets/icons/chat.svg?react";
-import UserIcon from "./assets/icons/profile.svg?react";
+import UserIcon from "@/assets/icons/profile.svg?react";
 import SearchIcon from "@/assets/icons/search.svg?react";
 import NotificationIcon from "@/assets/icons/notification.svg?react";
 
