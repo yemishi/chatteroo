@@ -8,28 +8,3 @@
   @include rounded(full);
   cursor: pointer;
 }
-
-.dropdown-option {
-  @include spacing(padding, 0.5rem);
-  @include flex(row, center);
-  @include rounded(xl);
-  cursor: pointer;
-  gap: 0.3rem;
-  width: 100%;
-  font-size: larger;
-  transition: background-color 0.2s ease;
-  color: var(--text-primary);
-  &:hover {
-    backdrop-filter: brightness(50%);
-  }
-}
-
-.dropdown-icon {
-  @include size(2.5rem);
-  fill: transparent;
-  stroke-width: 1.5px;
-  &--notification {
-    stroke: var(--text-primary);
-    color: transparent;
-  }
-}
