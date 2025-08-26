@@ -21,8 +21,8 @@
   width: 100%;
   color: var(--bg-primary);
   &--error {
-    background-color: var(--color-invalid);
-    box-shadow: var(--invalid-shadow-color);
+    background-color: var(--danger);
+    box-shadow: var(--danger-shadow);
   }
   &--success {
     background-color: var(--status-online);
