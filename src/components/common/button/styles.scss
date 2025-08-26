@@ -29,8 +29,8 @@
     }
   }
   &-danger {
-    background: linear-gradient(135deg, var(--color-invalid), var(--bg-primary));
-    box-shadow: var(--invalid-shadow-color);
+    background: linear-gradient(135deg, var(--danger), var(--bg-primary));
+    box-shadow: var(--danger-shadow);
     background-size: 200% 200%;
 
     &:hover {
