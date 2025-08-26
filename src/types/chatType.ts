@@ -13,5 +13,10 @@ export type ChatMember = {
   id: string;
   picture: string;
   username: string;
+  createAt: Date;
+  tag: string;
   lastMessageReadAt?: Date;
+  guestCode?: string;
+  email?: string;
+  bio?: string;
 };
