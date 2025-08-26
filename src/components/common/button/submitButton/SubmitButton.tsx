@@ -7,6 +7,7 @@ interface PropsType extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   rewardId?: string;
   successMessage?: string;
   children?: React.ReactNode;
+  variant: "primary" | "danger";
 }
 
 export default function SubmitButton({
@@ -15,6 +16,7 @@ export default function SubmitButton({
   children = "Submit",
   successMessage = "Submitted",
   isSuccess,
+  variant,
   isLoading,
   ...props
 }: PropsType) {
@@ -23,7 +25,7 @@ export default function SubmitButton({
   return (
     <button
       {...rest}
-      className={`submit-button ${className} ${isSuccess ? "submit-button--success" : ""} ${
+      className={`submit-button ${className} button-${variant} ${isSuccess ? "submit-button--success" : ""} ${
         isLoading ? "submit-button--loading" : ""
       }`}
       disabled={isLoading}
