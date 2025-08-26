@@ -2,11 +2,10 @@
 
 .chat-modal {
   @include flex(column);
-  @include spacing(padding, 1.5rem);
   padding-top: 0;
   padding-bottom: 0;
   background-color: var(--bg-secondary);
-  & button {
+  & .btn {
     @include size(2.5rem);
     @include rounded(full);
     @include spacing(padding, 0.5rem);
@@ -28,6 +27,7 @@
 
 .chat-room__type-area {
   @include flex(row, center, center);
+  padding-inline: 1.5rem;
   margin-top: auto;
   background: linear-gradient(transparent, var(--bg-secondary) 60%);
   padding-bottom: 1.5rem;
