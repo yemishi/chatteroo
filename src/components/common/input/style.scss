@@ -12,7 +12,7 @@
   }
 
   &--error {
-    color: var(--color-invalid);
+    color: var(--danger);
     font-size: 0.85rem;
   }
 
@@ -30,7 +30,7 @@
       border: 1px solid var(--text-primary-muted);
 
       &--error {
-        box-shadow: var(--invalid-shadow-color) !important;
+        box-shadow: var(--danger-shadow) !important;
       }
 
       &:has(input:focus),
@@ -51,7 +51,7 @@
     }
 
     &--error {
-      border-color: var(--color-invalid) !important;
+      border-color: var(--danger) !important;
     }
 
     &:has(input:focus),
