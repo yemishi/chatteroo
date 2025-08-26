@@ -1,0 +1,51 @@
+@use "@/styles/main.scss" as *;
+
+.dropdown {
+  @include flex(column, flex-start, flex-start);
+  @include rounded(xl);
+  visibility: hidden;
+  top: 3rem;
+  right: 0;
+  position: absolute;
+  width: 12rem;
+  height: auto;
+  pointer-events: none;
+  overflow: hidden;
+  background-color: var(--bg-secondary);
+  box-shadow: var(--accent-shadow);
+  transition: all ease-in-out 0.2s;
+  opacity: 0;
+  transform: translateY(-5rem);
+
+  &.open {
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+    opacity: 1;
+  }
+}
+
+.dropdown-option {
+  @include spacing(padding, 0.5rem);
+  @include flex(row, center);
+  @include rounded(xl);
+  cursor: pointer;
+  gap: 0.3rem;
+  width: 100%;
+  font-size: larger;
+  transition: background-color 0.2s ease;
+  color: var(--text-primary);
+  &:hover {
+    backdrop-filter: brightness(50%);
+  }
+}
+
+.dropdown-icon {
+  @include size(2.5rem);
+  fill: transparent;
+  stroke-width: 1.5px;
+  &--notification {
+    stroke: var(--text-primary);
+    color: transparent;
+  }
+}
