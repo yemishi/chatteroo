@@ -71,12 +71,12 @@ input {
 h1,
 h2,
 h3 {
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 550;
 }
 
 .form__error {
-  color: var(--color-invalid);
+  color: var(--danger);
   font-size: 0.85rem;
   text-transform: uppercase;
   margin-left: auto;
