@@ -1,6 +1,6 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getChatInfoApi, getChatsApi } from "../../api";
-import { markChatAsReadApi } from "@/lib/api/chat/updateChat";
+import { markChatAsReadApi, quitChatApi } from "@/lib/api/chat/updateChat";
 
 export const getChatInfo = (chatId: string) => {
   return useQuery({
@@ -20,6 +20,17 @@ export const markChatAsRead = () => {
   return useMutation({
     mutationFn: (chatId: string) => markChatAsReadApi(chatId),
     mutationKey: ["chat-read"],
+  });
+};
+
+export const quitChat = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (chatId: string) => quitChatApi(chatId),
+    mutationKey: ["quit-chat"],
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user-chats"] });
+    },
   });
 };
 
