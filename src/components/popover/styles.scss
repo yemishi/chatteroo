@@ -1,0 +1,70 @@
+@use "@/styles/main.scss" as *;
+
+.popover {
+  @include flex(column, flex-start, flex-start);
+  @include rounded(xl);
+  position: absolute;
+  top: -0.1rem;
+  right: -0.1rem;
+  width: 10rem;
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0.25s;
+  &.center {
+    right: 50%;
+    transform: translateX(50%);
+  }
+  & > :is(:last-child) {
+    @include rounded(0 0 0.75rem 0.75rem);
+  }
+  & > :is(:first-child) {
+    @include rounded(0.75rem 0.75rem 0 0);
+  }
+  &-primary {
+    box-shadow: var(--accent-shadow-lg);
+    background: var(--accent-secondary);
+    border: 1px solid var(--bg-primary);
+    & > :not(:last-child) {
+      border-bottom: 1px solid var(--bg-primary);
+    }
+  }
+  &-secondary {
+    background-color: var(--bg-secondary);
+    box-shadow: var(--accent-shadow);
+  }
+  &.open {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+    visibility: visible;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s;
+    &.center {
+      transform: translateX(50%);
+    }
+  }
+}
+.popover-option {
+  @include spacing(padding, 0.5rem);
+  @include flex(row, center);
+
+  gap: 0.3rem;
+  width: 100%;
+  transition: background-color 0.2s ease;
+  color: var(--text-primary);
+  &:hover {
+    backdrop-filter: brightness(50%);
+  }
+}
+
+.popover-icon {
+  @include size(2rem);
+  fill: transparent;
+  stroke-width: 1.5px;
+  &.--minimal {
+    padding: 0.15rem;
+    stroke: var(--text-primary);
+    color: transparent;
+  }
+}
