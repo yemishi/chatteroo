@@ -1,7 +1,7 @@
 import "./style.scss";
 import { createPortal } from "react-dom";
 
-import { useEffect, type HTMLAttributes, type MouseEvent, type ReactNode, type RefObject } from "react";
+import { useEffect, useRef, type HTMLAttributes, type MouseEvent, type ReactNode, type RefObject } from "react";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -11,7 +11,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 export default function Modal({ onClose, isOpen = true, className = "", ref, children }: Props) {
   const modalRoot = document.getElementById("modal");
-
+  const containerRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const originalStyle = window.getComputedStyle(document.body).overflow;
     document.body.style.overflow = "hidden";
@@ -26,7 +26,13 @@ export default function Modal({ onClose, isOpen = true, className = "", ref, chi
   };
   if (!modalRoot) return <div>Modal not found :/</div>;
   return createPortal(
-    <div ref={ref} onClick={handleBackdropClick} className={`${className} modal ${isOpen ? "modal-open" : ""}`}>
+    <div
+      ref={ref || containerRef}
+      onClick={handleBackdropClick}
+      role="dialog"
+      aria-modal="true"
+      className={`${className} modal ${isOpen ? "modal-open" : ""}`}
+    >
       {children}
     </div>,
     modalRoot
