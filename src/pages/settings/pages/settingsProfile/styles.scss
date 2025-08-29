@@ -5,11 +5,19 @@
   width: 100%;
   text-align: center;
 
-  &__picture {
-    @include size(8rem);
-    @include rounded(full);
-    box-shadow: var(--accent-shadow-lg);
+  & .edit-picture {
+    position: relative;
     margin-bottom: 1rem;
+    box-shadow: var(--accent-shadow-lg);
+    @include rounded(full);
+    @include size(8rem);
+    & .input-file {
+      @include rounded(full);
+    }
+    &__preview {
+      @include size(8rem);
+      @include rounded(full);
+    }
   }
   &-form {
     @include spacing(padding, 1.5rem);
