@@ -1,0 +1,31 @@
+@use "@/styles/main.scss" as *;
+.input-file {
+  @include size(100%);
+  @include flex(row, center, center);
+
+  backdrop-filter: brightness(50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  &:hover {
+    backdrop-filter: blur(2px) brightness(50%);
+  }
+
+  &:hover &--placeholder {
+    transform: scale(1.2);
+  }
+  &:focus &--placeholder {
+    transform: scale(1.2);
+  }
+  &--placeholder {
+    @include size(2rem);
+    transform: scale(1);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+  }
+
+  input {
+    display: none;
+  }
+}
