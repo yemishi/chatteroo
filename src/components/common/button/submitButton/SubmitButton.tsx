@@ -7,7 +7,7 @@ interface PropsType extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   rewardId?: string;
   successMessage?: string;
   children?: React.ReactNode;
-  variant: "primary" | "danger";
+  variant?: "primary" | "danger";
 }
 
 export default function SubmitButton({
@@ -16,7 +16,7 @@ export default function SubmitButton({
   children = "Submit",
   successMessage = "Submitted",
   isSuccess,
-  variant,
+  variant = "primary",
   isLoading,
   ...props
 }: PropsType) {
