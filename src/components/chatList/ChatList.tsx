@@ -13,7 +13,7 @@ type Props = {
 };
 export default function ChatList({ setChat, searchChat }: Props) {
   const currUser = useAuth().user!;
-  type Message = { chatId: string; content: string; senderId: string; timestamp: Date };
+  type Message = { chatId: string; content: { text: string }; senderId: string; timestamp: Date };
   const { data } = getChats();
 
   const [newMsgs, setNewMsgs] = useState<Message[]>([]);
@@ -25,8 +25,6 @@ export default function ChatList({ setChat, searchChat }: Props) {
     const userChats = data.map((c) => c.id);
 
     if (!socket || !userChats.length) return;
-
-    socket.emit("subscribe-all", userChats);
 
     const handleUpdate = (data: Message) => {
       setNewMsgs((prev) => {
@@ -47,7 +45,7 @@ export default function ChatList({ setChat, searchChat }: Props) {
   const sortedChats = (data ?? [])
     .filter(
       (c, i) =>
-        (getDataLastMsg(i) && getDataLastMsg(i)?.content!.toLowerCase().includes(searchChat.toLowerCase())) ||
+        (getDataLastMsg(i) && getDataLastMsg(i)?.content.text!.toLowerCase().includes(searchChat.toLowerCase())) ||
         c.highlight.username.toLowerCase().includes(searchChat.toLowerCase())
     )
     .sort((a, b) => {
@@ -66,6 +64,7 @@ export default function ChatList({ setChat, searchChat }: Props) {
         const isOnline = onlineUsers.some((i) => i === user?.id);
         const messageTime = new Date(newMsg?.timestamp || getDataLastMsg(i)?.timestamp!);
         const latestMessage = c.messages.length > 0 || newMsg ? newMsg || c.messages[0] : null;
+
         return (
           <div
             key={c.id}
@@ -97,7 +96,7 @@ export default function ChatList({ setChat, searchChat }: Props) {
 
               {latestMessage && (
                 <div className="chat-preview__content">
-                  <p className="chat-preview__message">{latestMessage.content}</p>
+                  <p className="chat-preview__message">{latestMessage.content.text}</p>
                 </div>
               )}
             </div>
