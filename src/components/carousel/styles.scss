@@ -1,0 +1,25 @@
+.items {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  overflow-x: auto;
+  overflow-y: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  img {
+    user-select: none;
+    pointer-events: none;
+  }
+}
+.items::-webkit-scrollbar {
+  display: none;
+}
+
+.items.dragging {
+  cursor: grabbing;
+}
