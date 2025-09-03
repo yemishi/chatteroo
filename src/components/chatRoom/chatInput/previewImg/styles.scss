@@ -1,0 +1,29 @@
+@use "@/styles/main.scss" as *;
+
+.preview-img {
+  gap: 0.3rem;
+  &__item {
+    @include fade-in-x();
+    position: relative;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+  &__pic {
+    @include size(4rem);
+    @include rounded(xl);
+    pointer-events: none;
+    cursor: none;
+    box-shadow: var(--accent-shadow);
+  }
+  &__remove-btn {
+    @include size(1.4rem);
+    border-start-end-radius: 0.75rem;
+    border-end-start-radius: 0.75rem;
+    padding: 0.1rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: var(--text-primary);
+    color: var(--bg-secondary);
+  }
+}

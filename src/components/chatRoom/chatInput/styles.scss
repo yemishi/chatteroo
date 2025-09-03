@@ -1,0 +1,19 @@
+@use "@/styles/main.scss" as *;
+.chat-input {
+  @include flex();
+  width: 100%;
+  gap: 0.3rem;
+}
+.chat-input__content {
+  gap: 0.5rem;
+  width: 100%;
+  @include flex(row, center);
+  & .primary-input {
+    @include rounded(2rem);
+    flex: 1;
+  }
+  & .btn--img-input {
+    overflow: hidden;
+    position: relative;
+  }
+}
