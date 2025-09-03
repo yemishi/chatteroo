@@ -4,6 +4,7 @@
   @include flex(column);
   padding-top: 0;
   padding-bottom: 0;
+  overflow: hidden;
   background-color: var(--bg-secondary);
   & .btn {
     @include size(2.5rem);
@@ -25,29 +26,16 @@
   }
 }
 
-.chat-room__type-area {
+.scroll-btn {
   @include flex(row, center, center);
-  padding-inline: 1.5rem;
-  margin-top: auto;
-  background: linear-gradient(transparent, var(--bg-secondary) 60%);
-  padding-bottom: 1.5rem;
-  padding-top: 1rem;
-  position: sticky;
-  bottom: 0;
-  width: 100%;
-  gap: 10px;
-  & .primary-input {
-    @include rounded(2rem);
-    width: 90%;
-  }
-}
-
-input::placeholder {
-  color: var(--text-primary);
-}
-
-.chat-room__scroll-action {
-  @include flex(row, center, center);
+  @include size(2.5rem);
+  @include rounded(full);
+  @include spacing(padding, 0.5rem);
+  bottom: 50%;
+  left: 1rem;
+  position: fixed;
+  background: var(--accent-secondary);
+  box-shadow: var(--accent-shadow-lg);
   &__icon {
     rotate: 270deg;
     color: transparent;
@@ -63,6 +51,25 @@ input::placeholder {
     animation: fade-out 0.3s forwards;
   }
 }
+input::placeholder {
+  color: var(--text-primary);
+}
+.chat-room {
+  overflow-x: hidden;
+  &__footer {
+    @include flex();
+    margin-top: auto;
+    padding-inline: 1.5rem;
+    background: linear-gradient(transparent, var(--bg-secondary) 60%);
+    padding-bottom: 1.5rem;
+    padding-top: 1rem;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    gap: 10px;
+  }
+}
+
 .badged {
   position: relative;
   &::after {
@@ -77,6 +84,7 @@ input::placeholder {
     pointer-events: none;
   }
 }
+
 @keyframes fade-out {
   from {
     opacity: 1;
