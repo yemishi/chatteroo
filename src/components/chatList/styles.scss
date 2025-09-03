@@ -13,7 +13,6 @@
   gap: 1rem;
   &--unread {
     border-left: 4px solid var(--accent-primary);
-    background-color: var(--bg-secondary);
     filter: brightness(1.1) contrast(1.15);
   }
 }
