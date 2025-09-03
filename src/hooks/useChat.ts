@@ -6,7 +6,7 @@ export interface Message {
   senderId: string;
   senderName?: string;
   senderPicture?: string;
-  content: string;
+  content: { text?: string; imgs: string[] };
   timestamp: Date;
 }
 
