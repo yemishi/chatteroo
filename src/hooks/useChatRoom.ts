@@ -50,7 +50,7 @@ export default function useChatRoom({ user, chatInfo, scrollPositions, setScroll
     }
   };
 
-  const handleSend = async (message: string) => {
+  const handleSend = async (message: { text?: string; imgs: string[] }) => {
     sendMessage(
       {
         content: message,
@@ -92,7 +92,7 @@ export default function useChatRoom({ user, chatInfo, scrollPositions, setScroll
 
     const timeout = setTimeout(() => {
       container.scrollTo({ top: container.scrollHeight, behavior: "auto" });
-    }, 200);
+    }, 125);
     return () => clearTimeout(timeout);
   }, []);
 
