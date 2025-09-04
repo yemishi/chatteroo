@@ -87,6 +87,7 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
             zoomImgs={(imgs: string[]) => setZoomImgs(imgs)}
             members={chatInfo.members}
             currMember={currMember!}
+            chatId={chatInfo.id}
             highLight={chatInfo.highlight}
           />
 
