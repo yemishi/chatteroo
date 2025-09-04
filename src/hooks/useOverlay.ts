@@ -1,6 +1,12 @@
 import { useEffect, type RefObject } from "react";
 
-export default function useOverlay(isOpen: boolean, onClose: () => void, refs: RefObject<HTMLElement | null>[]) {
+type Props = {
+  isOpen: boolean;
+  onClose: () => void;
+  refs: RefObject<HTMLElement | null>[];
+  autoClose?: boolean;
+};
+export default function useOverlay({ isOpen, onClose, refs, autoClose = true }: Props) {
   useEffect(() => {
     if (!isOpen) return;
     const originalStyle = document.body.style.overflow;
@@ -8,7 +14,7 @@ export default function useOverlay(isOpen: boolean, onClose: () => void, refs: R
 
     const handleClick = (e: MouseEvent) => {
       const clickedInside = refs.some((ref) => ref.current?.contains(e.target as Node));
-      if (!clickedInside) {
+      if (!clickedInside && autoClose) {
         onClose();
       }
     };
