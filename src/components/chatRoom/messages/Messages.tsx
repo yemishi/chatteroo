@@ -3,6 +3,10 @@ import { formatTime, isDiffDay, isSameDay, isYesterday } from "@/helpers";
 import type { Message } from "@/hooks/useChat";
 import type { Message as MessageData, ChatMember } from "@/types";
 import { Fragment } from "react/jsx-runtime";
+import MessageImgs from "./messageImgs/MessageImgs";
+import { useState } from "react";
+import MessageEdit from "./messageEdit/MessageEdit";
+import MessageOptions from "./messageOptions/MessageOptions";
 
 type Props = {
   messages: (Message | MessageData)[];
@@ -10,10 +14,13 @@ type Props = {
   members: ChatMember[];
   zoomImgs: (imgs: string[]) => void;
   highLight: ChatMember;
+  chatId: string;
 };
 
-export default function Messages({ messages, currMember, members, zoomImgs, highLight }: Props) {
+export default function Messages({ messages, currMember, members, zoomImgs, highLight, chatId }: Props) {
   const isRead = (date: Date) => new Date(currMember?.lastMessageReadAt ?? 0) > new Date(date);
+  const [editMsg, setEditMsg] = useState<{ content: { text?: string; imgs: string[] }; id: string } | null>(null);
+  const [msgOptions, setMsgOptions] = useState<{ msgId: string; onEdit: () => void; imgs: string[] } | null>(null);
 
   return (
     <div className="message-list">
@@ -46,64 +53,56 @@ export default function Messages({ messages, currMember, members, zoomImgs, high
                     })}
               </div>
             )}
-            <div className={`message-item `}>
-              {!isMe && (
-                <img
-                  src={user.picture}
-                  alt={`${user.username} picture`}
-                  className={`${!nextMessage || !isSameUser ? "show" : ""} message-user-pic`}
-                />
-              )}
-              <div className={`message-info ${isMe ? "sent" : "received"}`}>
-                <div
-                  className={`message-content ${
-                    !isRead(msg.timestamp) && msg.senderId !== user.id ? "message-content--unread" : ""
-                  } ${isMe ? "sent" : "received"}`}
-                >
-                  {imgs.length > 0 &&
-                    (imgs.length === 1 ? (
-                      <div
-                        onClick={() => zoomImgs(imgs)}
-                        className={`message-content__img message-content__img--single  ${
-                          content.text ? "message-content__img--with-text" : ""
-                        }`}
-                      >
-                        <img src={imgs[0]} alt="sent image" />
-                      </div>
-                    ) : (
-                      <div
-                        onClick={() => zoomImgs(imgs)}
-                        className={`message-content__img ${
-                          imgs.length === 1 ? "message-content__img--single" : "message-content__img--multi"
-                        } ${content.text ? "message-content__img--with-text" : ""} ${imgs.length > 2 ? "rows-2" : ""} ${
-                          imgs.length === 3 ? "rows-2--fill-last" : ""
-                        }`}
-                      >
-                        {imgs.slice(0, 4).map((url, i) => {
-                          if (i === 3 && imgs.length - 4 > 0) {
-                            return (
-                              <div key={i} className="image-overlay">
-                                <img src={url} alt={`sent image ${i + 1}`} />
-                                <div className="overlay-text">+{imgs.length - 4}</div>
-                              </div>
-                            );
-                          }
-                          return <img key={i} src={url} alt={`sent image ${i + 1}`} />;
-                        })}
-                      </div>
-                    ))}
-                  {content.text && (
-                    <p className={`message-content__text ${imgs.length > 0 ? "message-content__text--with-img" : ""}`}>
-                      {content.text}
-                    </p>
-                  )}
-                </div>
 
-                <span className={`message-time ${isCloseInTime && isSameUser ? "hide" : ""}`}>
-                  {formatTime(msg.timestamp.toString())}
-                </span>
+            {editMsg?.id === msg.id ? (
+              <MessageEdit
+                chatId={chatId}
+                message={{ content: content, id: msg.id }}
+                onClose={() => setEditMsg(null)}
+              />
+            ) : (
+              <div
+                onContextMenu={(e) => {
+                  if (msg.senderId !== currMember.id) return;
+                  e.preventDefault();
+                  setMsgOptions({ msgId: msg.id, onEdit: () => setEditMsg(msg), imgs });
+                }}
+                className={`message-item ${msgOptions?.msgId === msg.id ? "popover-container" : ""} ${
+                  isMe ? "sent" : "received"
+                }`}
+              >
+                {!isMe && (
+                  <img
+                    src={user.picture}
+                    alt={`${user.username} picture`}
+                    className={`${!nextMessage || !isSameUser ? "show" : ""} message-user-pic`}
+                  />
+                )}
+                <div className="message-info">
+                  <div
+                    className={`message-content ${
+                      !isRead(msg.timestamp) && msg.senderId !== user.id ? "message-content--unread" : ""
+                    } ${isMe ? "sent" : "received"}`}
+                  >
+                    <MessageImgs hasText={!!content.text} imgs={imgs} zoomImgs={zoomImgs} />
+                    {content.text && (
+                      <p
+                        className={`message-content__text ${imgs.length > 0 ? "message-content__text--with-img" : ""}`}
+                      >
+                        {content.text}
+                      </p>
+                    )}
+                  </div>
+
+                  <span className={`message-time ${isCloseInTime && isSameUser ? "hide" : ""}`}>
+                    {formatTime(msg.timestamp.toString())}
+                  </span>
+                </div>
+                {msgOptions && msgOptions.msgId === msg.id && (
+                  <MessageOptions {...msgOptions} chatId={chatId} onClose={() => setMsgOptions(null)} />
+                )}
               </div>
-            </div>
+            )}
           </Fragment>
         );
       })}
