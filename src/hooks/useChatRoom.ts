@@ -58,6 +58,7 @@ export default function useChatRoom({ user, chatInfo, scrollPositions, setScroll
         senderId: user.id!,
         senderPicture: user.picture!,
         senderName: user.username!,
+        id: "",
       },
       chatInfo.members.map((m) => m.id)
     );
@@ -92,7 +93,7 @@ export default function useChatRoom({ user, chatInfo, scrollPositions, setScroll
 
     const timeout = setTimeout(() => {
       container.scrollTo({ top: container.scrollHeight, behavior: "auto" });
-    }, 125);
+    }, 200);
     return () => clearTimeout(timeout);
   }, []);
 
