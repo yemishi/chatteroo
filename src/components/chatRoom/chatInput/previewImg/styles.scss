@@ -4,9 +4,6 @@
   gap: 0.3rem;
   &__item {
     @include fade-in-x();
-    position: relative;
-    flex: 0 0 auto;
-    scroll-snap-align: start;
   }
   &__pic {
     @include size(4rem);
