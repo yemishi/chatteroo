@@ -1,0 +1,20 @@
+@use "@/styles/main.scss" as *;
+
+.message-edit {
+  width: 100%;
+  margin-left: auto;
+  &__content {
+    @include flex();
+    gap: 0.5rem;
+  }
+  &__actions {
+    @include flex(row);
+    margin-top: 0.5rem;
+    margin-left: auto;
+    width: fit-content;
+    gap: 0.3rem;
+    button {
+      color: var(--unread-color-accent);
+    }
+  }
+}
