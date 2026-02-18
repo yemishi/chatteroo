@@ -12,7 +12,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 export default function DropDown({ onClose, isOpen, className = "", children, containerRef }: Props) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const extraRef = (containerRef ?? null) as RefObject<HTMLDivElement | null>;
-  useOverlay(isOpen, onClose, [dropdownRef, extraRef]);
+  useOverlay({ isOpen, onClose, refs: [dropdownRef, extraRef] });
 
   return (
     <div ref={dropdownRef} className={`${className} dropdown ${isOpen ? "open" : ""}`}>
