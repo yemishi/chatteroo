@@ -1,12 +1,13 @@
 import "./styles.scss";
 import { formatTime, isDiffDay, isSameDay, isYesterday } from "@/helpers";
-import type { Message } from "@/hooks/useChat";
+import type { Message, MessageEdited } from "@/hooks/useChat";
 import type { Message as MessageData, ChatMember } from "@/types";
 import { Fragment } from "react/jsx-runtime";
 import MessageImgs from "./messageImgs/MessageImgs";
 import { useState } from "react";
 import MessageEdit from "./messageEdit/MessageEdit";
 import MessageOptions from "./messageOptions/MessageOptions";
+import TypingIndicator from "@/components/typingIndicator/TypingIndicator";
 
 type Props = {
   messages: (Message | MessageData)[];
@@ -15,9 +16,20 @@ type Props = {
   zoomImgs: (imgs: string[]) => void;
   highLight: ChatMember;
   chatId: string;
+  onEditMessage: (message: MessageEdited) => void;
+  isUserTyping: boolean;
 };
 
-export default function Messages({ messages, currMember, members, zoomImgs, highLight, chatId }: Props) {
+export default function Messages({
+  messages,
+  currMember,
+  members,
+  zoomImgs,
+  highLight,
+  chatId,
+  isUserTyping,
+  onEditMessage,
+}: Props) {
   const isRead = (date: Date) => new Date(currMember?.lastMessageReadAt ?? 0) > new Date(date);
   const [editMsg, setEditMsg] = useState<{ content: { text?: string; imgs: string[] }; id: string } | null>(null);
   const [msgOptions, setMsgOptions] = useState<{ msgId: string; onEdit: () => void; imgs: string[] } | null>(null);
@@ -59,6 +71,7 @@ export default function Messages({ messages, currMember, members, zoomImgs, high
                 chatId={chatId}
                 message={{ content: content, id: msg.id }}
                 onClose={() => setEditMsg(null)}
+                onEditMessage={onEditMessage}
               />
             ) : (
               <div
@@ -99,8 +112,18 @@ export default function Messages({ messages, currMember, members, zoomImgs, high
                   </span>
                 </div>
                 {msgOptions && msgOptions.msgId === msg.id && (
-                  <MessageOptions {...msgOptions} chatId={chatId} onClose={() => setMsgOptions(null)} />
+                  <MessageOptions
+                    {...msgOptions}
+                    onDeleteMessage={() => onEditMessage({ id: msg.id, deleted: true } as MessageEdited)}
+                    chatId={chatId}
+                    onClose={() => setMsgOptions(null)}
+                  />
                 )}
+              </div>
+            )}
+            {i === messages.length -1&& (
+              <div>
+                <TypingIndicator isTyping={isUserTyping} />
               </div>
             )}
           </Fragment>
