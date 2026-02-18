@@ -9,13 +9,19 @@ type Props = {
   imgs: string[];
   onEdit: () => void;
   onClose: () => void;
+  onDeleteMessage: () => void;
 };
-export default function MessageOptions({ chatId, msgId, onEdit, onClose, imgs }: Props) {
-  const { isPending, mutateAsync } = deleteMessage(chatId);
+export default function MessageOptions({ msgId, onEdit, onClose, imgs, onDeleteMessage }: Props) {
+  const { isPending, mutateAsync } = deleteMessage();
   const [isDelete, setIsDelete] = useState(false);
   const handleOnDelete = async () => {
-    await mutateAsync({ imgs, msgId });
-    onClose();
+    try {
+      await mutateAsync({ imgs, msgId });
+      onDeleteMessage();
+      onClose();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
