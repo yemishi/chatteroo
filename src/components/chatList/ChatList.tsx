@@ -1,51 +1,67 @@
 import "./styles.scss";
+import { useEffect, useState } from "react";
 import { getChats } from "@/lib/actions";
 import { getSocket } from "@/lib/socket";
-import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import type { Chat as ChatType } from "@/types";
 import { isSameDay, isYesterday } from "@/helpers";
-import getOnlineUsers from "@/lib/getOnlineUsers";
 import { useAuth } from "@/hooks";
+import getOnlineUsers from "@/lib/getOnlineUsers";
+import TypingIndicator from "../typingIndicator/TypingIndicator";
 
 type Props = {
-  setChat: Dispatch<SetStateAction<ChatType | null>>;
+  setChat: React.Dispatch<React.SetStateAction<ChatType | null>>;
   searchChat: string;
 };
+
 export default function ChatList({ setChat, searchChat }: Props) {
   const currUser = useAuth().user!;
-  type Message = { chatId: string; content: { text: string }; senderId: string; timestamp: Date };
   const { data } = getChats();
 
-  const [newMsgs, setNewMsgs] = useState<Message[]>([]);
+  const [newMsgs, setNewMsgs] = useState<any[]>([]);
+  const [typingUsers, setTypingUsers] = useState<Record<string, string[]>>({}); // roomId -> userIds
 
   useEffect(() => {
     if (!data) return;
-
     const socket = getSocket();
-    const userChats = data.map((c) => c.id);
+    if (!socket) return;
 
-    if (!socket || !userChats.length) return;
+    const handleUpdate = (msg: any) => {
+      setNewMsgs((prev) => [...prev.filter((m) => m.chatId !== msg.chatId), msg]);
+    };
 
-    const handleUpdate = (data: Message) => {
-      setNewMsgs((prev) => {
-        const updated = [...prev.filter((m) => m.chatId !== data.chatId), { ...data }];
-        return updated;
-      });
+    const handleTyping = ({ roomId, userId }: { roomId: string; userId: string }) => {
+      setTypingUsers((prev) => ({
+        ...prev,
+        [roomId]: [...new Set([...(prev[roomId] || []), userId])],
+      }));
+    };
+
+    const handleStopTyping = ({ roomId, userId }: { roomId: string; userId: string }) => {
+      setTypingUsers((prev) => ({
+        ...prev,
+        [roomId]: (prev[roomId] || []).filter((id) => id !== userId),
+      }));
     };
 
     socket.on("chat-updated", handleUpdate);
+    socket.on("user-typing", handleTyping);
+    socket.on("user-stop-typing", handleStopTyping);
 
     return () => {
       socket.off("chat-updated", handleUpdate);
+      socket.off("user-typing", handleTyping);
+      socket.off("user-stop-typing", handleStopTyping);
     };
   }, [data]);
 
   const onlineUsers = getOnlineUsers();
-  const getDataLastMsg = (i: number) => data && data[i] && (data[i].messages.length ? data[i].messages[0] : null);
+
+  const getDataLastMsg = (i: number) => (data && data[i] && data[i].messages.length ? data[i].messages[0] : null);
+
   const sortedChats = (data ?? [])
     .filter(
       (c, i) =>
-        (getDataLastMsg(i) && getDataLastMsg(i)?.content.text!.toLowerCase().includes(searchChat.toLowerCase())) ||
+        (getDataLastMsg(i)?.content.text?.toLowerCase().includes(searchChat.toLowerCase()) ?? false) ||
         c.highlight.username.toLowerCase().includes(searchChat.toLowerCase())
     )
     .sort((a, b) => {
@@ -55,15 +71,18 @@ export default function ChatList({ setChat, searchChat }: Props) {
     });
 
   const isRead = (date?: Date, uLastTimeRead?: Date) => new Date(uLastTimeRead || 0) > new Date(date || 0);
+
   return (
     <div className="chat-list">
       {sortedChats.map((c, i) => {
         const user = c.highlight;
         const lastTimeRead = c.members.find((m) => m.id === currUser.id)?.lastMessageReadAt;
         const newMsg = newMsgs.find((msg) => msg.chatId === c.id);
-        const isOnline = onlineUsers.some((i) => i === user?.id);
+        const isOnline = onlineUsers.includes(user?.id ?? "");
         const messageTime = new Date(newMsg?.timestamp || getDataLastMsg(i)?.timestamp!);
         const latestMessage = c.messages.length > 0 || newMsg ? newMsg || c.messages[0] : null;
+
+        const isTyping = typingUsers[c.id]?.length > 0;
 
         return (
           <div
@@ -94,11 +113,13 @@ export default function ChatList({ setChat, searchChat }: Props) {
                 )}
               </div>
 
-              {latestMessage && (
-                <div className="chat-preview__content">
-                  <p className="chat-preview__message">{latestMessage.content.text}</p>
-                </div>
-              )}
+              <div className="chat-preview__content">
+                {isTyping ? (
+                  <TypingIndicator isTyping={true} withDesc />
+                ) : (
+                  <p className="chat-preview__message">{latestMessage?.content.text}</p>
+                )}
+              </div>
             </div>
           </div>
         );
