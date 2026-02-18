@@ -1,6 +1,7 @@
 import { getMessages, markChatAsRead } from "@/lib/actions";
-import type { Chat, User } from "@/types";
+import type { Chat, Message, User } from "@/types";
 import useChat from "./useChat";
+import { nanoid } from "nanoid";
 import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
 
 type Props = {
@@ -12,19 +13,30 @@ type Props = {
 
 export default function useChatRoom({ user, chatInfo, scrollPositions, setScrollPositions }: Props) {
   const { values = [], hasNextPage, fetchNextPage, isFetchingNextPage } = getMessages(chatInfo.id);
-  const { messages, sendMessage } = useChat(chatInfo.id);
+  const [msgs, setMsgs] = useState<Message[]>([]);
+
+  useEffect(() => {
+    setMsgs((prev) => {
+      const existingIds = new Set(prev.map((m) => m.id));
+      const newValues = values.filter((m) => !existingIds.has(m.id));
+      return [...prev, ...newValues].sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+    });
+  }, [values]);
+
+  const { sendMessage, typingUsers, onEditMessage } = useChat(
+    user.id,
+    chatInfo.id,
+    chatInfo.members.map((m) => m.id),
+    setMsgs
+  );
   const { mutateAsync: markChatAsReadMutate, data: lastTimeReadData } = markChatAsRead();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [scrollCorrection, setScrollCorrection] = useState<null | { prevHeight: number; prevScrollTop: number }>(null);
 
-  const sortedMessages = [...values, ...messages].sort(
-    (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-  );
-
   const currMember = chatInfo.members.find((m) => m.id === user.id)!;
-  const lastOtherUserMsg = [...sortedMessages].reverse().find((msg) => msg.senderId !== user.id);
+  const lastOtherUserMsg = [...msgs].reverse().find((msg) => msg.senderId !== user.id);
   const lastMessageReadAt = lastTimeReadData?.lastMessageReadAt
     ? new Date(lastTimeReadData?.lastMessageReadAt)
     : new Date(currMember?.lastMessageReadAt || 0);
@@ -39,34 +51,35 @@ export default function useChatRoom({ user, chatInfo, scrollPositions, setScroll
       console.error(error);
     }
   };
-  const loadOlderMessages = () => {
-    if (containerRef.current) {
-      const prevHeight = containerRef.current.scrollHeight;
-      const prevScrollTop = containerRef.current.scrollTop;
+  
+  // todo fix the scroll when finish loading
 
-      setScrollCorrection({ prevHeight, prevScrollTop });
+  const loadOlderMessages = async () => {
+    if (!containerRef.current) return;
 
-      fetchNextPage();
-    }
+    const prevHeight = containerRef.current.scrollHeight;
+    const prevScrollTop = containerRef.current.scrollTop;
+
+    setScrollCorrection({ prevHeight, prevScrollTop });
+
+    await fetchNextPage();
   };
 
   const handleSend = async (message: { text?: string; imgs: string[] }) => {
-    sendMessage(
-      {
-        content: message,
-        room: chatInfo.id,
-        senderId: user.id!,
-        senderPicture: user.picture!,
-        senderName: user.username!,
-        id: "",
-      },
-      chatInfo.members.map((m) => m.id)
-    );
+    const tempId = nanoid();
+    sendMessage({
+      content: message,
+      room: chatInfo.id,
+      senderId: user.id!,
+      senderPicture: user.picture!,
+      senderName: user.username!,
+      id: tempId,
+    });
+
     setTimeout(() => {
       scrollToBottom();
     }, 100);
   };
-
   const scrollToBottom = () =>
     containerRef.current?.scrollTo({ top: containerRef.current.scrollHeight, behavior: "smooth" });
 
@@ -78,7 +91,12 @@ export default function useChatRoom({ user, chatInfo, scrollPositions, setScroll
       containerRef.current.scrollTop = scrollCorrection.prevScrollTop + scrollDiff;
       setScrollCorrection(null);
     }
-  }, [values]);
+  }, [chatInfo.id]);
+
+
+
+
+  
 
   // restore saved scroll or default to bottom
   useEffect(() => {
@@ -86,21 +104,25 @@ export default function useChatRoom({ user, chatInfo, scrollPositions, setScroll
     if (!container) return;
 
     const saved = scrollPositions[chatInfo.id];
-    if (typeof saved === "number") {
-      container.scrollTo({ top: saved, behavior: "auto" });
-      return;
-    }
-
-    const timeout = setTimeout(() => {
-      container.scrollTo({ top: container.scrollHeight, behavior: "auto" });
-    }, 200);
-    return () => clearTimeout(timeout);
-  }, []);
+    requestAnimationFrame(() => {
+      if (typeof saved === "number") {
+        const timeout = setTimeout(() => {
+          container.scrollTo({ top: saved, behavior: "auto" });
+        }, 200);
+        return () => clearTimeout(timeout);
+      } else {
+        const timeout = setTimeout(() => {
+          container.scrollTo({ top: container.scrollHeight, behavior: "auto" });
+        }, 200);
+        return () => clearTimeout(timeout);
+      }
+    });
+  }, [chatInfo.id]);
 
   // scroll listener
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container || isFetchingNextPage) return;
 
     const { scrollTop, scrollHeight, clientHeight } = container;
     const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
@@ -127,14 +149,19 @@ export default function useChatRoom({ user, chatInfo, scrollPositions, setScroll
     return () => container.removeEventListener("scroll", handleScroll);
   }, [hasNextPage, hasUnreadMessage, chatInfo.id, setScrollPositions]);
 
+
+
+
   return {
     containerRef,
-    values: sortedMessages,
+    values: msgs,
     handleSend,
     scrollToBottom,
     isFetchingNextPage,
     showScrollButton,
     currMember,
     hasUnreadMessage,
+    onEditMessage,
+    typingUsers,
   };
 }
