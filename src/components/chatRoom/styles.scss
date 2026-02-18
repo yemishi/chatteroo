@@ -13,7 +13,9 @@
     @include flex(inherit, center, center);
     background: var(--accent-primary-gradient);
     color: var(--text-primary);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    transition:
+      box-shadow 0.2s ease,
+      transform 0.2s ease;
     &.badged {
       background: var(--unread-color-accent);
       box-shadow: var(--unread-shadow-accent);
@@ -55,8 +57,10 @@ input::placeholder {
   color: var(--text-primary);
 }
 .chat-room {
+  @include flex();
   overflow-x: hidden;
   width: 100%;
+  height: 100vh;
   &__footer {
     @include flex();
     margin-top: auto;
