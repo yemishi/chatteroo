@@ -4,23 +4,30 @@ import { useRef, useState } from "react";
 import { Textarea } from "@/components/common/input";
 import { editMessage as editMessageFn } from "@/lib/actions";
 import { useOverlay } from "@/hooks";
+import type { MessageEdited } from "@/hooks/useChat";
 
 type Props = {
   message: { id: string; content: { text?: string; imgs: string[] } };
   onClose: () => void;
   chatId: string;
+  onEditMessage: (message: MessageEdited) => void;
 };
-export default function MessageEdit({ chatId, message: { content, id }, onClose }: Props) {
+export default function MessageEdit({ message: { content, id }, onClose, onEditMessage }: Props) {
   const [text, setText] = useState(content.text);
   const [removedImgs, setRemovedImgs] = useState<string[]>([]);
-  const editMessage = editMessageFn(chatId);
+  const editMessage = editMessageFn();
   const ref = useRef<HTMLDivElement | null>(null);
   useOverlay({ isOpen: true, onClose, refs: [ref] });
 
   const onEditMsg = async () => {
     const newContent = { text: text?.trim(), imgs: content.imgs.filter((i) => !removedImgs.includes(i)) };
-    await editMessage.mutateAsync({ content: newContent, msgId: id, removedImgs });
-    onClose();
+    try {
+      const updatedMessage = await editMessage.mutateAsync({ content: newContent, msgId: id, removedImgs });
+      onEditMessage(updatedMessage.updatedMessage);
+      onClose();
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <div ref={ref} className="message-edit">
