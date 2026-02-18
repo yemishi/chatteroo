@@ -1,10 +1,11 @@
-import { useToast } from "@/hooks";
 import "./styles.scss";
+import { useToast } from "@/hooks";
 import RemoveIcon from "@/assets/icons/close.svg?react";
 import SystemIcon from "@/assets/icons/settings.svg?react";
 import InfoIcon from "@/assets/icons/info.svg?react";
 import SuccessIcon from "@/assets/icons/success.svg?react";
 import { useEffect, useState } from "react";
+
 export default function Toast() {
   const { list, removeToast } = useToast();
   const [isClosing, setIsClosing] = useState<string[]>([]);
@@ -49,7 +50,9 @@ export default function Toast() {
             )}
             <div className="toast-details">
               <h4 className="toast-details__title">{n.title}</h4>
-              {n.message && <p className="toast-details__message">{n.message}</p>}
+              {n.message && (
+                <p className="toast-details__message">{n.message.text ? n.message.text : "[Sent an image]"}</p>
+              )}
             </div>
             <button
               aria-label="Close toast"
