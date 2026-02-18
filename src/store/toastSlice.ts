@@ -4,7 +4,7 @@ export type Toast = {
   id: string;
   title: string;
   icon?: string;
-  message?: string;
+  message?: { text?: string; imgs: string[] };
   type: "success" | "error" | "info" | "message";
   duration?: number;
   onClick?: () => void;
