@@ -1,3 +1,4 @@
+import type { Message } from "@/types";
 import { axiosInstance } from "../axiosInstance";
 
 export const editMessageApi = async (
@@ -7,7 +8,7 @@ export const editMessageApi = async (
 ) => {
   try {
     const response = await axiosInstance.patch("/message", { content, removedImgs, msgId });
-    return response.data;
+    return response.data as { updatedMessage: Message; message: string };
   } catch (error: any) {
     throw new Error(error.response.data.message);
   }
