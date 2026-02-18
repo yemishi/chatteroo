@@ -29,9 +29,10 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
     scrollToBottom,
     showScrollButton,
     values,
+    typingUsers,
     isFetchingNextPage,
     currMember,
-    hasUnreadMessage,
+    onEditMessage,
   } = useChatRoom({
     chatInfo,
     scrollPositions,
@@ -69,10 +70,7 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
     <>
       <Modal onClose={handleClose} isOpen={isOpen} className="chat-modal">
         <div ref={containerRef} className="chat-room">
-          <button
-            onClick={scrollToBottom}
-            className={`scroll-btn ${hasUnreadMessage ? "badged" : ""} ${showScrollButton ? "show" : "hide"}`}
-          >
+          <button onClick={scrollToBottom} className={`scroll-btn ${showScrollButton ? "show" : "hide"}`}>
             <ArrowLeft className="scroll-btn__icon" />
           </button>
           <ChatHeader
@@ -88,11 +86,18 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
             members={chatInfo.members}
             currMember={currMember!}
             chatId={chatInfo.id}
+            onEditMessage={onEditMessage}
+            isUserTyping={typingUsers.length > 0}
             highLight={chatInfo.highlight}
           />
 
           <div className="chat-room__footer">
-            <ChatInput sendMessage={handleSend} />
+            <ChatInput
+              sendMessage={handleSend}
+              userId={currMember.id}
+              chatId={chatInfo.id}
+              membersId={chatInfo.members.map((m) => m.id)}
+            />
           </div>
         </div>
       </Modal>
