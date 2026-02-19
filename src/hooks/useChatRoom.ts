@@ -2,7 +2,7 @@ import { getMessages, markChatAsRead } from "@/lib/actions";
 import type { Chat, Message, User } from "@/types";
 import useChat from "./useChat";
 import { nanoid } from "nanoid";
-import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
 
 type Props = {
   user: User;
@@ -27,13 +27,16 @@ export default function useChatRoom({ user, chatInfo, scrollPositions, setScroll
     user.id,
     chatInfo.id,
     chatInfo.members.map((m) => m.id),
-    setMsgs
+    setMsgs,
   );
   const { mutateAsync: markChatAsReadMutate, data: lastTimeReadData } = markChatAsRead();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
-  const [scrollCorrection, setScrollCorrection] = useState<null | { prevHeight: number; prevScrollTop: number }>(null);
+  const scrollCorrectionRef = useRef<{
+    prevHeight: number;
+    prevScrollTop: number;
+  } | null>(null);
 
   const currMember = chatInfo.members.find((m) => m.id === user.id)!;
   const lastOtherUserMsg = [...msgs].reverse().find((msg) => msg.senderId !== user.id);
@@ -51,16 +54,18 @@ export default function useChatRoom({ user, chatInfo, scrollPositions, setScroll
       console.error(error);
     }
   };
-  
+
   // todo fix the scroll when finish loading
 
   const loadOlderMessages = async () => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || isFetchingNextPage) return;
 
-    const prevHeight = containerRef.current.scrollHeight;
-    const prevScrollTop = containerRef.current.scrollTop;
+    const container = containerRef.current;
 
-    setScrollCorrection({ prevHeight, prevScrollTop });
+    scrollCorrectionRef.current = {
+      prevHeight: container.scrollHeight,
+      prevScrollTop: container.scrollTop,
+    };
 
     await fetchNextPage();
   };
@@ -84,37 +89,39 @@ export default function useChatRoom({ user, chatInfo, scrollPositions, setScroll
     containerRef.current?.scrollTo({ top: containerRef.current.scrollHeight, behavior: "smooth" });
 
   // maintain scroll positions when older messages load
-  useEffect(() => {
-    if (scrollCorrection && containerRef.current) {
-      const newHeight = containerRef.current.scrollHeight;
-      const scrollDiff = newHeight - scrollCorrection.prevHeight;
-      containerRef.current.scrollTop = scrollCorrection.prevScrollTop + scrollDiff;
-      setScrollCorrection(null);
-    }
-  }, [chatInfo.id]);
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    const correction = scrollCorrectionRef.current;
 
+    if (!container || !correction) return;
 
+    const newHeight = container.scrollHeight;
+    const scrollDiff = newHeight - correction.prevHeight;
 
+    container.scrollTop = correction.prevScrollTop + scrollDiff;
 
-  
+    scrollCorrectionRef.current = null;
+  }, [msgs]);
 
   // restore saved scroll or default to bottom
   useEffect(() => {
     const container = containerRef.current;
+    console.log(container?.scrollHeight);
     if (!container) return;
 
+    if (scrollCorrectionRef.current) return;
+
     const saved = scrollPositions[chatInfo.id];
+    setTimeout(() => {}, 200);
     requestAnimationFrame(() => {
       if (typeof saved === "number") {
-        const timeout = setTimeout(() => {
+        setTimeout(() => {
           container.scrollTo({ top: saved, behavior: "auto" });
         }, 200);
-        return () => clearTimeout(timeout);
       } else {
-        const timeout = setTimeout(() => {
+        setTimeout(() => {
           container.scrollTo({ top: container.scrollHeight, behavior: "auto" });
         }, 200);
-        return () => clearTimeout(timeout);
       }
     });
   }, [chatInfo.id]);
@@ -148,9 +155,6 @@ export default function useChatRoom({ user, chatInfo, scrollPositions, setScroll
     container.addEventListener("scroll", handleScroll);
     return () => container.removeEventListener("scroll", handleScroll);
   }, [hasNextPage, hasUnreadMessage, chatInfo.id, setScrollPositions]);
-
-
-
 
   return {
     containerRef,
