@@ -42,16 +42,9 @@
       &__text {
         border-bottom-left-radius: 0.75rem;
         background: var(--accent-primary);
-        &--with-img {
-          border-top-right-radius: 0;
-          border-top-left-radius: 0;
-        }
       }
       &__img {
         margin-left: auto;
-        &--with-text {
-          background: var(--accent-primary);
-        }
       }
     }
   }
@@ -62,16 +55,9 @@
         border-bottom-right-radius: 0.75rem;
         border-top-right-radius: 0.75rem;
         background-color: var(--accent-secondary);
-        &--with-img {
-          border-top-left-radius: 0;
-        }
       }
       &__img {
         margin-right: auto;
-
-        &--with-text {
-          background-color: var(--accent-secondary);
-        }
       }
     }
   }
