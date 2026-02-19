@@ -19,7 +19,19 @@ export default function Modal({ onClose, isOpen = true, className = "", ref, chi
       document.body.style.overflow = originalStyle;
     };
   }, []);
+  useEffect(() => {
+    window.history.pushState({ modal: true }, "");
 
+    const handlePopState = () => {
+      onClose();
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
   const handleBackdropClick = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     if (e.target === e.currentTarget) onClose();
@@ -35,6 +47,6 @@ export default function Modal({ onClose, isOpen = true, className = "", ref, chi
     >
       {children}
     </div>,
-    modalRoot
+    modalRoot,
   );
 }
