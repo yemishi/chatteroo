@@ -79,7 +79,7 @@ export default function ChatRoom({ chatInfo, onClose, scrollPositions, setScroll
             userHighlight={chatInfo.highlight}
           />
 
-          {isFetchingNextPage && <div>Loading older messages</div>}
+          {isFetchingNextPage && <div>Loading older messages...</div>}
           <Messages
             messages={values}
             zoomImgs={(imgs: string[]) => setZoomImgs(imgs)}
