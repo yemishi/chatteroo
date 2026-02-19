@@ -6,7 +6,6 @@ import NotificationPage from "@/pages/notification/Notification";
 import Register from "@/pages/login/register/Register";
 import type { JSX } from "react";
 import { useAuth } from "@/hooks";
-import { getRedirectPath } from "@/helpers";
 import Settings from "@/pages/settings/Settings";
 import {
   SettingsProfile,
