@@ -8,4 +8,7 @@ export default defineConfig({
     },
   },
   plugins: [svgr()],
+  build: {
+    sourcemap: false,
+  },
 });
