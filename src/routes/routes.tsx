@@ -132,9 +132,9 @@ function Middleware({ children, isAuthRoute }: { children: JSX.Element; isAuthRo
   if (isLoading) return <div>🔄 Fetching user hodon…</div>;
   if (isAuthRoute) return children;
   
-  if (!user) navigate({ to: "/login", search: { redirect: getRedirectPath() } });
+  if (!user) navigate({ to: "/login"/* , search: { redirect: getRedirectPath() } */ });
 
-  if (user && isAuthRoute) navigate({ to: "/settings", search: { redirect: getRedirectPath() } });
+  if (user && isAuthRoute) navigate({ to: "/settings"/* , search: { redirect: getRedirectPath() } */ });
 
   return children;
 }
